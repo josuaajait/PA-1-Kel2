@@ -4,6 +4,8 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Models\Produk;
+use App\Policies\ProdukPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,8 +15,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Produk::class => ProdukPolicy::class,
     ];
+    
 
     /**
      * Register any authentication / authorization services.

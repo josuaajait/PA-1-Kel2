@@ -1,47 +1,33 @@
 @include('layout.header')
 @include('layout.navbar')
+
 <br><br><br><br>
+
 <!-- About Section -->
 <section id="about" class="about section light-background">
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row align-items-xl-center gy-5">
-            <div class="col-xl-5 content">
-                <h3>About Us</h3>
-                <h2>Ducimus rerum libero reprehenderit cumque</h2>
-                <p>Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
-                <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-            <div class="col-xl-7">
-                <div class="row gy-4 icon-boxes">
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
-                        <div class="icon-box">
-                            <i class="bi bi-buildings"></i>
-                            <h3>Eius provident</h3>
-                            <p>Magni repellendus vel ullam hic officia accusantium ipsa dolor omnis dolor voluptatem</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="icon-box">
-                            <i class="bi bi-clipboard-pulse"></i>
-                            <h3>Rerum aperiam</h3>
-                            <p>Autem saepe animi et aut aspernatur culpa facere. Rerum saepe rerum voluptates quia</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
-                        <div class="icon-box">
-                            <i class="bi bi-command"></i>
-                            <h3>Veniam omnis</h3>
-                            <p>Omnis perferendis molestias culpa sed. Recusandae quas possimus. Quod consequatur corrupti</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
-                        <div class="icon-box">
-                            <i class="bi bi-graph-up-arrow"></i>
-                            <h3>Delares sapiente</h3>
-                            <p>Sint et dolor voluptas minus possimus nostrum. Reiciendis commodi eligendi omnis quideme lorenda</p>
-                        </div>
-                    </div>
+            <div class="col-xl-5 text-center">
+                <img src="{{ URL::asset('img/about-pict.jpeg') }}" alt="Profile Image" class="img-fluid rounded">
+                <div class="social-icons mt-3">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
                 </div>
+            </div>
+            <div class="col-xl-7 content">
+                <h3>About Me</h3>
+                <h2>Professional & Passionate</h2>
+                <p style="text-align: justify;">
+Selamat datang di Firman Taylor, tempat di mana kualitas jahitan bertemu dengan kreativitas dan ketelitian. Kami adalah tim penjahit profesional yang berdedikasi untuk menghadirkan pakaian berkualitas tinggi dengan desain yang elegan dan nyaman dikenakan.  
+
+Dengan pengalaman bertahun-tahun dalam industri fashion dan tailor-made clothing, kami berkomitmen untuk memberikan layanan terbaik bagi pelanggan kami. Mulai dari jahitan custom, modifikasi pakaian, hingga pembuatan seragam dan busana eksklusif, kami memastikan setiap detail dikerjakan dengan presisi dan ketelitian tinggi.  
+
+Di Firman Taylor, kami percaya bahwa setiap pakaian bukan hanya sekadar kain yang dijahit, tetapi juga cerminan dari gaya dan kepribadian Anda. Oleh karena itu, kami selalu berusaha memberikan hasil terbaik sesuai dengan keinginan dan kebutuhan pelanggan.  
+
+Terima kasih telah mempercayakan kebutuhan jahitan Anda kepada kami. Kami siap membantu Anda tampil lebih percaya diri dengan pakaian yang pas dan sempurna! ✂️✨
+                </p>
+                <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </div>
@@ -56,25 +42,25 @@
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
                     <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-                    <p>Clients</p>
+                    <p>Pelanggan</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
                     <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-                    <p>Projects</p>
+                    <p>Produk</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
                     <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1" class="purecounter"></span>
-                    <p>Hours Of Support</p>
+                    <p>Jam Kerja</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
-                    <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1" class="purecounter"></span>
-                    <p>Workers</p>
+                    <span data-purecounter-start="0" data-purecounter-end="1" data-purecounter-duration="1" class="purecounter"></span>
+                    <p>Pekerja</p>
                 </div>
             </div>
         </div>
@@ -84,4 +70,3 @@
 
 @include('layout.footer')
 @include('layout.script')
-

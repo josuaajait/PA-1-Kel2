@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pemesanan;
+use App\Models\Produk;
 
 class PemesananController extends Controller
 {
@@ -15,9 +16,10 @@ class PemesananController extends Controller
 
     public function create()
     {
-        return view('pemesanans.create');
+        $products = Produk::all(); // Fetch all products from the database
+        return view('users.pemesanan_create', compact('products'));
     }
-
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -29,13 +31,15 @@ class PemesananController extends Controller
             'jumlah' => 'required|integer',
             'status' => 'required|in:pending,diproses,dikirim,selesai',
         ]);
-
+    
+        // Create the order
         Pemesanan::create($request->all());
-
-        return redirect()->route('pemesanans.index')
+    
+        // Redirect to the pemesanan list with a success message
+        return redirect()->route('users.pemesanan')
             ->with('success', 'Pemesanan created successfully.');
     }
-
+    
     public function show(Pemesanan $pemesanan)
     {
         return view('pemesanans.show', compact('pemesanan'));

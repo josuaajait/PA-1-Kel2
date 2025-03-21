@@ -11,8 +11,8 @@ return new class extends Migration
         if (!Schema::hasTable('modifikasis')) {
             Schema::create('modifikasis', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('pemesanan_id')->constrained()->onDelete('cascade');
-                $table->string('nama');
+                $table->unsignedBigInteger('user_id');
+                $table->foreign('user_id')->references('id')->on('users');
                 $table->string('email');
                 $table->string('nomor_telepon');
                 $table->string('alamat');

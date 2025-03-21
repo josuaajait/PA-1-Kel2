@@ -22,3 +22,10 @@
       new PureCounter();
   });
 </script>
+
+<script>
+  function showSizeModal() {
+      var myModal = new bootstrap.Modal(document.getElementById('sizeModal'));
+      myModal.show();
+  }
+</script>

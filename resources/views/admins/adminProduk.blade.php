@@ -1,3 +1,4 @@
+@if(Auth::user()->role === 'admin')
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +32,7 @@
                 <div class="row">
                     <div class="col-md-12"><br>
                         <h1>Produk</h1>
+                        <a href="{{ route('admins.produk.create') }}" class="btn btn-primary mb-3">Tambah Produk</a>
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -39,6 +41,7 @@
                                     <th>Description</th>
                                     <th>Price</th>
                                     <th>Image</th>
+                                    <th>Actions</th> <!-- Add this column -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,10 +51,26 @@
                                         <td>{{ $produk->name }}</td>
                                         <td>{{ $produk->description }}</td>
                                         <td>{{ $produk->price }}</td>
-                                        <td><img src="{{ $produk->image }}" alt="{{ $produk->name }}" width="100"></td>
+                                        <td>
+                                            <img src="{{ asset('storage/produk_images/' . $produk->image) }}" class="img-fluid" style="max-width: 150px;" alt="{{ $produk->name }}">
+                                        </td>
+                                        <td>
+                                            <!-- View (Read) Button -->
+                                            <a href="{{ route('admins.produk.show', $produk->id) }}" class="btn btn-info btn-sm">View Details</a>
+
+                                            <!-- Edit Button -->
+                                            <a href="{{ route('admins.produk.edit', $produk->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            
+                                            <!-- Delete Button (Form for security) -->
+                                            <form action="{{ route('admins.produk.destroy', $produk->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
-                            </tbody>
+                            </tbody>                            
                         </table>
                     </div>
                 </div>
@@ -65,3 +84,4 @@
 
 @include('layout.adminfooter')
 </html>
+@endif

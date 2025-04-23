@@ -14,7 +14,7 @@
         <li><a href="{{ url('index.html#pricing') }}" class="{{ Request::is('index.html#pricing') ? 'active' : '' }}">Modifikasi Jahitan</a></li>
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-    </nav>      
+    </nav>
 
     @auth
       <div class="dropdown">

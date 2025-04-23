@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h2>Detail Ukuran</h2>
-    <form action="{{ route('') }}" method="POST">
+    <form action="" method="POST">
         @csrf
 
         <!-- Hidden Fields to Carry Forward Previous Data -->

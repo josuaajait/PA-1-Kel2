@@ -23,6 +23,9 @@
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
+                        <div class="text-center mt-3">
+                            <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
+                        </div>
                     </form>
                 </div>
             </div>

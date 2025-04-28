@@ -48,7 +48,7 @@
                                 @foreach($pemesanans as $pemesanan)
                                     <tr>
                                         <td>{{ $pemesanan->id }}</td>
-                                        <td>{{ $pemesanan->jenis_pakaian->name }}</td>
+                                        <td>{{ $pemesanan->jenis_pakaian }}</td>
                                         <td>{{ $pemesanan->nama }}</td>
                                         <td>{{ $pemesanan->email }}</td>
                                         <td>{{ $pemesanan->nomor_telepon }}</td>
@@ -59,6 +59,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $pemesanans->links() }} <!-- Add pagination links -->
                     </div>
                 </div>
             </div>

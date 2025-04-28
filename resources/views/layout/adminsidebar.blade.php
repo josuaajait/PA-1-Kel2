@@ -28,7 +28,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ url('/admin/pemesanan') }}">
+                <a class="sidebar-link" href="{{ url('/admin/pemesanan-jahitan') }}">
                     <i class="align-middle" data-feather="edit"></i> <span class="align-middle">Pemesanan Jahit</span>
                 </a>
             </li>

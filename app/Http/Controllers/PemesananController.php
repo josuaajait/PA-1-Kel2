@@ -10,8 +10,8 @@ class PemesananController extends Controller
 {
     public function index()
     {
-        $pemesanans = Pemesanan::paginate(10);
-        return view('admins.adminPemesanan', compact('pemesanans'));
+        $pemesanans = Pemesanan::paginate(10); // Fetch paginated pemesanans
+        return view('admins.adminPemesanan', compact('pemesanans')); // Pass $pemesanans to the view
     }
 
     public function create()

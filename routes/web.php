@@ -28,66 +28,85 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admins.adminDashboard');
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admins.adminProfile');
     Route::get('/admin/pemesanan', [AdminController::class, 'pemesanan'])->name('admins.adminPemesanan');
+
     Route::get('/admin/modifikasi', [AdminController::class, 'modifikasi'])->name('admins.adminModifikasi');
-    Route::get('/admin/produk', [ProdukController::class, 'adminIndex'])->name('admins.produk');
-    Route::get('/admin/produk/create', [ProdukController::class, 'create'])->name('admins.produk.create');
-    Route::post('/admin/produk', [ProdukController::class, 'store'])->name('admins.produk.store');
-    Route::get('/admin/produk/{produk}', [ProdukController::class, 'show'])->name('admins.produk.show');
-    Route::get('/admin/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('admins.produk.edit');
-    Route::put('/admin/produk/{produk}', [ProdukController::class, 'update'])->name('admins.produk.update');
-    Route::delete('/admin/produk/{produk}', [ProdukController::class, 'destroy'])->name('admins.produk.destroy');
+
+     // Produk management
+     Route::get('/admin/produk', [ProdukController::class, 'adminIndex'])->name('admins.produk');
+     Route::get('/admin/produk/create', [ProdukController::class, 'create'])->name('admins.produk.create');
+     Route::post('/admin/produk', [ProdukController::class, 'store'])->name('admins.produk.store');
+     Route::get('/admin/produk/{produk}', [ProdukController::class, 'show'])->name('admins.produk.show');
+     Route::get('/admin/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('admins.produk.edit');
+     Route::put('/admin/produk/{produk}', [ProdukController::class, 'update'])->name('admins.produk.update');
+     Route::delete('/admin/produk/{produk}', [ProdukController::class, 'destroy'])->name('admins.produk.destroy');
+
     Route::get('/admin/pemesanan-produk', [PemesananProdukController::class, 'index'])->name('pemesanan.produk');
     Route::get('/admin/pemesanan/{id}', [PemesananProdukController::class, 'show'])->name('pemesanan.show');
     Route::delete('/admin/pemesanan/{id}', [PemesananProdukController::class, 'destroy'])->name('pemesanan.destroy');
+
+    // Pemesanan jahitan management
+    Route::get('/admin/pemesanan-jahitan', [PemesananJahitanController::class, 'index'])->name('pemesanan-jahitan.index');
+    Route::get('/admin/pemesanan-jahitan/create', [PemesananJahitanController::class, 'create'])->name('pemesanan-jahitan.create');
+    Route::post('/admin/pemesanan-jahitan', [PemesananJahitanController::class, 'store'])->name('pemesanan-jahitan.store');
+    Route::get('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'show'])->name('pemesanan-jahitan.show');
+    Route::get('/admin/pemesanan-jahitan/{id}/edit', [PemesananJahitanController::class, 'edit'])->name('pemesanan-jahitan.edit');
+    Route::put('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'update'])->name('pemesanan-jahitan.update');
+    Route::delete('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'destroy'])->name('pemesanan-jahitan.destroy');
+
+    
 });
 
 Route::middleware('role:user')->group(function () {
+    // Produk
     Route::get('/produk', [ProdukController::class, 'index'])->name('users.produk');
-    Route::get('/pemesanan', [PemesananProdukController::class, 'index'])->name('users.pemesanan');
     Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('users.produk.show');
+
+    // Pemesanan produk
     Route::get('/pemesanan/create/{produk}', [PemesananController::class, 'create'])->name('pemesanan.create');
     Route::post('/pemesanan', [PemesananController::class, 'store'])->name('pemesanan.store');
-    Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
-    Route::post('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
-    Route::post('/pemesanan/ukuran', [PemesananJahitanController::class, 'rincianUkuran'])->name('users.rincian_ukuran');
+    // Pemesanan jahitan
+    Route::get('/pemesanan-jahitan', [PemesananJahitanController::class, 'create'])->name('pemesanan_jahitan.create');
+    Route::post('/pemesanan-jahitan', [PemesananJahitanController::class, 'store'])->name('pemesanan_jahitan.store');
+
+
+    // Route to display the form (GET request)
+    Route::get('/pemesanan-jahitan', [PemesananJahitanController::class, 'create'])->name('pemesanan_jahitan.create');
+    
+    // Route to handle the form submission (POST request)
+    Route::post('/pemesanan-jahitan', [PemesananJahitanController::class, 'store'])->name('pemesanan_jahitan.store');
+
 });
 
-Route::get('/cart', function () {
-    $cart = Session::get('cart', []);
-    return view('cart', compact('cart'));
-})->name('cart.index');
-
-Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
-
+// ==================== PUBLIC ROUTES ====================
+// Landing page
 Route::get('/', function () {
     return view('layout.main');
 });
 
+// About page
 Route::get('/about', function () {
     return view('users.about');
 });
 
+// Produk public listing (non-login, optional)
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 
-Route::get('/pemesanan', function () {
-    return view('users.pemesanan');
-});
+// Modifikasi CRUD (resource)
+Route::resource('modifikasis', ModifikasiController::class);
 
+// ==================== AUTH ROUTES ====================
+// Register
 Route::get('/register', function () {
     return view('users.register');
 });
-
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
+// Login
 Route::get('/login', function () {
     return view('users.login');
 })->name('login');
-
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
+// Logout
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-
-Route::resource('modifikasis', ModifikasiController::class);

@@ -1,3 +1,4 @@
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- Vendor JS Files -->
   <script src="{{URL::asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>

@@ -18,18 +18,6 @@ class JahitanOrder extends Model
         'jenis',
         'bahan',
         'warna',
-        'modifikasi',
-        'lingkar_leher',
-        'lebar_bahu',
-        'lingkar_dada',
-        'lingkar_pinggang',
-        'panjang_lengan',
-        'panjang_kemeja',
-        'lingkar_pinggul',
-        'panjang_tangan',
-        'lingkar_lengan_atas',
-        'panjang_bada',
-        'panjang_badan',
-        'panjang_gaun'
+        'ukuran'
     ];
 }

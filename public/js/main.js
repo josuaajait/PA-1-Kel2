@@ -216,3 +216,29 @@
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
+
+$(document).ready(function() {
+  $('#orderForm').submit(function(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      $.ajax({
+          url: $(this).attr('action'),  // Get the form's action URL
+          type: 'POST',
+          data: $(this).serialize(),  // Serialize the form data
+          dataType: 'json',          // Expect JSON response
+          success: function(response) {
+              if (response.success) {
+                  alert(response.success);  // Display the success message in a pop-up
+                  // Optionally, clear the form:
+                   $('#orderForm')[0].reset();
+              }
+          },
+          error: function(xhr, status, error) {
+              // Handle errors (e.g., validation errors)
+              console.error(xhr.responseText);
+              alert('Terjadi kesalahan. Silakan coba lagi.'); // Generic error message
+              // You could parse the JSON response from the server to display specific validation errors
+          }
+      });
+  });
+});

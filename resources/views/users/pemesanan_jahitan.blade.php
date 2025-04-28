@@ -1,6 +1,5 @@
 @include('layout.header')
 @include('layout.navbar')
-
 <br><br><br><br>
 
 <!-- Pemesanan Section -->
@@ -11,7 +10,7 @@
                 <h3>Pemesanan</h3>
                 <h2>Order your custom clothing</h2>
                 <p>Fill out the form below to place your order.</p>
-                <form id="orderForm" action="{{ route('users.rincian_ukuran') }}" method="post">
+                <form id="orderForm" action="{{ route('pemesanan_jahitan.store') }}" method="post">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -50,11 +49,11 @@
                         <input type="text" name="warna" id="warna" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="modifikasi" class="form-label">Catatan</label>
-                        <textarea name="modifikasi" id="modifikasi" class="form-control" rows="4" required></textarea>
+                        <label for="ukuran" class="form-label">Ukuran</label>
+                        <textarea name="ukuran" id="ukuran" class="form-control" rows="4" required></textarea>
                     </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Next</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>
@@ -64,3 +63,33 @@
 
 @include('layout.script')
 @include('layout.footer')
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#orderForm').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            $.ajax({
+                url: $(this).attr('action'),  // Get the form's action URL
+                type: 'POST',
+                data: $(this).serialize(),  // Serialize the form data
+                dataType: 'json',          // Expect JSON response
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.success);  // Display the success message in a pop-up
+                        // Optionally, clear the form:
+                         $('#orderForm')[0].reset();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors (e.g., validation errors)
+                    console.error(xhr.responseText);
+                    alert('Terjadi kesalahan. Silakan coba lagi.'); // Generic error message
+                    // You could parse the JSON response from the server to display specific validation errors
+                }
+            });
+        });
+    });
+</script>
+

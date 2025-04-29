@@ -61,7 +61,7 @@ class PemesananJahitanController extends Controller
     public function edit($id)
     {
         $order = JahitanOrder::findOrFail($id);
-        return view('admins.pemesanan_jahitan_edit', compact('order'));
+        return view('admins.jahitan_edit', compact('order'));
     }
 
     // Admin - Update order

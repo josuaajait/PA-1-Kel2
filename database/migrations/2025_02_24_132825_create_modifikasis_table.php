@@ -6,63 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        if (!Schema::hasTable('modifikasis')) {
-            Schema::create('modifikasis', function (Blueprint $table) {
-                $table->id();
-                $table->unsignedBigInteger('user_id');
-                $table->foreign('user_id')->references('id')->on('users');
-                $table->string('email');
-                $table->string('nomor_telepon');
-                $table->string('alamat');
-                $table->string('jenis_pakaian');
-                $table->string('ukuran');
-                $table->string('warna');
-                $table->string('modifikasi');
-                $table->enum('status', ['pending', 'diproses', 'dikirim', 'selesai']);
-                $table->timestamps();
-            });
-        }
+        Schema::create('modifikasi_jahitans', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama'); // Nama (misal: Permak Celana, Ubah Ukuran Kemeja)
+            $table->text('catatan')->nullable(); // Catatan detail modifikasi (opsional)
+            $table->string('jenis_pakaian'); // Jenis pakaian yang dimodifikasi
+            $table->timestamps(); // created_at and updated_at
+        });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('modifikasis');
-    }
-
-    public function getConnection()
-    {
-        return config('modifikasi.database_connection');
-    }
-
-    public function getSchema()
-    {
-        return config('modifikasi.database_schema');
-    }
-
-    public function getTable()
-    {
-        return config('modifikasi.database_table');
-    }
-
-    public function getKeyName()
-    {
-        return config('modifikasi.database_primary_key');
-    }
-
-    public function getForeignKey()
-    {
-        return config('modifikasi.database_foreign_key');
-    }
-
-    public function getCreatedAt()
-    {
-        return config('modifikasi.database_created_at');
-    }
-
-    public function getUpdatedAt()
-    {
-        return config('modifikasi.database_updated_at');
+        Schema::dropIfExists('modifikasi_jahitans');
     }
 };

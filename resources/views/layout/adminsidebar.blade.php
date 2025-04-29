@@ -34,8 +34,8 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ url('/admin/modifikasi') }}">
-                    <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Modifikasi Jahitan</span>
+                <a class="sidebar-link" href="{{ url('/admin/modifikasi-jahitan') }}">
+                    <i class="align-middle" data-feather="edit"></i> <span class="align-middle">Modifikasi Jahit</span>
                 </a>
             </li>
 

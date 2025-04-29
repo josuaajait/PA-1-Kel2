@@ -1,4 +1,4 @@
-<header id="header" class="header d-flex align-items-center fixed-top">
+<header id="header" class="header d-flex align-items-center fixed-top bg-light shadow">
   <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
     <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto me-xl-0">
@@ -23,7 +23,7 @@
           <span class="ms-2">{{ auth()->user()->name }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-          <li><span class="dropdown-item">Profil</span></li>
+          <li><a class="dropdown-item" href="{{ route('profil') }}">Profil</a></li>
           <li>
             <form action="{{ route('logout') }}" method="POST">
               @csrf

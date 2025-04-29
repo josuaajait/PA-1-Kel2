@@ -11,7 +11,11 @@ use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PemesananProdukController;
 use App\Http\Controllers\PemesananController;
-use App\Http\Controllers\PemesananJahitanController; // Add this line
+use App\Http\Controllers\PemesananJahitanController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +27,11 @@ use App\Http\Controllers\PemesananJahitanController; // Add this line
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profil', [UserController::class, 'profil'])->name('profil');
+});
+
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admins.adminDashboard');
@@ -80,9 +89,8 @@ Route::middleware('role:user')->group(function () {
 
 // ==================== PUBLIC ROUTES ====================
 // Landing page
-Route::get('/', function () {
-    return view('layout.main');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
 
 // About page
 Route::get('/about', function () {

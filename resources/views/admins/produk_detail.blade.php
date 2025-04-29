@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Detail Produk</h1>
+<h1>Detail Produk</h1>
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">{{ $produk->name }}</h5>

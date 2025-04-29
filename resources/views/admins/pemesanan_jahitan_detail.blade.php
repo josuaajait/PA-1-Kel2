@@ -33,7 +33,7 @@
                                     <p><strong>Warna:</strong> {{ $pemesananJahitan->warna }}</p>
                                     <p><strong>Ukuran:</strong> {{ $pemesananJahitan->ukuran }}</p>
 
-                                    <a href="{{ route('pemesanan-jahitan.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar</a>
+                                    <a href="{{ route('admins.pemesanan-jahitan.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar</a>
                                 </div>
                             </div>
                         </div>

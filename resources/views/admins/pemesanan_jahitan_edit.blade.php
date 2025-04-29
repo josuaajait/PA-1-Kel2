@@ -23,7 +23,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{ route('pemesanan-jahitan.update', $pemesananJahitan->id) }}" method="POST">
+                                    <form action="{{ route('admins.pemesanan-jahitan.update', $pemesananJahitan->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
 
@@ -63,7 +63,7 @@
                                         </div>
 
                                         <button type="submit" class="btn btn-success">Update</button>
-                                        <a href="{{ route('pemesanan-jahitan.index') }}" class="btn btn-secondary">Batal</a>
+                                        <a href="{{ route('admins.pemesanan-jahitan.index') }}" class="btn btn-secondary">Batal</a>
                                     </form>
                                 </div>  
                             </div>

@@ -86,7 +86,7 @@ class PemesananJahitanController extends Controller
         $order = JahitanOrder::findOrFail($id);
         $order->update($validatedData);
 
-        return redirect()->route('pemesanan-jahitan.index')->with('success', 'Order updated successfully!');
+        return redirect()->route('admins.pemesanan-jahitan.index')->with('success', 'Order updated successfully!');
     }
 
     // Admin - Delete order
@@ -95,6 +95,6 @@ class PemesananJahitanController extends Controller
         $order = JahitanOrder::findOrFail($id);
         $order->delete();
 
-        return redirect()->route('pemesanan-jahitan.index')->with('success', 'Order deleted successfully!');
+        return redirect()->route('admins.pemesanan-jahitan.index')->with('success', 'Order deleted successfully!');
     }
 }

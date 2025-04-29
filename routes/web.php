@@ -45,13 +45,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/pemesanan/{id}', [PemesananProdukController::class, 'destroy'])->name('pemesanan.destroy');
 
     // Pemesanan jahitan management
-    Route::get('/admin/pemesanan-jahitan', [PemesananJahitanController::class, 'index'])->name('pemesanan-jahitan.index');
-    Route::get('/admin/pemesanan-jahitan/create', [PemesananJahitanController::class, 'create'])->name('pemesanan-jahitan.create');
-    Route::post('/admin/pemesanan-jahitan', [PemesananJahitanController::class, 'store'])->name('pemesanan-jahitan.store');
-    Route::get('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'show'])->name('pemesanan-jahitan.show');
-    Route::get('/admin/pemesanan-jahitan/{id}/edit', [PemesananJahitanController::class, 'edit'])->name('pemesanan-jahitan.edit');
-    Route::put('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'update'])->name('pemesanan-jahitan.update');
-    Route::delete('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'destroy'])->name('pemesanan-jahitan.destroy');
+    Route::get('/admin/pemesanan-jahitan', [PemesananJahitanController::class, 'index'])->name('admins.pemesanan-jahitan.index');
+    Route::get('/admin/pemesanan-jahitan/create', [PemesananJahitanController::class, 'create'])->name('admins.pemesanan-jahitan.create');
+    Route::post('/admin/pemesanan-jahitan', [PemesananJahitanController::class, 'store'])->name('admins.pemesanan-jahitan.store');
+    Route::get('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'show'])->name('admins.pemesanan-jahitan.show');
+    Route::get('/admin/pemesanan-jahitan/{id}/edit', [PemesananJahitanController::class, 'edit'])->name('admins.pemesanan-jahitan.edit');
+    Route::put('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'update'])->name('admins.pemesanan-jahitan.update');
+    Route::delete('/admin/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'destroy'])->name('admins.pemesanan-jahitan.destroy');      
 
     
 });

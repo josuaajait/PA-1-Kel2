@@ -22,7 +22,7 @@
 				<div class="container-fluid p-0">
 
 					<h1 class="h3 mb-3">Data Pemesanan Jahitan</h1>
-					<a href="{{ route('pemesanan-jahitan.create') }}" class="btn btn-primary mb-3">Tambah Produk</a>
+					<a href="{{ route('admins.pemesanan-jahitan.create') }}" class="btn btn-primary mb-3">Tambah Produk</a>
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
@@ -52,7 +52,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												@foreach($pemesananJahit as $pemesanan)
+												@foreach($pemesananJahitan as $pemesanan)
 													<tr>
 														<td>{{ $loop->iteration }}</td>
 														<td>{{ $pemesanan->name }}</td>
@@ -64,9 +64,9 @@
 														<td>{{ $pemesanan->ukuran }}</td>
 														<td>
 															<div class="d-flex gap-1">
-																<a href="{{ route('pemesanan-jahitan.show', $pemesanan->id) }}" class="btn btn-info btn-sm">Detail</a>
-																<a href="{{ route('pemesanan-jahitan.edit', $pemesanan->id) }}" class="btn btn-warning btn-sm">Edit</a>
-																<form action="{{ route('pemesanan-jahitan.destroy', $pemesanan->id) }}" method="POST">
+																<a href="{{ route('admins.pemesanan-jahitan.show', $pemesanan->id) }}" class="btn btn-info btn-sm">Detail</a>
+																<a href="{{ route('admins.pemesanan-jahitan.edit', $pemesanan->id) }}" class="btn btn-warning btn-sm">Edit</a>
+																<form action="{{ route('admins.pemesanan-jahitan.destroy', $pemesanan->id) }}" method="POST">
 																	@csrf
 																	@method('DELETE')
 																	<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button>
@@ -81,7 +81,7 @@
 
 										<!-- Pagination -->
 										<div class="d-flex justify-content-center mt-4">
-											{{ $pemesananJahit->links() }}
+											{{ $pemesananJahitan->links() }}
 										</div>
 
 									</div>

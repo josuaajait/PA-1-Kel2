@@ -17,51 +17,57 @@ class PemesananJahitanController extends Controller
     // User-facing create form
     public function create()
     {
-        return view('users.pemesanan_jahitan');
+        $role = auth()->check() ? auth()->user()->role : 'guest';
+        return view('users.pemesanan_jahitan', compact('role'));
     }
-
+    
     // User-facing store
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
+        $data = $request->validate([
+            'name'    => 'required|string|max:255',
+            'phone'   => 'required|string|max:20',
             'address' => 'required|string',
-            'jenis' => 'required|string|in:Kemeja,Gaun,Kebaya',
-            'bahan' => 'required|string|in:Brokat,Renda,Katun,Linen,Flanel',
-            'warna' => 'required|string|max:255',
-            'ukuran' => 'required|string',
+            'jenis'   => 'required|string|in:Kemeja,Gaun,Kebaya',
+            'bahan'   => 'required|string|in:Brokat,Renda,Katun,Linen,Flanel',
+            'warna'   => 'required|string|max:255',
+            'ukuran'  => 'required|string',
         ]);
-
-        $order = new JahitanOrder($validatedData);
-        $order->save();
-
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            return redirect()->route('pemesanan-jahit.index')->with('success', 'Order created successfully!');
-        } else {
+    
+        $order = JahitanOrder::create($data);
+    
+        if ($request->ajax()) {
+            // always JSON untuk AJAX (user)
             return response()->json(['success' => 'Pemesanan berhasil!']);
         }
+    
+        // normal POST (admin)
+        return redirect()
+            ->route('admins.pemesanan-jahitan.index')
+            ->with('success', 'Order created successfully!');
     }
+    
 
     // Admin - List all orders
     public function index()
     {
-        $pemesananJahit = JahitanOrder::paginate(10); // Pakai paginate
-        return view('admins.adminPemesananJahitan', compact('pemesananJahit'));
+        $pemesananJahitan = JahitanOrder::paginate(10); // Pakai paginate
+        return view('admins.adminPemesananJahitan', compact('pemesananJahitan'));
     }
 
     // Admin - Show detail
     public function show($id)
     {
         $pemesananJahitan = JahitanOrder::findOrFail($id);
-        return view('admins.pemesanan_jahitan_show', compact('pemesananJahitan'));
+        return view('admins.pemesanan_jahitan_detail', compact('pemesananJahitan'));
     }
 
     // Admin - Edit order form
     public function edit($id)
+
     {
-        $order = JahitanOrder::findOrFail($id);
-        return view('admins.jahitan_edit', compact('order'));
+        $pemesananJahitan = JahitanOrder::findOrFail($id);
+        return view('admins.pemesanan_jahitan_edit', compact('pemesananJahitan'));
     }
 
     // Admin - Update order
@@ -80,7 +86,7 @@ class PemesananJahitanController extends Controller
         $order = JahitanOrder::findOrFail($id);
         $order->update($validatedData);
 
-        return redirect()->route('pemesanan-jahit.index')->with('success', 'Order updated successfully!');
+        return redirect()->route('pemesanan-jahitan.index')->with('success', 'Order updated successfully!');
     }
 
     // Admin - Delete order

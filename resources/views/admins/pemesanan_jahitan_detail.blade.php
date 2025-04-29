@@ -1,4 +1,3 @@
-{{-- resources/views/admins/pemesanan_jahitan_show.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,13 +25,13 @@
                                     <h5 class="card-title mb-0">Informasi Pemesanan Jahitan</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p><strong>Nama:</strong> {{ $pemesanan->name }}</p>
-                                    <p><strong>Telepon:</strong> {{ $pemesanan->phone }}</p>
-                                    <p><strong>Alamat:</strong> {{ $pemesanan->address }}</p>
-                                    <p><strong>Jenis:</strong> {{ $pemesanan->jenis }}</p>
-                                    <p><strong>Bahan:</strong> {{ $pemesanan->bahan }}</p>
-                                    <p><strong>Warna:</strong> {{ $pemesanan->warna }}</p>
-                                    <p><strong>Ukuran:</strong> {{ $pemesanan->ukuran }}</p>
+                                    <p><strong>Nama:</strong> {{ $pemesananJahitan->name }}</p>
+                                    <p><strong>Telepon:</strong> {{ $pemesananJahitan->phone }}</p>
+                                    <p><strong>Alamat:</strong> {{ $pemesananJahitan->address }}</p>
+                                    <p><strong>Jenis:</strong> {{ $pemesananJahitan->jenis }}</p>
+                                    <p><strong>Bahan:</strong> {{ $pemesananJahitan->bahan }}</p>
+                                    <p><strong>Warna:</strong> {{ $pemesananJahitan->warna }}</p>
+                                    <p><strong>Ukuran:</strong> {{ $pemesananJahitan->ukuran }}</p>
 
                                     <a href="{{ route('pemesanan-jahitan.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar</a>
                                 </div>

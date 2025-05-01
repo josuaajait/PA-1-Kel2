@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\Auth\LoginController; // Pastikan namespace ini benar
-use App\Http\Controllers\Auth\LogoutController; // Pastikan namespace ini benar
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController; // Pastikan controller ini ada jika digunakan
@@ -28,19 +28,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/modifikasi', [AdminController::class, 'modifikasi'])->name('admins.adminModifikasi');
 
 
-     // Produk management
-     Route::get('/admin/produk', [ProdukController::class, 'adminIndex'])->name('admins.produk'); // Pastikan method adminIndex ada
-     Route::get('/admin/produk/create', [ProdukController::class, 'create'])->name('admins.produk.create');
-     Route::post('/admin/produk', [ProdukController::class, 'store'])->name('admins.produk.store');
-     Route::get('/admin/produk/{produk}', [ProdukController::class, 'show'])->name('admins.produk.show');
-     Route::get('/admin/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('admins.produk.edit');
-     Route::put('/admin/produk/{produk}', [ProdukController::class, 'update'])->name('admins.produk.update');
-     Route::delete('/admin/produk/{produk}', [ProdukController::class, 'destroy'])->name('admins.produk.destroy');
+    // Produk management (Admin)
+    Route::get('/admin/produk', [ProdukController::class, 'adminIndex'])->name('admins.produk.index'); // Menggunakan .index
+    Route::get('/admin/produk/create', [ProdukController::class, 'create'])->name('admins.produk.create');
+    Route::post('/admin/produk', [ProdukController::class, 'store'])->name('admins.produk.store');
+    Route::get('/admin/produk/{produk}', [ProdukController::class, 'show'])->name('admins.produk.show');
+    Route::get('/admin/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('admins.produk.edit');
+    Route::put('/admin/produk/{produk}', [ProdukController::class, 'update'])->name('admins.produk.update');
+    Route::delete('/admin/produk/{produk}', [ProdukController::class, 'destroy'])->name('admins.produk.destroy');
 
     // Pemesanan Produk management (Admin)
-    Route::get('/admin/pemesanan-produk', [PemesananProdukController::class, 'index'])->name('pemesanan.produk'); // Nama route mungkin perlu disesuaikan ke admins.pemesanan-produk.index
-    Route::get('/admin/pemesanan/{id}', [PemesananProdukController::class, 'show'])->name('pemesanan.show'); // Nama route mungkin perlu disesuaikan ke admins.pemesanan-produk.show
-    Route::delete('/admin/pemesanan/{id}', [PemesananProdukController::class, 'destroy'])->name('pemesanan.destroy'); // Nama route mungkin perlu disesuaikan ke admins.pemesanan-produk.destroy
+    Route::get('/admin/pemesanan-produk', [PemesananProdukController::class, 'index'])->name('admins.pemesanan-produk.index'); // Menggunakan admins.*
+    Route::get('/admin/pemesanan/{id}', [PemesananProdukController::class, 'show'])->name('admins.pemesanan-produk.show'); // Menggunakan admins.*
+    Route::delete('/admin/pemesanan/{id}', [PemesananProdukController::class, 'destroy'])->name('admins.pemesanan-produk.destroy'); // Menggunakan admins.*
 
     // Pemesanan Jahitan management (Admin)
     Route::get('/admin/pemesanan-jahitan', [PemesananJahitanController::class, 'index'])->name('admins.pemesanan-jahitan.index');
@@ -101,12 +101,15 @@ Route::get('/about', function () {
 // Produk public listing (non-login, optional)
 // Hati-hati, ini duplikat dengan route /produk di middleware user. Pilih salah satu atau bedakan URLnya.
 // Jika ini untuk public (non-login), mungkin URLnya bisa /katalog-produk atau semacamnya.
+// Saya akan menonaktifkan ini, pilih salah satu di middleware user atau katalog
 // Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 
 // Ada route resource 'modifikasis' di public, ini akan konflik dengan route admin jika controllernya sama.
 // Jika ModifikasiController berbeda dari ModifikasiJahitanController, tidak masalah.
 // Jika sama, route resource ini harus dihapus atau dipindahkan ke dalam middleware admin.
 // Hapus jika tidak digunakan: Route::resource('modifikasis', ModifikasiController::class);
+// Saya akan menonaktifkan ini dulu, agar tidak konflik dengan route modifikasi di admin
+// Route::resource('modifikasis', ModifikasiController::class);
 
 // ==================== AUTH ROUTES ====================
 // Register

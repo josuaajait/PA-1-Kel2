@@ -45,7 +45,7 @@
                                             @enderror
                                         </div>
 
-                                         <div class="mb-3">
+                                        <div class="mb-3">
                                             <label for="jenis_pakaian" class="form-label">Jenis Pakaian <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control @error('jenis_pakaian') is-invalid @enderror" id="jenis_pakaian" name="jenis_pakaian" value="{{ old('jenis_pakaian') }}" placeholder="Contoh: Kemeja Lengan Panjang, Celana Bahan" required>
                                             @error('jenis_pakaian')

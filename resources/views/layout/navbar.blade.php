@@ -1,4 +1,5 @@
-<header id="header" class="header d-flex align-items-center fixed-top bg-light shadow">
+<header id="header" class="header d-flex align-items-center fixed-top bg-transparent shadow">
+
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
         <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto me-xl-0">
@@ -8,10 +9,10 @@
         <nav id="navmenu" class="navmenu">
             <ul>
                 <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
-                <li><a href="{{ url('/about') }}" class="{{ Request::is('about') ? 'active' : '' }}">Tentang</a></li>
+                <li><a href="{{ url('/about-us') }}" class="{{ Request::is('about-us') ? 'active' : '' }}">Tentang</a></li>
 
                 @auth
-                    @if (auth()->user()->isAdmin())
+                    @if (auth()->user()->role === 'admin')
                         <li><a href="{{ route('admins.produk.index') }}" class="{{ Request::is('admin/produk*') ? 'active' : '' }}">Produk</a></li>
                         <li><a href="{{ route('admins.modifikasi-jahitan.index') }}" class="{{ Request::is('admin/modifikasi-jahitan*') ? 'active' : '' }}">Modifikasi Jahitan</a></li>
                     @else
@@ -22,6 +23,8 @@
                 @endauth
 
                 <li><a href="{{ url('/pemesanan-jahitan') }}" class="{{ Request::is('pemesanan-jahitan') ? 'active' : '' }}">Jahit Produk</a></li>
+
+                <li><a href="{{ url('/ajukan-modifikasi') }}" class="{{ Request::is('ajukan-modifikasi') ? 'active' : '' }}">Ajukan Modifikasi</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>

@@ -14,6 +14,6 @@ class LoginController extends Controller
             return '/admin'; // Redirect admin users
         }
         
-        return '/'; // Redirect regular users
+        return '/home'; // Redirect regular users
     }
 }

@@ -19,6 +19,11 @@ class LoginController extends Controller
         return redirect()->back()->withErrors(['email' => 'Invalid credentials'])->withInput()->with('error', 'Invalid login credentials.');
     }
 
+    public function showLoginForm()
+    {
+        return view('users.login'); // Adjust view name to match your file location
+    }
+
     protected function redirectTo()
     {
         if (Auth::user()->role === 'admin') {

@@ -14,13 +14,13 @@ class ProdukController extends Controller
 
     public function index()
     {
-        $produks = Produk::all(); // Fetch all products from the database
-        $user = auth()->user(); // Get the logged-in user
+        $produks = Produk::all();
+        $user = auth()->user();
 
         if ($user && $user->role === 'admin') {
-            return view('admins.adminProduk', compact('produks')); // Admin view
+            return view('admins.adminProduk', compact('produks'));
         } else {
-            return view('users.produk', compact('produks')); // User view
+            return view('users.produk', compact('produks'));
         }
     }
 
@@ -43,28 +43,28 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'harga' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'stok' => 'required|integer|min:0',
+            'status' => 'required|in:tersedia,tidak tersedia',
+            'ukuran' => 'nullable|string',
+            'warna' => 'nullable|string',
+            'bahan' => 'nullable|string',
         ]);
 
-        // Handle file upload
-        if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->storeAs('public/produk_images', $imageName);
-        } else {
-            $imageName = 'default.jpg'; // Fallback image
+        $data = $request->all();
+
+        if ($request->hasFile('gambar')) {
+            $filename = time() . '.' . $request->gambar->extension();
+            $request->gambar->storeAs('public/produk_images', $filename);
+            $data['gambar'] = $filename;
         }
 
-        Produk::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'image' => $imageName, // Store only filename
-        ]);
+        Produk::create($data);
 
-        return redirect()->route('admins.produk');
+        return redirect()->route('admins.produk')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     public function edit(Produk $produk)
@@ -75,27 +75,31 @@ class ProdukController extends Controller
     public function update(Request $request, Produk $produk)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'harga' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'stok' => 'required|integer|min:0',
+            'status' => 'required|in:tersedia,tidak tersedia',
+            'ukuran' => 'nullable|string',
+            'warna' => 'nullable|string',
+            'bahan' => 'nullable|string',
         ]);
 
-        // Handle Image Upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('produk_images', 'public');
-            $data['image'] = $imagePath;
+        if ($request->hasFile('gambar')) {
+            $filename = time() . '.' . $request->gambar->extension();
+            $request->gambar->storeAs('public/produk_images', $filename);
+            $data['gambar'] = $filename;
         }
 
         $produk->update($data);
 
-        return redirect()->route('admins.produk')->with('success', 'Product updated successfully.');
+        return redirect()->route('admins.produk')->with('success', 'Produk berhasil diperbarui.');
     }
 
     public function destroy(Produk $produk)
     {
         $produk->delete();
-        return redirect()->route('admins.produk')->with('success', 'Product deleted successfully.');
+        return redirect()->route('admins.produk')->with('success', 'Produk berhasil dihapus.');
     }
 }
-

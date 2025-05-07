@@ -15,19 +15,50 @@
                     <a href="#"><i class="bi bi-instagram"></i></a>
                 </div>
             </div>
+
             <div class="col-xl-7 content">
-                <h3>About Me</h3>
+                <h3>About Us</h3>
                 <h2>Professional & Passionate</h2>
-                <p style="text-align: justify;">
-Selamat datang di Firman Taylor, tempat di mana kualitas jahitan bertemu dengan kreativitas dan ketelitian. Kami adalah tim penjahit profesional yang berdedikasi untuk menghadirkan pakaian berkualitas tinggi dengan desain yang elegan dan nyaman dikenakan.  
 
-Dengan pengalaman bertahun-tahun dalam industri fashion dan tailor-made clothing, kami berkomitmen untuk memberikan layanan terbaik bagi pelanggan kami. Mulai dari jahitan custom, modifikasi pakaian, hingga pembuatan seragam dan busana eksklusif, kami memastikan setiap detail dikerjakan dengan presisi dan ketelitian tinggi.  
+                @if($aboutUs)
+                    <p style="text-align: justify;">
+                        {{ Str::limit($aboutUs->deskripsi, 300) }}
+                    </p>
 
-Di Firman Taylor, kami percaya bahwa setiap pakaian bukan hanya sekadar kain yang dijahit, tetapi juga cerminan dari gaya dan kepribadian Anda. Oleh karena itu, kami selalu berusaha memberikan hasil terbaik sesuai dengan keinginan dan kebutuhan pelanggan.  
+                    <!-- Collapsible Content -->
+                    <div class="collapse" id="full-description">
+                        <h4>Sejarah</h4>
+                        <p style="text-align: justify;">
+                            {{ $aboutUs->sejarah }}
+                        </p>
 
-Terima kasih telah mempercayakan kebutuhan jahitan Anda kepada kami. Kami siap membantu Anda tampil lebih percaya diri dengan pakaian yang pas dan sempurna! ✂️✨
-                </p>
-                <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                        <h4>Visi</h4>
+                        <p style="text-align: justify;">
+                            {{ $aboutUs->visi }}
+                        </p>
+
+                        <h4>Misi</h4>
+                        <p style="text-align: justify;">
+                            {{ $aboutUs->misi }}
+                        </p>
+                    </div>
+
+                    <!-- Read More / Less Button -->
+                    @guest
+                    <!-- Jika belum login -->
+                    <a href="{{ route('login') }}" class="read-more">
+                        <span>Read More</span><i class="bi bi-arrow-right"></i>
+                    </a>
+                @else
+                    <!-- Jika sudah login -->
+                    <a href="#full-description" class="read-more" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="full-description">
+                        <span>Read More</span><i class="bi bi-arrow-right"></i>
+                    </a>
+                @endguest
+                
+                @else
+                    <p>Konten About Us belum tersedia.</p>
+                @endif
             </div>
         </div>
     </div>

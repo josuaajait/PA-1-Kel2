@@ -16,7 +16,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ url('/admin/tentang') }}">
+                <a class="sidebar-link" href="{{ url('/admin/about') }}">
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">Tentang Kami</span>
                 </a>
             </li>

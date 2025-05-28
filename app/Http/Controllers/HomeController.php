@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Produk;  
 
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
-    {
-        return view('users.home');
-    }
+{
+    $produks = Produk::all();  // Atau pakai paginate sesuai kebutuhan
+    return view('users.home', compact('produks'));
+}
+
 }

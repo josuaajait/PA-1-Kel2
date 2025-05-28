@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutUs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AboutUsController extends Controller
 {
     // Admin: Tampilkan semua entri untuk dikelola
     public function index()
-{
-    // Sebelumnya menggunakan get(), yang mengembalikan koleksi biasa
-    // $aboutUs = AboutUs::all();
+    {
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            $aboutUs = AboutUs::paginate(10);
+            return view('admins.aboutus.adminaboutus', compact('aboutUs'));
+        }
 
-    // Gunakan paginate() untuk mendapatkan objek paginated
-    $aboutUs = AboutUs::paginate(10); // Atur jumlah per halaman (contoh: 10)
-
-    return view('admins.aboutus.adminaboutus', compact('aboutUs'));
-}
-
+        // Jika customer (atau user biasa), tampilkan halaman user
+        $aboutUs = AboutUs::where('is_active', true)->first(); // hanya satu aktif
+        return view('users.aboutus.about', compact('aboutUs'));
+    }
 
     // Admin: Form tambah data
     public function create()
@@ -34,6 +35,7 @@ class AboutUsController extends Controller
             'sejarah' => 'required|string',
             'visi' => 'required|string',
             'misi' => 'required|string',
+
         ]);
 
         AboutUs::create([
@@ -42,9 +44,10 @@ class AboutUsController extends Controller
             'visi' => $request->visi,
             'misi' => $request->misi,
             'is_active' => $request->has('is_active') ? true : false,
+            'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('about.create')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->route('admins.about.index')->with('success', 'Data berhasil ditambahkan.');
     }
 
     // Admin: Form edit data
@@ -115,6 +118,12 @@ class AboutUsController extends Controller
         return view('users.aboutus.show', compact('aboutUs'));
     }
 
+    public function full()
+    {
+        $aboutUs = AboutUs::where('is_active', true)->first();
+
+        return view('users.aboutus.full', compact('aboutUs'));
+    }
 
 
 }

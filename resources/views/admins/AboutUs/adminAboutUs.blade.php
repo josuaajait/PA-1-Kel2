@@ -19,7 +19,7 @@
             <main class="content">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3">Data About Us</h1>
-                    <a href="{{ route('about.create') }}" class="btn btn-primary mb-3">Tambah Data</a>
+                    <a href="{{ route('admins.about.create') }}" class="btn btn-primary mb-3">Tambah Data</a>
 
                     <div class="card">
                         <div class="card-header">
@@ -54,16 +54,16 @@
                                                 <td>{{ Str::limit($item->misi, 50) }}</td>
                                                 <td>
                                                     <div class="d-flex gap-1">
-                                                        <a href="{{ route('about.detail', $item->id) }}" class="btn btn-info btn-sm">Detail</a>
-                                                        <a href="{{ route('about.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                        <form action="{{ route('about.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                                        <a href="{{ route('admins.about.detail', $item->id) }}" class="btn btn-info btn-sm">Detail</a>
+                                                        <a href="{{ route('admins.about.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                        <form action="{{ route('admins.about.destroy', $item->id) }}" method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button>
                                                         </form>
                                                 
                                                         @if(!$item->is_active)
-                                                            <form action="{{ route('about.activate', $item->id) }}" method="POST" style="display:inline;">
+                                                            <form action="{{ route('admins.about.activate', $item->id) }}" method="POST" style="display:inline;">
                                                                 @csrf
                                                                 <button type="submit" class="btn btn-success btn-sm">Tampilkan ke User</button>
                                                             </form>

@@ -4,49 +4,46 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Produk::class, 'produk');
-    }
-
     public function index()
     {
         $produks = Produk::all();
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user && $user->role === 'admin') {
-            return view('admins.adminProduk', compact('produks'));
+            return view('admins.produk.index', compact('produks'));
         } else {
-            return view('users.produk', compact('produks'));
+            return view('users.produk.produk', compact('produks'));
         }
-    }
-
-    public function adminIndex()
-    {
-        $produks = Produk::all();
-        return view('admins.adminProduk', compact('produks'));
     }
 
     public function show(Produk $produk)
     {
-        return view('admins.produk_detail', compact('produk'));
+        $user = Auth::user();
+            return view('admins.produk.show', compact('produk'));
+        
     }
 
     public function create()
     {
-        return view('admins.produk_create');
+        $this->authorizeAdmin(); // hanya admin boleh akses
+        return view('admins.produk.create');
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $this->authorizeAdmin(); // hanya admin boleh akses
+
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
+            'jenis_pakaian'=>'required|string',
             'deskripsi' => 'required|string',
             'harga' => 'required|numeric',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
             'stok' => 'required|integer|min:0',
             'status' => 'required|in:tersedia,tidak tersedia',
             'ukuran' => 'nullable|string',
@@ -54,52 +51,74 @@ class ProdukController extends Controller
             'bahan' => 'nullable|string',
         ]);
 
-        $data = $request->all();
-
         if ($request->hasFile('gambar')) {
             $filename = time() . '.' . $request->gambar->extension();
             $request->gambar->storeAs('public/produk_images', $filename);
-            $data['gambar'] = $filename;
+            $validated['gambar'] = $filename;
         }
 
-        Produk::create($data);
+        $validated['user_id'] = Auth::id(); // Simpan id pembuat produk
 
-        return redirect()->route('admins.produk')->with('success', 'Produk berhasil ditambahkan.');
+        Produk::create($validated);
+
+        return redirect()->route('admins.produk.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     public function edit(Produk $produk)
     {
-        return view('admins.produk_edit', compact('produk'));
+        $this->authorizeAdmin(); // hanya admin boleh akses
+        return view('admins.produk.edit', compact('produk'));
     }
 
-    public function update(Request $request, Produk $produk)
-    {
-        $data = $request->validate([
-            'nama' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'harga' => 'required|numeric',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'stok' => 'required|integer|min:0',
-            'status' => 'required|in:tersedia,tidak tersedia',
-            'ukuran' => 'nullable|string',
-            'warna' => 'nullable|string',
-            'bahan' => 'nullable|string',
-        ]);
+public function update(Request $request, Produk $produk)
+{
+    $this->authorizeAdmin(); // Pastikan user admin
 
-        if ($request->hasFile('gambar')) {
-            $filename = time() . '.' . $request->gambar->extension();
-            $request->gambar->storeAs('public/produk_images', $filename);
-            $data['gambar'] = $filename;
-        }
+    $validated = $request->validate([
+        'nama' => 'required|string|max:255',
+        'deskripsi' => 'required|string',
+        'jenis_pakaian'=>'required|string',
+        'harga' => 'required|numeric',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+        'stok' => 'required|integer|min:0',
+        'status' => 'required|in:tersedia,tidak tersedia',
+        'ukuran' => 'nullable|string',
+        'warna' => 'nullable|string',
+        'bahan' => 'nullable|string',
+    ]);
 
-        $produk->update($data);
+    if ($request->hasFile('gambar')) {
+    $filename = time() . '.' . $request->gambar->extension();
+    $request->gambar->storeAs('public/produk_images', $filename);
+    $validated['gambar'] = $filename; // pastikan hanya nama file, tanpa folder 'produk_images/' jika di DB memang hanya nama filenya
 
-        return redirect()->route('admins.produk')->with('success', 'Produk berhasil diperbarui.');
+    // Hapus gambar lama jika ada
+    if ($produk->gambar) {
+        Storage::delete('public/produk_images/' . $produk->gambar);
+    }
+    }
+
+    $produk->update($validated);
+
+    return redirect()->route('admins.produk.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
     public function destroy(Produk $produk)
     {
+        $this->authorizeAdmin(); // hanya admin boleh akses
+
         $produk->delete();
-        return redirect()->route('admins.produk')->with('success', 'Produk berhasil dihapus.');
+
+        return redirect()->route('admins.produk.index')->with('success', 'Produk berhasil dihapus.');
+    }
+
+    /**
+     * Membatasi akses hanya untuk admin
+     */
+    private function authorizeAdmin()
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Akses ditolak.');
+        }
     }
 }

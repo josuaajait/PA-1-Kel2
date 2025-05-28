@@ -11,6 +11,6 @@ class Produk extends Model
 
     protected $table = 'produks'; // Ensure this matches your database table name
 
-    protected $fillable = ['nama', 'deskripsi', 'harga', 'gambar', 'stok', 'status', 'ukuran', 'warna', 'bahan'];
+    protected $fillable = ['nama','jenis_pakaian', 'deskripsi', 'harga', 'gambar', 'stok', 'status', 'ukuran', 'warna', 'bahan', 'user_id'];
 }
 

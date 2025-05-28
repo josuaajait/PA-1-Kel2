@@ -18,7 +18,10 @@ class CreateProduksTable extends Migration
             $table->enum('status', ['tersedia', 'habis'])->default('tersedia');
             $table->string('ukuran')->nullable();  
             $table->string('warna')->nullable();   
-            $table->string('bahan')->nullable();   
+            $table->string('bahan')->nullable();
+
+            $table->unsignedBigInteger('user_id'); // Kolom untuk foreign key
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

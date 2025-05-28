@@ -3,98 +3,132 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\JahitanOrder;
+use App\Models\PemesananJahitan;
 use Illuminate\Support\Facades\Auth;
 
 class PemesananJahitanController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except(['create', 'store']);
-        $this->middleware('admin')->only(['index', 'edit', 'update', 'destroy', 'show']);
-    }
-
-    // User-facing create form
-    public function create()
-    {
-        $role = auth()->check() ? auth()->user()->role : 'guest';
-        return view('users.pemesanan_jahitan', compact('role'));
-    }
-    
-    // User-facing store
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'name'    => 'required|string|max:255',
-            'phone'   => 'required|string|max:20',
-            'address' => 'required|string',
-            'jenis'   => 'required|string|in:Kemeja,Gaun,Kebaya',
-            'bahan'   => 'required|string|in:Brokat,Renda,Katun,Linen,Flanel',
-            'warna'   => 'required|string|max:255',
-            'ukuran'  => 'required|string',
-        ]);
-    
-        $order = JahitanOrder::create($data);
-    
-        if ($request->ajax()) {
-            // always JSON untuk AJAX (user)
-            return response()->json(['success' => 'Pemesanan berhasil!']);
-        }
-    
-        // normal POST (admin)
-        return redirect()
-            ->route('admins.pemesanan-jahitan.index')
-            ->with('success', 'Order created successfully!');
-    }
-    
-
-    // Admin - List all orders
+    // Tampilkan daftar pemesanan jahitan (admin)
     public function index()
     {
-        $pemesananJahitan = JahitanOrder::paginate(10); // Pakai paginate
-        return view('admins.adminPemesananJahitan', compact('pemesananJahitan'));
+        if (Auth::user()->role === 'admin') {
+            $pemesananJahitan = PemesananJahitan::paginate(10);
+            return view('admins.pemesanan_jahitan.index', compact('pemesananJahitan'));
+        }
+
+        // User hanya melihat data miliknya
+        $pemesananJahitan = PemesananJahitan::where('user_id', Auth::id())->get();
+        return view('users.pemesanan_jahitan.pemesanan_jahitan', compact('pemesananJahitan'));
     }
 
-    // Admin - Show detail
-    public function show($id)
+    // Form create pemesanan jahitan (user/admin)
+    public function create()
     {
-        $pemesananJahitan = JahitanOrder::findOrFail($id);
-        return view('admins.pemesanan_jahitan_detail', compact('pemesananJahitan'));
+        if (Auth::user()->role === 'admin') {
+            return view('admins.pemesanan_jahitan.create');
+        } else {
+            return view('users.pemesanan_jahitan.pemesanan_jahitan');
+        }
     }
 
-    // Admin - Edit order form
-    public function edit($id)
-
+    // Simpan data pemesanan baru
+    public function store(Request $request)
     {
-        $pemesananJahitan = JahitanOrder::findOrFail($id);
-        return view('admins.pemesanan_jahitan_edit', compact('pemesananJahitan'));
-    }
-
-    // Admin - Update order
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string',
-            'jenis' => 'required|string|in:Kemeja,Gaun,Kebaya',
-            'bahan' => 'required|string|in:Brokat,Renda,Katun,Linen,Flanel',
-            'warna' => 'required|string|max:255',
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:20',
+            'alamat' => 'required|string',
+            'jenis_pakaian' => 'required|string',
+            'bahan' => 'required|string',
+            'warna' => 'required|string',
             'ukuran' => 'required|string',
+            'referensi_gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
-        $order = JahitanOrder::findOrFail($id);
-        $order->update($validatedData);
+        $data = $request->only([
+            'nama', 'no_hp', 'alamat', 'jenis_pakaian', 'bahan', 'warna', 'ukuran'
+        ]);
+        $data['user_id'] = Auth::id();
+        $data['status'] = 'pending';
 
-        return redirect()->route('admins.pemesanan-jahitan.index')->with('success', 'Order updated successfully!');
+        if ($request->hasFile('referensi_gambar')) {
+            $data['referensi_gambar'] = $request->file('referensi_gambar')->store('referensi_gambar', 'public');
+        }
+
+        PemesananJahitan::create($data);
+
+        return redirect()->route(Auth::user()->role === 'admin' ? 'admins.pemesanan-jahitan.index' : 'user.pemesanan_jahitan.create')
+            ->with('success', 'Pemesanan jahitan berhasil ditambahkan.');
     }
 
-    // Admin - Delete order
+    // Tampilkan detail pemesanan jahitan
+    public function show($id)
+    {
+        $pemesananJahitan = PemesananJahitan::findOrFail($id);
+        return view('admins.pemesanan_jahitan.show', compact('pemesananJahitan'));
+    }
+
+    // Form edit pemesanan jahitan
+    public function edit($id)
+    {
+        $pemesananJahitan = PemesananJahitan::findOrFail($id);
+
+        if (Auth::user()->role !== 'admin' && $pemesananJahitan->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $view = Auth::user()->role === 'admin' ? 'admins.pemesanan_jahitan.edit' : 'users.pemesanan_jahitan.edit';
+
+        return view($view, compact('pemesananJahitan'));
+    }
+
+    // Update data pemesanan jahitan
+    public function update(Request $request, $id)
+    {
+        $pemesananJahitan = PemesananJahitan::findOrFail($id);
+
+        if (Auth::user()->role !== 'admin' && $pemesananJahitan->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:20',
+            'alamat' => 'required|string',
+            'jenis_pakaian' => 'required|string',
+            'bahan' => 'required|string',
+            'warna' => 'required|string',
+            'ukuran' => 'required|string',
+            'status' => 'required|in:pending,selesai',
+            'referensi_gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+        ]);
+
+        $data = $request->only([
+            'nama', 'no_hp', 'alamat', 'jenis_pakaian', 'bahan', 'warna', 'ukuran', 'status'
+        ]);
+
+        if ($request->hasFile('referensi_gambar')) {
+            $data['referensi_gambar'] = $request->file('referensi_gambar')->store('referensi_gambar', 'public');
+        }
+
+        $pemesananJahitan->update($data);
+
+        return redirect()->route(Auth::user()->role === 'admin' ? 'admins.pemesanan-jahitan.index' : 'user.pemesanan-jahitan.index')
+            ->with('success', 'Pemesanan berhasil diperbarui.');
+    }
+
+    // Hapus pemesanan jahitan
     public function destroy($id)
     {
-        $order = JahitanOrder::findOrFail($id);
-        $order->delete();
+        $pemesananJahitan = PemesananJahitan::findOrFail($id);
 
-        return redirect()->route('admins.pemesanan-jahitan.index')->with('success', 'Order deleted successfully!');
+        if (Auth::user()->role !== 'admin' && $pemesananJahitan->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $pemesananJahitan->delete();
+
+        return redirect()->route(Auth::user()->role === 'admin' ? 'admins.pemesanan-jahitan.index' : 'user.pemesanan-jahitan.index')
+            ->with('success', 'Pemesanan berhasil dihapus.');
     }
 }

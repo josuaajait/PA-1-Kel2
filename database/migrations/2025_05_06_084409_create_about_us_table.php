@@ -15,6 +15,9 @@ class CreateAboutUsTable extends Migration
             $table->text('visi');       // Visi about us
             $table->text('misi');       // Misi about us
             $table->boolean('is_active')->default(true); // To show or hide this entry
+
+            $table->unsignedBigInteger('user_id'); // Kolom untuk foreign key
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

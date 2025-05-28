@@ -5,19 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JahitanOrder extends Model
+class PemesananJahitan extends Model
 {
     use HasFactory;
 
-    protected $table = 'jahitan_orders';
+    protected $table = 'pemesanan_jahitans';
 
     protected $fillable = [
-        'name',
-        'phone',
-        'address',
-        'jenis',
+        'nama',
+        'no_hp',
+        'alamat',
+        'jenis_pakaian',
         'bahan',
         'warna',
-        'ukuran'
+        'ukuran',
+        'referensi_gambar',
+        'status',
+        'user_id',
     ];
 }

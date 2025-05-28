@@ -46,8 +46,8 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="{{ route('about.edit', $aboutUs->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('about.destroy', $aboutUs->id) }}" method="POST" style="display:inline;">
+                                <a href="{{ route('admins.about.edit', $aboutUs->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ route('admins.about.destroy', $aboutUs->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>

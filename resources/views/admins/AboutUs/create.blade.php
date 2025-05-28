@@ -20,7 +20,7 @@
                 <div class="container mt-4">
                     <h2>Tambah Data About Us</h2>
 
-                    <form method="POST" action="{{ route('about.store') }}">
+                    <form method="POST" action="{{ route('admins.about.store') }}">
                         @csrf
 
                         <div class="mb-3">

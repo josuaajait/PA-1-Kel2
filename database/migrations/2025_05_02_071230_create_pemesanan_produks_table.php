@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('pemesanan_produk', function (Blueprint $table) {
+    Schema::create('pemesanan_produks', function (Blueprint $table) {
         $table->id();
         $table->foreignId('produk_id')->constrained('produks')->onDelete('cascade');  // Relasi ke produk
         $table->string('jenis_pakaian');
@@ -21,7 +21,10 @@ return new class extends Migration
         $table->text('alamat');
         $table->integer('jumlah');
         $table->decimal('total_harga', 10, 2);
-        $table->enum('status', ['pending', 'diproses', 'dikirim', 'selesai']);
+        $table->enum('status', ['pending', 'diproses', 'selesai'])->default('pending');
+
+        $table->unsignedBigInteger('user_id'); // Kolom untuk foreign key
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         $table->timestamps();
     });
 }

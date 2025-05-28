@@ -3,39 +3,53 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ModifikasiJahitan; // Ganti model ke ModifikasiJahitan
-// use Illuminate\Support\Facades\Auth; // Tidak diperlukan jika hanya admin
+use App\Models\ModifikasiJahitan;
+use App\Models\PemesananJahitan;
+use App\Models\PemesananProduk;
 
 class ModifikasiJahitanController extends Controller
 {
     // Menerapkan middleware ke semua method di controller ini
     // Mengikuti contoh, user biasa tidak bisa akses CRUD admin ini
-    public function __construct()
-    {
-        $this->middleware('auth'); // Semua harus login
-        $this->middleware('admin'); // Semua method ini hanya untuk admin
-    }
 
     /**
      * Admin - Menampilkan daftar semua modifikasi jahitan. (READ - List)
      */
     public function index()
     {
-        // Ambil data modifikasi jahitan dengan pagination
+        $pemesananProduk = PemesananProduk::all(); // atau paginate, filter, dll
+        $pemesananJahitan = PemesananJahitan::all(); // atau paginate, filter, dll  
+
         $daftarModifikasiJahitan = ModifikasiJahitan::orderBy('created_at', 'desc')->paginate(10); // Urutkan dari terbaru
         // Kirim data ke view admin
-        return view('admins.modifikasi_jahitan.index', compact('daftarModifikasiJahitan')); // Sesuaikan path view
+        return view('admins.modifikasi_jahitan.index', compact('pemesananProduk', 'pemesananJahitan')); // Sesuaikan path view
     }
 
     /**
      * Admin - Menampilkan form untuk membuat modifikasi jahitan baru. (CREATE - Form)
      * Kita buat method create terpisah untuk admin
      */
-    public function create()
+    public function create(Request $request)
     {
-        // Tampilkan view form tambah modifikasi jahitan untuk admin
-        return view('admins.modifikasi_jahitan.create'); // Sesuaikan path view
+        $type = $request->query('type'); // produk atau jahitan
+        $id = $request->query('id');
+
+        $pemesananProduk = PemesananProduk::where('status', 'selesai')->get();
+        $pemesananJahitan = PemesananJahitan::where('status', 'selesai')->get();
+
+        // Ambil data spesifik berdasarkan type dan id untuk prefill form (jika perlu)
+        if ($type === 'produk') {
+            $data = PemesananProduk::findOrFail($id);
+        } elseif ($type === 'jahitan') {
+            $data = PemesananJahitan::findOrFail($id);
+        } else {
+            abort(404);
+        }
+
+        return view('admins.modifikasi_jahitan.create', compact('pemesananProduk', 'pemesananJahitan', 'data', 'type'));
     }
+
+
 
     /**
      * Admin - Menyimpan modifikasi jahitan baru ke database. (CREATE - Save)
@@ -43,21 +57,34 @@ class ModifikasiJahitanController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input data dari form admin
-        $validatedData = $request->validate([
-            'nama'          => 'required|string|max:255',
-            'catatan'       => 'nullable|string', // Catatan boleh kosong
-            'jenis_pakaian' => 'required|string|max:255',
+        $request->validate([
+            'pemesanan_id' => 'required',
+            'catatan' => 'required|string',
         ]);
 
-        // Buat record baru di database
-        ModifikasiJahitan::create($validatedData);
+        [$type, $id] = explode('-', $request->pemesanan_id);
 
-        // Redirect ke halaman index admin dengan pesan sukses
-        return redirect()
-            ->route('admins.modifikasi-jahitan.index') // Sesuaikan nama route
-            ->with('success', 'Data Modifikasi Jahitan berhasil ditambahkan!');
+        if ($type === 'produk') {
+            $pemesanan = PemesananProduk::findOrFail($id);
+            $nama = $pemesanan->nama;
+            $jenis = $pemesanan->nama_produk;
+        } else {
+            $pemesanan = PemesananJahitan::findOrFail($id);
+            $nama = $pemesanan->nama;
+            $jenis = $pemesanan->jenis_pakaian;
+        }
+
+        ModifikasiJahitan::create([
+            'user_id' => auth()->id(),  // Jangan lupa isi user_id
+            'nama' => $nama,
+            'jenis_pakaian' => $jenis,
+            'catatan' => $request->catatan,
+        ]);
+
+        return redirect()->route('admins.modifikasi-jahitan.index')->with('success', 'Data modifikasi berhasil disimpan.');
     }
+
+
 
     /**
      * Admin - Menampilkan detail spesifik modifikasi jahitan. (READ - Detail)
@@ -119,4 +146,31 @@ class ModifikasiJahitanController extends Controller
             ->route('admins.modifikasi-jahitan.index') // Sesuaikan nama route
             ->with('success', 'Data Modifikasi Jahitan berhasil dihapus!');
     }
+
+        // Untuk menampilkan form create (view)
+        public function createCustomer()
+        {
+            return view('users.modifikasi_jahitan.create');
+        }
+
+        // Untuk menyimpan data dari user
+        public function storeCustomer(Request $request)
+        {
+            $request->validate([
+                'nama' => 'required|string|max:255',
+                'jenis_pakaian' => 'required|string|max:255',
+                'catatan' => 'required|string',
+            ]);
+
+            ModifikasiJahitan::create([
+                'user_id' => auth()->id(),
+                'nama' => $request->nama,
+                'jenis_pakaian' => $request->jenis_pakaian,
+                'catatan' => $request->catatan,
+            ]);
+
+            return redirect()->back()->with('success', 'Pengajuan modifikasi berhasil dikirim.');
+        }
+
+
 }

@@ -10,13 +10,13 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ url('/admin') }}">
+                <a class="sidebar-link" href="{{ url('/admin/dashboard') }}">
                     <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
                 </a>
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ url('/admin/about') }}">
+                <a class="sidebar-link" href="{{ route('about.index') }}">
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">Tentang Kami</span>
                 </a>
             </li>
@@ -46,12 +46,27 @@
                 </a>
             </li>
 
+            <!-- Menu Pengelolaan Profil Customer -->
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ url('/admin/customers') }}">
+                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Kelola Customer</span>
+                </a>
+            </li>
+
+            <!-- Menu Riwayat Seluruh Pemesanan -->
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ url('/admin/riwayat-pemesanan') }}">
+                    <i class="align-middle" data-feather="clock"></i> <span class="align-middle">Riwayat Pemesanan</span>
+                </a>
+            </li>
+
             <li class="sidebar-item">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-link align-middle">Logout</button>
                 </form>
             </li>
+
         </ul>
     </div>
 </nav>

@@ -18,8 +18,8 @@
         <div class="col-lg-2 col-6 footer-links">
           <h4>Links</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="{{route('home')}}">Home</a></li>
+            <li><a href="{{route('about.index')}}">About</a></li>
           </ul>
         </div>
 

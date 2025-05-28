@@ -1,5 +1,4 @@
-<header id="header" class="header d-flex align-items-center fixed-top bg-transparent shadow">
-
+<header id="header" class="header d-flex align-items-center fixed-top bg-transparent">
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
         <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto me-xl-0">
@@ -16,15 +15,17 @@
                         <li><a href="{{ route('admins.produk.index') }}" class="{{ Request::is('admin/produk*') ? 'active' : '' }}">Produk</a></li>
                         <li><a href="{{ route('admins.modifikasi-jahitan.index') }}" class="{{ Request::is('admin/modifikasi-jahitan*') ? 'active' : '' }}">Modifikasi Jahitan</a></li>
                     @else
-                        <li><a href="{{ route('users.produk') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
+                        <li><a href="{{ route('user.produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
                     @endif
                 @else
-                    <li><a href="{{ route('users.produk') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
+                    <li><a href="{{ route('user.produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
                 @endauth
+                <li><a href="{{ url('/user/pemesanan-jahitan') }}" class="{{ Request::is('pemesanan-jahitan') ? 'active' : '' }}">Jahit Produk</a></li>
 
-                <li><a href="{{ url('/pemesanan-jahitan') }}" class="{{ Request::is('pemesanan-jahitan') ? 'active' : '' }}">Jahit Produk</a></li>
+                <li><a href="{{ route('user.modifikasi-jahitan.create') }}" class="{{ Request::is('modifikasi-jahitan') ? 'active' : '' }}">Ajukan Modifikasi</a></li>
 
-                <li><a href="{{ url('/ajukan-modifikasi') }}" class="{{ Request::is('ajukan-modifikasi') ? 'active' : '' }}">Ajukan Modifikasi</a></li>
+                
+                <li><a href="{{ url('/user/riwayat-pemesanan') }}" class="{{ Request::is('riwayat-pemesanan') ? 'active' : '' }}">Riwayat Pemesanan</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
@@ -35,7 +36,7 @@
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ URL::asset('adminimg/avatars/avatar.jpg') }}" alt="Profile" class="rounded-circle"
                         width="40" height="40">
-                    <span class="ms-2">{{ auth()->user()->name }}</span>
+                    <span class="ms-2">{{ auth()->user()->nama }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                     <li><a class="dropdown-item" href="{{ route('profil') }}">Profil</a></li>

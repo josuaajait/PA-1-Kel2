@@ -166,8 +166,7 @@
     let template = '';
 
     if (jenis === 'kemeja') {
-      template = `
-Lingkar Dada    : 
+      template = `Lingkar Dada    : 
 Lingkar Pinggang: 
 Lingkar Pinggul : 
 Lebar Bahu      : 
@@ -178,8 +177,7 @@ Lingkar Leher   :
 Tinggi Badan    : `;
 
     } else if (jenis === 'kebaya') {
-      template = `
-Lingkar Dada    : 
+      template = `Lingkar Dada    : 
 Lingkar Pinggang: 
 Lingkar Pinggul : 
 Lebar Bahu      : 
@@ -190,8 +188,7 @@ Lingkar Leher   :
 Tinggi Badan    : `;
 
     } else if (jenis === 'gaun') {
-      template = `
-Lingkar Dada        : 
+      template = `Lingkar Dada        : 
 Lingkar Pinggang    : 
 Lingkar Pinggul     : 
 Lebar Bahu          : 

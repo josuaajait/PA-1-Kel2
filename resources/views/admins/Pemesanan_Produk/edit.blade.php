@@ -25,7 +25,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-body">
-									<form action="{{ route('admins.pemesanan-produk.update', $pemesananProduk->id) }}" method="POST">
+									<form action="{{ route('admins.pemesanan-produk.update', $pemesananProduk->pemesanan_produk_id) }}" method="POST">
 										@csrf
 										@method('PUT')
 
@@ -47,11 +47,6 @@
 										<div class="mb-3">
 											<label class="form-label">Alamat</label>
 											<textarea name="alamat" class="form-control" required>{{ old('alamat', $pemesananProduk->alamat) }}</textarea>
-										</div>
-
-										<div class="mb-3">
-											<label class="form-label">Jumlah</label>
-											<input type="number" name="jumlah" value="{{ old('jumlah', $pemesananProduk->jumlah) }}" class="form-control" required>
 										</div>
 
 										<div class="mb-3">

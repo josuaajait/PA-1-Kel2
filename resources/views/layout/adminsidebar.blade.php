@@ -29,13 +29,13 @@
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="{{ url('/admin/pemesanan-jahitan') }}">
-                    <i class="align-middle" data-feather="edit"></i> <span class="align-middle">Pemesanan Jahit</span>
+                    <i class="align-middle" data-feather="edit"></i> <span class="align-middle">Pemesanan Jahitan</span>
                 </a>
             </li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="{{ url('/admin/modifikasi-jahitan') }}">
-                    <i class="align-middle" data-feather="edit"></i> <span class="align-middle">Modifikasi Jahit</span>
+                    <i class="align-middle" data-feather="edit"></i> <span class="align-middle">Modifikasi Jahitan</span>
                 </a>
             </li>
 

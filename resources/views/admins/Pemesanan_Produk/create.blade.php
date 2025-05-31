@@ -31,14 +31,24 @@
                                     <select class="form-control" id="produk_id" name="produk_id" required>
                                         <option value="">-- Pilih Produk --</option>
                                         @foreach($produks as $produk)
-                                            <option value="{{ $produk->id }}"
-                                                data-jenis="{{ $produk->jenis_pakaian }}"
+                                            <option value="{{ $produk->produk_id }}"
+                                                data-ukuran="{{ $produk->ukuran }}"
                                                 data-harga="{{ $produk->harga }}"
-                                                {{ old('produk_id') == $produk->id ? 'selected' : '' }}>
+                                                data-jenis="{{ $produk->jenis_pakaian }}">
                                                 {{ $produk->nama }}
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ukuran" class="form-label">Ukuran</label>
+                                    <input type="text" class="form-control" id="ukuran" name="ukuran" readonly>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="harga" class="form-label">Harga (Rp)</label>
+                                    <input type="text" class="form-control" id="harga" name="harga" readonly>
                                 </div>
 
                                 <div class="mb-3">
@@ -61,22 +71,6 @@
                                     <textarea class="form-control" id="alamat" name="alamat" rows="3" required>{{ old('alamat') }}</textarea>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="jumlah" class="form-label">Jumlah</label>
-                                    <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ old('jumlah', 1) }}" min="1" required />
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="status" class="form-label">Status</label>
-                                    <select name="status" id="status" class="form-control" required>
-                                        <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="diproses" {{ old('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
-                                        <option value="dikirim" {{ old('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
-                                        <option value="selesai" {{ old('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                        <option value="batal" {{ old('status') == 'batal' ? 'selected' : '' }}>Batal</option>
-                                    </select>
-                                </div>
-
                                 <button type="submit" class="btn btn-primary">Simpan Pemesanan</button>
                                 <a href="{{ route('admins.pemesanan-produk.index') }}" class="btn btn-secondary">Batal</a>
                             </form>
@@ -89,35 +83,28 @@
     </div>
 
     @include('layout.adminscript')
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const produkSelect = document.getElementById('produk_id');
-            const jumlahInput = document.getElementById('jumlah');
-
-            function updateTotalHarga() {
-                const selectedOption = produkSelect.options[produkSelect.selectedIndex];
-                const harga = Number(selectedOption.getAttribute('data-harga')) || 0;
-                const jumlah = Number(jumlahInput.value) || 1;
-                const total = harga * jumlah;
-
-                let totalHargaDisplay = document.getElementById('total_harga_display');
-                if (!totalHargaDisplay) {
-                    totalHargaDisplay = document.createElement('div');
-                    totalHargaDisplay.id = 'total_harga_display';
-                    jumlahInput.parentNode.appendChild(totalHargaDisplay);
-                }
-                totalHargaDisplay.textContent = `Total Harga: Rp ${total.toLocaleString('id-ID')}`;
-            }
-
-            produkSelect.addEventListener('change', updateTotalHarga);
-            jumlahInput.addEventListener('input', updateTotalHarga);
-            updateTotalHarga();
-        });
-    </script>
 </body>
 
 @include('layout.adminfooter')
 
 </html>
-    
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const produkSelect = document.getElementById('produk_id');
+        const ukuranInput = document.getElementById('ukuran');
+        const hargaInput = document.getElementById('harga');
+
+        produkSelect.addEventListener('change', function () {
+            const selected = produkSelect.options[produkSelect.selectedIndex];
+
+            const ukuran = selected.getAttribute('data-ukuran');
+            const harga = selected.getAttribute('data-harga');
+
+            ukuranInput.value = ukuran ?? '';
+            hargaInput.value = harga ?? '';
+        });
+
+        // Trigger once on load in case there's a default value selected
+        produkSelect.dispatchEvent(new Event('change'));
+    });
+</script>

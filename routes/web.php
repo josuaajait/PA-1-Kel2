@@ -33,9 +33,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
     Route::get('/dashboard', [AdminController::class, 'index'])->name('adminDashboard');
 
     Route::get('/profile', [AdminController::class, 'profile'])->name('adminProfile');
-    Route::get('/pemesanan', [AdminController::class, 'pemesanan'])->name('adminPemesanan');
-    Route::get('/modifikasi', [AdminController::class, 'modifikasi'])->name('adminModifikasi');
-
 
     // Produk management (Admin)
     Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index'); 
@@ -74,8 +71,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
     Route::get('/riwayat-pemesanan', [RiwayatPemesananController::class, 'index'])->name('riwayatpemesanan.history');
 
     // ==================== CRUD MODIFIKASI JAHITAN (ADMIN) ====================
-    Route::resource('/modifikasi-jahitan', ModifikasiJahitanController::class);
-
+    Route::resource('modifikasi-jahitan', ModifikasiJahitanController::class);
     // ==================== AKHIR CRUD MODIFIKASI JAHITAN (ADMIN) ====================
 
     // ==================== CRUD ABOUT US (ADMIN) ====================
@@ -87,12 +83,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
     Route::put('/about/{id}', [AboutUsController::class, 'update'])->name('about.update');
     Route::delete('/about/{id}', [AboutUsController::class, 'destroy'])->name('about.destroy');
     Route::post('/about/{id}/activate', [AboutUsController::class, 'activate'])->name('about.activate');
-    
     // ==================== AKHIR CRUD ABOUT US (ADMIN) ====================
-
-    // ==================== CRUD REGISTRATIONS (ADMIN) ====================
-
-
 }); // Akhir dari group middleware admin
 
 // ==================== USER ROUTES ====================

@@ -26,7 +26,7 @@
                 <div class="row">
                     @foreach($produks as $produk)
                         <div class="col-md-3">
-                            <div class="card mb-4 h-80">
+                            <div class="card mb-4 ">
                                 <img src="{{ asset('storage/produk_images/' . $produk->gambar) }}" class="card-img-top" alt="{{ $produk->nama }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $produk->nama }}</h5>

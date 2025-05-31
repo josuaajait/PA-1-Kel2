@@ -22,7 +22,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>ID Pemesanan Jahitan</th>
                             <th>Nama</th>
                             <th>Jenis Pakaian</th>
                             <th>Status</th>
@@ -32,7 +32,7 @@
                     <tbody>
                         @foreach($pemesananJahitans as $pj)
                             <tr>
-                                <td>{{ $pj->id }}</td>
+                                <td>{{ $pj->pemesanan_jahitan_id }}</td>
                                 <td>{{ $pj->nama }}</td>
                                 <td>{{ $pj->jenis_pakaian }}</td>
                                 <td>{{ ucfirst($pj->status) }}</td>
@@ -49,24 +49,26 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>ID Pemesanan Produk</th>
                             <th>Nama</th>
                             <th>Produk</th>
-                            <th>Jumlah</th>
+                            <th>Harga</th>
                             <th>Status</th>
                             <th>Tanggal Pesan</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($pemesananProduks as $pp)
+                            @foreach($pp->produks as $produk)
                             <tr>
-                                <td>{{ $pp->id }}</td>
+                                <td>{{ $pp->pemesanan_produk_id }}</td>
                                 <td>{{ $pp->nama }}</td>
-                                <td>{{ $pp->produk->jenis_pakaian ?? '-' }}</td>
-                                <td>{{ $pp->jumlah }}</td>
+                                <td>{{ $produk->pivot->nama_produk ?? $produk->nama ?? '-' }}</td>
+                                <td>Rp {{ number_format($pp->total_harga, 0, ',', '.') }}</td>
                                 <td>{{ ucfirst($pp->status) }}</td>
                                 <td>{{ $pp->created_at->format('d M Y') }}</td>
                             </tr>
+                            @endforeach
                         @endforeach
                     </tbody>
                 </table>

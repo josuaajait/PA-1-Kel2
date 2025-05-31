@@ -32,8 +32,7 @@
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row align-items-xl-center gy-5">
             <div class="col-xl-12">
-                <h3>Produk</h3>
-                <h2>Our Products</h2>
+                <h2>Produk Kami</h2>
                 <div class="row">
                     @foreach($produks as $produk)
                         <div class="col-md-3">
@@ -42,7 +41,6 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $produk->nama }}</h5>
                                     <p><strong>Jenis Pakaian:</strong> {{ $produk->jenis_pakaian }}</p>
-                                    <p><strong>Deskripsi:</strong> {{ $produk->deskripsi }}</p>
                                     <p><strong>Harga:</strong> {{ $produk->harga }}</p>
                                     <p><strong>Stok:</strong> {{ $produk->stok }}</p>
                                     <p><strong>Ukuran:</strong> {{ $produk->ukuran }}</p>
@@ -53,8 +51,14 @@
                                             {{ ucfirst($produk->status) }}
                                         </span>
                                     </p>
-                                    <a href="{{ route('user.pemesanan-produk.index', $produk->id) }}" class="btn btn-primary">Order Now</a>
-                                </div>
+                                    @auth
+                                    <a href="{{ route('user.pemesanan-produk.create', $produk->id) }}" class="btn btn-primary">Order Now</a>
+                                @endauth
+
+                                @guest
+                                    <a href="{{ route('login') }}" class="btn btn-primary">Login to Order</a>
+                                @endguest
+                                  </div>
                             </div>
                         </div>
                     @endforeach

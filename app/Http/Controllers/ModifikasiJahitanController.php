@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ModifikasiJahitan;
 use App\Models\PemesananJahitan;
 use App\Models\PemesananProduk;
+use App\Models\Produk;
 
 class ModifikasiJahitanController extends Controller
 {
@@ -17,12 +18,11 @@ class ModifikasiJahitanController extends Controller
      */
     public function index()
     {
-        $pemesananProduk = PemesananProduk::all(); // atau paginate, filter, dll
-        $pemesananJahitan = PemesananJahitan::all(); // atau paginate, filter, dll  
-
+        $pemesananProduk = PemesananProduk::where('status', 'selesai')->get();
+        $pemesananJahitans = PemesananJahitan::where('status', 'selesai')->get();
         $daftarModifikasiJahitan = ModifikasiJahitan::orderBy('created_at', 'desc')->paginate(10); // Urutkan dari terbaru
         // Kirim data ke view admin
-        return view('admins.modifikasi_jahitan.index', compact('pemesananProduk', 'pemesananJahitan')); // Sesuaikan path view
+        return view('admins.modifikasi_jahitan.index', compact('pemesananProduk', 'pemesananJahitans'));
     }
 
     /**
@@ -33,21 +33,23 @@ class ModifikasiJahitanController extends Controller
     {
         $type = $request->query('type'); // produk atau jahitan
         $id = $request->query('id');
-
+        
         $pemesananProduk = PemesananProduk::where('status', 'selesai')->get();
         $pemesananJahitan = PemesananJahitan::where('status', 'selesai')->get();
 
         // Ambil data spesifik berdasarkan type dan id untuk prefill form (jika perlu)
         if ($type === 'produk') {
-            $data = PemesananProduk::findOrFail($id);
+            $data = PemesananProduk::with('produks')->where('pemesanan_produk_id', $id)->firstOrFail();
+
         } elseif ($type === 'jahitan') {
-            $data = PemesananJahitan::findOrFail($id);
-        } else {
-            abort(404);
+            $data = PemesananJahitan::where('pemesanan_jahitan_id', $id)->firstOrFail();
+
         }
 
+
+        
         return view('admins.modifikasi_jahitan.create', compact('pemesananProduk', 'pemesananJahitan', 'data', 'type'));
-    }
+    }       
 
 
 
@@ -80,7 +82,7 @@ class ModifikasiJahitanController extends Controller
             'jenis_pakaian' => $jenis,
             'catatan' => $request->catatan,
         ]);
-
+        
         return redirect()->route('admins.modifikasi-jahitan.index')->with('success', 'Data modifikasi berhasil disimpan.');
     }
 

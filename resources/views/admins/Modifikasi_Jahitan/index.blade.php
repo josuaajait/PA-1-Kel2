@@ -20,49 +20,47 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Produk</th>
-                                <th>Jumlah</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pemesananProduk as $index => $produk)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $produk->nama }}</td>
-                                    <td>{{ $produk->nama_produk }}</td>
-                                    <td>{{ $produk->jumlah }}</td>
-                                    <td>{{ $produk->status ?? '-' }}</td>
-                                    <td>
-                                        <a href="{{ route('admins.modifikasi-jahitan.create', ['type' => 'produk', 'id' => $produk->id]) }}" class="btn btn-primary btn-sm">Modifikasi</a>
-                                    </td>
-                                </tr>
+                            @foreach ($pemesananProduk as $index => $pemesanan)
+                                @foreach ($pemesanan->produks as $produk)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $pemesanan->nama }}</td> <!-- nama pemesan -->
+                                        <td>{{ $produk->pivot->nama_produk ?? $produk->nama ?? '-' }}</td> <!-- nama produk -->
+                                        <td>{{ $pemesanan->status ?? '-' }}</td>
+                                        <td>
+                                            <a href="{{ route('admins.modifikasi-jahitan.create') }}?type=produk&id={{ $pemesanan->pemesanan_produk_id }}" class="btn btn-primary btn-sm">Modifikasi</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         </tbody>
                     </table>
-
+                    <br><br>
                     <h2>Pemesanan Jahitan</h2>
-                    <table class="table table-bordered mt-5">
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Jenis Pakaian</th>
-                                <th>Catatan</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pemesananJahitan as $index => $jahitan)
+                           @foreach ($pemesananJahitans as $index => $jahitan)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $jahitan->nama }}</td>
                                     <td>{{ $jahitan->jenis_pakaian }}</td>
-                                    <td>{{ $jahitan->catatan ?? '-' }}</td>
                                     <td>{{ $jahitan->status ?? '-' }}</td>
                                     <td>
-                                        <a href="{{ route('admins.modifikasi-jahitan.create', ['type' => 'jahitan', 'id' => $jahitan->id]) }}" class="btn btn-primary btn-sm">Modifikasi</a>
+                                        <a href="{{ route('admins.modifikasi-jahitan.create') }}?type=jahitan&id={{ $jahitan->pemesanan_jahitan_id }}" class="btn btn-primary btn-sm">Modifikasi</a>
                                     </td>
                                 </tr>
                             @endforeach

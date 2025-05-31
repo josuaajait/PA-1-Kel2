@@ -28,8 +28,11 @@
                         <input type="text" name="nama" class="form-control" value="{{ $data->nama }}" readonly>
                     </div>
                     <div class="mb-3">
-                        <label>Jenis Pakaian / Produk</label>
-                        <input type="text" name="jenis_pakaian" class="form-control" value="{{ $type === 'produk' ? $data->nama_produk : $data->jenis_pakaian }}" readonly>
+                        <label>{{ $type === 'produk' ? 'Nama Produk' : 'Jenis Pakaian' }}</label>
+                        <input type="text" name="jenis_pakaian" class="form-control"
+                        value="{{ $type === 'produk' ? $data->produks[0]->nama : $data->jenis_pakaian }}"
+                        readonly>
+
                     </div>
                     <div class="mb-3">
                         <label>Catatan Modifikasi</label>

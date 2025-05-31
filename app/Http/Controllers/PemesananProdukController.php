@@ -6,21 +6,24 @@ use Illuminate\Http\Request;
 use App\Models\PemesananProduk;
 use App\Models\Produk;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PemesananProdukController extends Controller
 {
     public function index()
     {
         if (Auth::user()->role === 'admin') {
-            $pemesananJahitan = PemesananProduk::with(['user', 'produk'])->paginate(10);
-            return view('admins.pemesanan_jahitan.index', compact('pemesananJahitan'));
+            $produks = Produk::all();
+            $pemesananProduks = PemesananProduk::with(['user', 'produks'])->paginate(10);
+
+            return view('admins.pemesanan_produk.index', compact('produks', 'pemesananProduks'));
         }
 
-        $pemesananJahitan = PemesananProduk::with('produk')
+        $pemesananProduks = PemesananProduk::with('produks')
             ->where('user_id', Auth::id())
             ->get();
 
-        return view('users.pemesanan_produk.pemesanan_produk', compact('pemesananJahitan'));
+        return view('users.pemesanan_produk.pemesanan_produk', compact('pemesananProduks'));
     }
 
     public function create()
@@ -36,34 +39,51 @@ class PemesananProdukController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
-            'produk_id' => 'required|exists:produks,id',
+            'produk_id' => 'required|exists:produks,produk_id',
+            'nama' => 'required|string',
+            'email' => 'required|email',
+            'nomor_telepon' => 'required|string',
+            'alamat' => 'required|string',
         ]);
 
-        PemesananProduk::create([
-            'user_id' => Auth::id(),
-            'produk_id' => $request->produk_id,
-            'status' => 'pending',
+        $produk = Produk::findOrFail($request->produk_id);
+        
+        // Buat pemesanan baru dengan status default 'pending'
+        $pemesanan = PemesananProduk::create([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'nomor_telepon' => $request->nomor_telepon,
+            'alamat' => $request->alamat,
+            'status' => 'diproses',  // default pending
+            'user_id' => auth()->id(),
+            'total_harga' => $produk->harga,
+            'jenis_pakaian' => $produk->jenis_pakaian,
         ]);
 
-        if (Auth::user()->role === 'admin') {
-            return redirect()->route('admins.pemesanan-produk.index')
-                ->with('success', 'Pemesanan produk berhasil ditambahkan.');
-        } else {
-            return redirect()->route('user.produk.index')
-                ->with('success', 'Pemesanan produk berhasil ditambahkan.');
-        }
+        // Attach produk ke pemesanan lewat pivot
+        $pemesanan->produks()->attach($produk->produk_id, [
+            'nama_produk' => $produk->nama,
+            'harga' => $produk->harga,
+        ]);
+       
+        
+        return redirect()->route('admins.pemesanan-produk.index')
+            ->with('success', 'Pemesanan produk berhasil ditambahkan dengan status pending.');
     }
+
+
 
     public function show($id)
     {
-        $pemesananProduk = PemesananProduk::with(['produk', 'user'])->findOrFail($id);
+        $pemesananProduk = PemesananProduk::with(['produks', 'user'])->findOrFail($id);
         return view('admins.pemesanan_produk.show', compact('pemesananProduk'));
     }
 
     public function edit($id)
     {
-        $pemesananProduk = PemesananProduk::with(['produk', 'user'])->findOrFail($id);
+        $pemesananProduk = PemesananProduk::with(['produks', 'user'])->findOrFail($id);
         return view('admins.pemesanan_produk.edit', compact('pemesananProduk'));
     }
 
@@ -81,11 +101,14 @@ class PemesananProdukController extends Controller
             ->with('success', 'Pemesanan berhasil diperbarui.');
     }
 
-    public function destroy(PemesananProduk $pemesananProduk)
+    public function destroy($id)
     {
+        $pemesananProduk = PemesananProduk::findOrFail($id);
+        $pemesananProduk->produks()->detach();
         $pemesananProduk->delete();
 
         return redirect()->route('admins.pemesanan-produk.index')
             ->with('success', 'Pemesanan berhasil dihapus.');
     }
+
 }

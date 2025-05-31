@@ -44,7 +44,6 @@ class ProdukController extends Controller
             'deskripsi' => 'required|string',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
-            'stok' => 'required|integer|min:0',
             'status' => 'required|in:tersedia,tidak tersedia',
             'ukuran' => 'nullable|string',
             'warna' => 'nullable|string',
@@ -60,8 +59,8 @@ class ProdukController extends Controller
         $validated['user_id'] = Auth::id(); // Simpan id pembuat produk
 
         Produk::create($validated);
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan.');
 
-        return redirect()->route('admins.produk.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     public function edit(Produk $produk)
@@ -80,7 +79,6 @@ public function update(Request $request, Produk $produk)
         'jenis_pakaian'=>'required|string',
         'harga' => 'required|numeric',
         'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
-        'stok' => 'required|integer|min:0',
         'status' => 'required|in:tersedia,tidak tersedia',
         'ukuran' => 'nullable|string',
         'warna' => 'nullable|string',
@@ -100,7 +98,7 @@ public function update(Request $request, Produk $produk)
 
     $produk->update($validated);
 
-    return redirect()->route('admins.produk.index')->with('success', 'Produk berhasil diperbarui.');
+    return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     public function destroy(Produk $produk)

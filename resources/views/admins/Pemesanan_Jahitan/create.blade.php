@@ -45,14 +45,15 @@
 											<input name="alamat" class="form-control" required></input>
 										</div>
 
+										<!-- Form Pilihan -->
 										<div class="mb-3">
-											<label for="jenis_pakaian" class="form-label">Jenis Pakaian</label>
-											<select name="jenis_pakaian" class="form-control" required>
-												<option value="">-- Pilih Jenis --</option>
-												<option value="Kemeja">Kemeja</option>
-												<option value="Gaun">Gaun</option>
-												<option value="Kebaya">Kebaya</option>
-											</select>
+										<label for="jenis_pakaian" class="form-label">Jenis Pakaian</label>
+										<select id="jenis_pakaian" name="jenis_pakaian" class="form-control" onchange="updateUkuranTemplate()" required>
+											<option value="">-- Pilih Jenis --</option>
+											<option value="kemeja">Kemeja</option>
+											<option value="gaun">Gaun</option>
+											<option value="kebaya">Kebaya</option>
+										</select>
 										</div>
 
 										<div class="mb-3">
@@ -72,16 +73,28 @@
 											<input type="text" name="warna" class="form-control" required>
 										</div>
 
+										<!-- Textarea Otomatis -->
 										<div class="mb-3">
-											<label for="ukuran" class="form-label">Ukuran</label>
-											<textarea type="text" name="ukuran" class="form-control" required></textarea>
+										<label for="ukuran" class="form-label">Ukuran (Cm)</label>
+										<textarea id="ukuran" name="ukuran" class="form-control" rows="10" required></textarea>
 										</div>
+
 
 										<div class="mb-3">
 											<label for="referensi_gambar" class="form-label">Referensi Gambar (Opsional)</label>
 											<input type="file" name="referensi_gambar" class="form-control">
 										</div>
+									
+										<div class="mb-3">
+											<label for="bukti_pembayaran_uang_muka" class="form-label">Bukti Pembayaran Uang Muka</label>
+											<input type="file" name="bukti_pembayaran_uang_muka" class="form-control" required>
+										</div>
 
+										<div class="mb-3">
+											<label for="bukti_pembayaran_lunas" class="form-label">Bukti Pembayaran Lunas (Opsional)</label>
+											<input type="file" name="bukti_pembayaran_lunas" class="form-control">
+										</div>
+																				
 										<button type="submit" class="btn btn-primary">Simpan</button>
 										<a href="{{ route('admins.pemesanan-jahitan.index') }}" class="btn btn-secondary">Kembali</a>
 									</form>

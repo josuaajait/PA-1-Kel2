@@ -23,8 +23,8 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{ route('admins.pemesanan-jahitan.update', $pemesananJahitan->id) }}" method="POST">
-                                        @csrf
+                                   <form action="{{ route('admins.pemesanan-jahitan.update', ['id' => $pemesananJahitan->pemesanan_jahitan_id]) }}" method="POST">
+                                    @csrf
                                         @method('PUT')
 
                                         <div class="mb-3">

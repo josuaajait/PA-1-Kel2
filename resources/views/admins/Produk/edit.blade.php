@@ -29,7 +29,7 @@
 
             <div class="container mt-4">
                 <h1>Edit Produk</h1>
-                <form action="{{ route('admins.produk.update', $produk->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admins.produk.update', $produk) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -57,11 +57,6 @@
                     <div class="mb-3">
                         <label for="harga" class="form-label">Harga</label>
                         <input type="number" class="form-control" id="harga" name="harga" value="{{ $produk->harga }}" step="0.01" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="stok" class="form-label">Stok</label>
-                        <input type="number" class="form-control" id="stok" name="stok" value="{{ $produk->stok }}" required>
                     </div>
 
                     <div class="mb-3">
@@ -93,7 +88,6 @@
                         @if($produk->gambar)
                             <img src="{{ asset('storage/produk_images/' . $produk->gambar) }}" alt="{{ $produk->nama }}" style="max-width: 100px;">
                         @endif
-
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>

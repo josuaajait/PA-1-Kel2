@@ -46,12 +46,14 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="{{ route('admins.about.edit', $aboutUs->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('admins.about.destroy', $aboutUs->id) }}" method="POST" style="display:inline;">
+                                <a href="{{ route('admins.about.edit', ['id' => $aboutUs->about_us_id]) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                                <form action="{{ route('admins.about.destroy', ['id' => $aboutUs->about_us_id]) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
                                 </form>
+
                                 <a href="{{ route('about.index') }}" class="btn btn-secondary btn-sm">Kembali ke Daftar</a>
                             </div>
                         </div>

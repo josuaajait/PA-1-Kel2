@@ -9,7 +9,7 @@ class CreateAboutUsTable extends Migration
     public function up()
     {
         Schema::create('about_us', function (Blueprint $table) {
-            $table->id();
+            $table->id('about_us_id'); // Kolom untuk ID unik
             $table->text('deskripsi');  // Deskripsi about us
             $table->text('sejarah');    // Sejarah about us
             $table->text('visi');       // Visi about us
@@ -17,7 +17,7 @@ class CreateAboutUsTable extends Migration
             $table->boolean('is_active')->default(true); // To show or hide this entry
 
             $table->unsignedBigInteger('user_id'); // Kolom untuk foreign key
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

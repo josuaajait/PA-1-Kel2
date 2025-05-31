@@ -30,7 +30,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('admins.customers.update', $customer->id) }}" method="POST">
+                            <form action="{{ route('admins.customers.update', $customer) }}" method="POST">
                                 @csrf
                                 @method('PUT')
 

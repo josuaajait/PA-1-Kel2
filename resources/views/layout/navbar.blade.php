@@ -15,10 +15,10 @@
                         <li><a href="{{ route('admins.produk.index') }}" class="{{ Request::is('admin/produk*') ? 'active' : '' }}">Produk</a></li>
                         <li><a href="{{ route('admins.modifikasi-jahitan.index') }}" class="{{ Request::is('admin/modifikasi-jahitan*') ? 'active' : '' }}">Modifikasi Jahitan</a></li>
                     @else
-                        <li><a href="{{ route('user.produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
+                        <li><a href="{{ route('produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
                     @endif
                 @else
-                    <li><a href="{{ route('user.produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
+                    <li><a href="{{ route('produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
                 @endauth
                 <li><a href="{{ url('/user/pemesanan-jahitan') }}" class="{{ Request::is('pemesanan-jahitan') ? 'active' : '' }}">Jahit Produk</a></li>
 

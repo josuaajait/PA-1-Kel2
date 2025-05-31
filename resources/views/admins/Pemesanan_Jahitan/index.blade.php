@@ -48,6 +48,10 @@
 													<th>Bahan</th>
 													<th>Warna</th>
 													<th>Ukuran</th>
+													<th>Status</th>
+													<th>Referensi Gambar</th>
+													<th>Bukti Pembayaran Uang Muka</th>
+													<th>Bukti Pembayaran Lunas</th>
 													<th>Aksi</th>
 												</tr>
 											</thead>
@@ -61,7 +65,24 @@
 														<td>{{ $pemesanan->jenis_pakaian }}</td>
 														<td>{{ $pemesanan->bahan }}</td>
 														<td>{{ $pemesanan->warna }}</td>
-														<td>{{ $pemesanan->ukuran }}</td>
+													
+														<td>
+															<button type="button" class="btn btn-sm btn-primary" onclick="showUkuran{{ $pemesanan->pemesanan_jahitan_id }}()">
+																Lihat Ukuran
+															</button>
+
+															<script>
+																function showUkuran{{ $pemesanan->pemesanan_jahitan_id }}() {
+																	Swal.fire({
+																		title: 'Detail Ukuran',
+																		html: `{!! nl2br(e($pemesanan->ukuran)) !!}`,
+																		icon: 'info'
+																	});
+																}
+															</script>
+														</td>
+
+
 														<td>
 															@if($pemesanan->status == 'pending')
 																<span class="badge bg-warning text-dark">Pending</span>
@@ -71,6 +92,7 @@
 																<span class="badge bg-secondary">Tidak Diketahui</span> <!-- Menangani status lain -->
 															@endif
 														</td>
+														
 														<td>
 															@if($pemesanan->referensi_gambar)
 																<a href="{{ asset('storage/' . $pemesanan->referensi_gambar) }}" target="_blank">
@@ -80,18 +102,39 @@
 																-
 															@endif
 														</td>
+
+														<td>
+															@if($pemesanan->bukti_pembayaran_uang_muka)
+																<a href="{{ asset('storage/' . $pemesanan->bukti_pembayaran_uang_muka) }}" target="_blank">
+																	Lihat Bukti
+																</a>
+															@else
+																-
+															@endif
+														</td>
+
+														<td>
+															@if($pemesanan->bukti_pembayaran_lunas)
+																<a href="{{ asset('storage/' . $pemesanan->bukti_pembayaran_lunas) }}" target="_blank">
+																	Lihat Bukti Lunas
+																</a>
+															@else
+																-
+															@endif
+														</td>
+
+
 														<td>
 															<div class="d-flex gap-1">
-																<a href="{{ route('admins.pemesanan-jahitan.show', $pemesanan->id) }}" class="btn btn-info btn-sm">Detail</a>
-																<a href="{{ route('admins.pemesanan-jahitan.edit', $pemesanan->id) }}" class="btn btn-warning btn-sm">Edit</a>
-																<form action="{{ route('admins.pemesanan-jahitan.destroy', $pemesanan->id) }}" method="POST">
+																<a href="{{ route('admins.pemesanan-jahitan.show', $pemesanan->pemesanan_jahitan_id) }}" class="btn btn-info btn-sm">Detail</a>
+																<a href="{{ route('admins.pemesanan-jahitan.edit', $pemesanan->pemesanan_jahitan_id) }}" class="btn btn-warning btn-sm">Edit</a>
+																<form action="{{ route('admins.pemesanan-jahitan.destroy', $pemesanan->pemesanan_jahitan_id) }}" method="POST">
 																	@csrf
 																	@method('DELETE')
 																	<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button>
 																</form>
 															</div>
 														</td>
-														
 													</tr>
 												@endforeach
 											</tbody>

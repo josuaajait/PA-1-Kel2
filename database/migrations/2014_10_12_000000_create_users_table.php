@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id('user_id'); // Menggunakan id() untuk membuat kolom user_id
             $table->string('nama');
             $table->string('email')->unique();
             $table->string('no_hp')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['admin', 'customer'])->default('customer'); // Tambahkan kolom role
             $table->rememberToken();

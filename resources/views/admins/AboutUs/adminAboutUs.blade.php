@@ -46,7 +46,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach($aboutUs as $item)
-                                            <tr>
+                                            <tr>    
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ Str::limit($item->deskripsi, 50) }}</td>
                                                 <td>{{ Str::limit($item->sejarah, 50) }}</td>
@@ -54,16 +54,16 @@
                                                 <td>{{ Str::limit($item->misi, 50) }}</td>
                                                 <td>
                                                     <div class="d-flex gap-1">
-                                                        <a href="{{ route('admins.about.detail', $item->id) }}" class="btn btn-info btn-sm">Detail</a>
-                                                        <a href="{{ route('admins.about.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                        <form action="{{ route('admins.about.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                                        <a href="{{ route('admins.about.detail', ['id' => $item->about_us_id]) }}" class="btn btn-info btn-sm">Detail</a>
+                                                        <a href="{{ route('admins.about.edit', ['id' => $item->about_us_id]) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                        <form action="{{ route('admins.about.destroy', ['id' => $item->about_us_id]) }}" method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button>
                                                         </form>
                                                 
                                                         @if(!$item->is_active)
-                                                            <form action="{{ route('admins.about.activate', $item->id) }}" method="POST" style="display:inline;">
+                                                            <form action="{{ route('admins.about.activate', ['id' => $item->about_us_id]) }}" method="POST" style="display:inline;">
                                                                 @csrf
                                                                 <button type="submit" class="btn btn-success btn-sm">Tampilkan ke User</button>
                                                             </form>

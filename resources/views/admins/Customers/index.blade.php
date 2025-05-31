@@ -42,7 +42,7 @@
                                             <td>{{ $customer->email }}</td>
                                             <td>{{ $customer->no_hp }}</td>
                                             <td>
-                                                <a href="{{ route('admins.customers.edit', $customer->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                <a href="{{ route('admins.customers.edit', $customer) }}" class="btn btn-warning btn-sm">Edit</a>
                                             </td>
                                         </tr>
                                     @endforeach

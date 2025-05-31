@@ -9,26 +9,25 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-{
-    Schema::create('pemesanan_produks', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('produk_id')->constrained('produks')->onDelete('cascade');  // Relasi ke produk
-        $table->string('jenis_pakaian');
-        $table->string('nama');
-        $table->string('email');
-        $table->string('nomor_telepon');
-        $table->text('alamat');
-        $table->integer('jumlah');
-        $table->decimal('total_harga', 10, 2);
-        $table->enum('status', ['pending', 'diproses', 'selesai'])->default('pending');
+    public function up(): void
+    {
+        Schema::create('pemesanan_produks', function (Blueprint $table) {
+            $table->id('pemesanan_produk_id'); // Primary key custom
+            $table->string('jenis_pakaian');
+            $table->string('nama');
+            $table->string('email');
+            $table->string('nomor_telepon');
+            $table->text('alamat');
+            $table->decimal('total_harga', 10, 2)->default(0);
+            $table->enum('status', ['diproses', 'dibatalkan', 'selesai'])->default('diproses');
 
-        $table->unsignedBigInteger('user_id'); // Kolom untuk foreign key
-        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        $table->timestamps();
-    });
-}
+            // Foreign key ke users.user_id
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
 
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

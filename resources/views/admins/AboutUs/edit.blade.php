@@ -20,7 +20,7 @@
                 <div class="container mt-4">
                     <h2>Edit Data About Us</h2>
 
-                    <form method="POST" action="{{ route('admins.about.update', $aboutUs->id) }}">
+                    <form method="POST" action="{{ route('admins.about.update', ['id' => $aboutUs->about_us_id]) }}">
                         @csrf
                         @method('PUT')
 

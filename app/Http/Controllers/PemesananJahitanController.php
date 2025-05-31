@@ -43,6 +43,9 @@ class PemesananJahitanController extends Controller
             'warna' => 'required|string',
             'ukuran' => 'required|string',
             'referensi_gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'bukti_pembayaran_uang_muka' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+            'bukti_pembayaran_lunas' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+
         ]);
 
         $data = $request->only([
@@ -54,7 +57,15 @@ class PemesananJahitanController extends Controller
         if ($request->hasFile('referensi_gambar')) {
             $data['referensi_gambar'] = $request->file('referensi_gambar')->store('referensi_gambar', 'public');
         }
-
+        
+        if ($request->hasFile('bukti_pembayaran_lunas')) {
+        $data['bukti_pembayaran_lunas'] = $request->file('bukti_pembayaran_lunas')->store('bukti_pembayaran_lunas', 'public');
+        }
+        
+        if ($request->hasFile('bukti_pembayaran_uang_muka')) {
+        $data['bukti_pembayaran_uang_muka'] = $request->file('bukti_pembayaran_uang_muka')->store('bukti_pembayaran_uang_muka', 'public');
+        }
+        
         PemesananJahitan::create($data);
 
         return redirect()->route(Auth::user()->role === 'admin' ? 'admins.pemesanan-jahitan.index' : 'user.pemesanan_jahitan.create')
@@ -99,7 +110,7 @@ class PemesananJahitanController extends Controller
             'bahan' => 'required|string',
             'warna' => 'required|string',
             'ukuran' => 'required|string',
-            'status' => 'required|in:pending,selesai',
+            'status' => 'required|in:pending,diproses,dibatalkan,selesai',
             'referensi_gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 

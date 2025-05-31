@@ -64,7 +64,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
     Route::get('/pemesanan-jahitan/{id}/edit', [PemesananJahitanController::class, 'edit'])->name('pemesanan-jahitan.edit');
     Route::put('/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'update'])->name('pemesanan-jahitan.update');
     Route::delete('/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'destroy'])->name('pemesanan-jahitan.destroy');
-    Route::get('/pemesanan-jahitan/{id}/show', [PemesananJahitanController::class, 'show'])->name('pemesanan-jahitan.show');
+    Route::get('/pemesanan-jahitan/{id}', [PemesananJahitanController::class, 'show'])->name('pemesanan-jahitan.show');
 
     Route::get('/customers', [ManageCustomerController::class, 'index'])->name('customers.index');
     Route::get('/customers/{id}/edit', [ManageCustomerController::class, 'edit'])->name('customers.edit');
@@ -97,8 +97,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
 
 // ==================== USER ROUTES ====================
 Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
-    // Produk (User)
-    Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 
     // Pemesanan produk (User)
     Route::get('/pemesanan-produk', [PemesananProdukController::class, 'index'])->name('pemesanan-produk.index');
@@ -131,6 +129,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // About Us (Public)
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.index');
+
+// Produk (Public)
+Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
+
 
 // ==================== AUTH ROUTES ====================
 // Register

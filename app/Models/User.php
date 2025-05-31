@@ -17,6 +17,10 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $primaryKey = 'user_id';
+
+
     protected $fillable = [
         'nama',
         'email',
@@ -53,5 +57,10 @@ class User extends Authenticatable
     public function isCustomer()
     {
         return $this->role === 'customer';
+    }
+
+    public function pemesananProduks()
+    {
+        return $this->hasMany(PemesananProduk::class);
     }
 }

@@ -2,14 +2,19 @@
 @include('layout.navbar')
 
 <style>
-    /* Tambahkan class ini untuk efek scroll */
-    #header.scrolled {
-        background-color: #fff !important;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+   #header.scrolled {
+    background-color: white !important;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
   </style>
-  
+<style>
+    .card-img-top {
+    height: 200px; /* Ukuran seragam */
+    object-fit: cover; /* Potong proporsional */
+    width: 100%;
+}
+</style>
 <br><br><br><br>
 
 <!-- Produk Section -->
@@ -17,19 +22,16 @@
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row align-items-xl-center gy-5">
             <div class="col-xl-12">
-                <h3>Produk</h3>
-                <h2>Our Products</h2>
+                <h2>Produk Kami</h2>
                 <div class="row">
                     @foreach($produks as $produk)
                         <div class="col-md-3">
-                            <div class="card mb-4">
+                            <div class="card mb-4 h-80">
                                 <img src="{{ asset('storage/produk_images/' . $produk->gambar) }}" class="card-img-top" alt="{{ $produk->nama }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $produk->nama }}</h5>
                                     <p><strong>Jenis Pakaian:</strong> {{ $produk->jenis_pakaian }}</p>
-                                    <p><strong>Deskripsi:</strong> {{ $produk->deskripsi }}</p>
                                     <p><strong>Harga:</strong> {{ $produk->harga }}</p>
-                                    <p><strong>Stok:</strong> {{ $produk->stok }}</p>
                                     <p><strong>Ukuran:</strong> {{ $produk->ukuran }}</p>
                                     <p><strong>Warna:</strong> {{ $produk->warna }}</p>
                                     <p><strong>Bahan:</strong> {{ $produk->bahan }}</p>
@@ -38,7 +40,13 @@
                                             {{ ucfirst($produk->status) }}
                                         </span>
                                     </p>
+                                    @auth
                                     <a href="{{ route('user.pemesanan-produk.create', $produk->id) }}" class="btn btn-primary">Order Now</a>
+                                @endauth
+
+                                @guest
+                                    <a href="{{ route('login') }}" class="btn btn-primary">Login to Order</a>
+                                @endguest
                                 </div>
                             </div>
                         </div>

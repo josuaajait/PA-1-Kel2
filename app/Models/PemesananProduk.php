@@ -11,6 +11,12 @@ class PemesananProduk extends Model
 
     protected $table = 'pemesanan_produks';
 
+    // Tambahkan baris ini jika ID-nya bukan "id"
+    protected $primaryKey = 'pemesanan_produk_id';
+
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'produk_id',
         'jenis_pakaian',
@@ -24,11 +30,20 @@ class PemesananProduk extends Model
         'user_id',
     ];
 
-    /**
-     * Relasi ke Produk
-     */
-    public function produk()
+    public function produks()
     {
-        return $this->belongsTo(Produk::class);
+        return $this->belongsToMany(
+            Produk::class,
+            'pemesanan_produk_produk',
+            'pemesanan_produk_id', // FK dari model ini (PemesananProduk)
+            'produk_id'            // FK dari model relasi (Produk)
+        )->withPivot('nama_produk', 'harga')
+        ->withTimestamps();
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 }

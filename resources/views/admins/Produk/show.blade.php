@@ -35,13 +35,13 @@
                                 <h5 class="card-title">{{ $produk->nama }}</h5>
                                 <p class="card-text"><strong>Deskripsi:</strong> {{ $produk->deskripsi }}</p>
                                 <p class="card-text"><strong>Harga:</strong> Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
-                                <p class="card-text"><strong>Stok:</strong> {{ $produk->stok }}</p>
                                 <p class="card-text"><strong>Status:</strong> {{ ucfirst($produk->status) }}</p>
                                 <p class="card-text"><strong>Ukuran:</strong> {{ $produk->ukuran ?? '-' }}</p>
                                 <p class="card-text"><strong>Warna:</strong> {{ $produk->warna ?? '-' }}</p>
                                 <p class="card-text"><strong>Bahan:</strong> {{ $produk->bahan ?? '-' }}</p>
                                 @if($produk->gambar)
                                     <div class="mt-3">
+                                        <p>Gambar Produk:</p>
                                       <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}" style="max-width: 300px;">
                                     </div>
                                 @endif

@@ -40,7 +40,6 @@
                                     <th>Jenis Pakaian</th>
                                     <th>Deskripsi</th>
                                     <th>Harga</th>
-                                    <th>Stok</th>
                                     <th>Ukuran</th> <!-- Kolom baru -->
                                     <th>Warna</th>  <!-- Kolom baru -->
                                     <th>Bahan</th>  <!-- Kolom baru -->
@@ -52,12 +51,11 @@
                             <tbody>
                                 @foreach($produks as $produk)
                                     <tr>
-                                        <td>{{ $produk->id }}</td>
+                                        <td>{{ $produk->produk_id }}</td>
                                         <td>{{ $produk->nama }}</td>
                                         <td>{{ $produk->jenis_pakaian}}</td>
                                         <td>{{ $produk->deskripsi }}</td>
                                         <td>{{ $produk->harga }}</td>
-                                        <td>{{ $produk->stok }}</td>
                                         <td>{{ $produk->ukuran }}</td> <!-- Menampilkan ukuran -->
                                         <td>{{ $produk->warna }}</td>  <!-- Menampilkan warna -->
                                         <td>{{ $produk->bahan }}</td>  <!-- Menampilkan bahan -->
@@ -72,13 +70,12 @@
                                         </td>
                                         <td>
                                             <!-- View (Read) Button -->
-                                            <a href="{{ route('admins.produk.show', $produk->id) }}" class="btn btn-info btn-sm">View Details</a>
+                                            <a href="{{ route('admins.produk.show', $produk) }}" class="btn btn-info btn-sm">View</a>
 
                                             <!-- Edit Button -->
-                                            <a href="{{ route('admins.produk.edit', $produk->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                            
-                                            <!-- Delete Button (Form for security) -->
-                                            <form action="{{ route('admins.produk.destroy', $produk->id) }}" method="POST" style="display:inline;">
+                                           <a href="{{ route('admins.produk.edit', $produk) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                                            <form action="{{ route('admins.produk.destroy', $produk) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>

@@ -11,6 +11,12 @@ class PemesananJahitan extends Model
 
     protected $table = 'pemesanan_jahitans';
 
+    // Tambahkan baris ini:
+    protected $primaryKey = 'pemesanan_jahitan_id';
+
+    public $incrementing = true;      // default true, tapi bisa eksplisit
+    protected $keyType = 'int';       // karena primary key bertipe integer
+
     protected $fillable = [
         'nama',
         'no_hp',
@@ -20,6 +26,8 @@ class PemesananJahitan extends Model
         'warna',
         'ukuran',
         'referensi_gambar',
+        'bukti_pembayaran_uang_muka',
+        'bukti_pembayaran_lunas', 
         'status',
         'user_id',
     ];

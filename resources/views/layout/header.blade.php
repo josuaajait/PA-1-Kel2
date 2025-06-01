@@ -27,6 +27,9 @@
   <!-- Main CSS File -->
   <link href="{{URL::asset('css/main.css')}}" rel="stylesheet">
   
+  <link href="{{ asset('aboutcss/styles.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('aboutjs/scripts.js') }}"></script>
 
   <!-- =======================================================
   * Template Name: Append

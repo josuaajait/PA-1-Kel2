@@ -1,66 +1,136 @@
-@include('layout.header')
-@include('layout.navbar')
+@extends('layout.main')
 
+@section('content')
 <style>
-    /* Efek scroll header */
-    #header.scrolled {
-        background-color: #fff !important;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+  /* Navbar putih dan teks gelap khusus di halaman ini */
+  #header, #header.scrolled {
+    background-color: #fff !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 9999;
+  }
+  #header a,
+  #header .mobile-nav-toggle,
+  #header .sitename {
+    color: #333 !important;
+  }
+  #header a:hover,
+  #header a.active {
+    color: #000 !important;
+  }
+  /* Dropdown menu */
+  #header .dropdown-menu {
+    background-color: #fff !important;
+    color: #333 !important;
+  }
+  #header .dropdown-menu .dropdown-item {
+    color: #333 !important;
+  }
+  #header .dropdown-menu .dropdown-item:hover {
+    background-color: #f0f0f0;
+    color: #000 !important;
+  }
+
+  /* Styling timeline image */
+  .timeline-image {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: 0 auto;
+  }
+  .timeline-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 </style>
 
-<div class="container my-5 pt-5">
-    <h1 class="mb-4 text-center fw-bold">Tentang Kami</h1>
 
-    @if ($aboutUs)
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
 
-                <div class="card mb-4 shadow-sm border-0">
-                    <div class="card-header bg-primary text-white">
-                        <h2 class="h5 mb-0">Deskripsi</h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-0 fs-5">{{ $aboutUs->deskripsi }}</p>
-                    </div>
-                </div>
-
-                <div class="card mb-4 shadow-sm border-0">
-                    <div class="card-header bg-success text-white">
-                        <h2 class="h5 mb-0">Sejarah</h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-0 fs-5">{{ $aboutUs->sejarah }}</p>
-                    </div>
-                </div>
-
-                <div class="card mb-4 shadow-sm border-0">
-                    <div class="card-header bg-warning text-dark">
-                        <h2 class="h5 mb-0">Visi</h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-0 fs-5">{{ $aboutUs->visi }}</p>
-                    </div>
-                </div>
-
-                <div class="card mb-4 shadow-sm border-0">
-                    <div class="card-header bg-danger text-white">
-                        <h2 class="h5 mb-0">Misi</h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-0 fs-5">{{ $aboutUs->misi }}</p>
-                    </div>
-                </div>
-
-            </div>
+</style>
+<!-- About Section -->
+<section class="page-section light-background" id="about">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Tentang Kami</h2>
+            <h3 class="section-subheading text-muted">Mengenal lebih dekat layanan dan sejarah kami.</h3>
         </div>
-    @else
+
+        @if ($aboutUs)
+        <ul class="timeline">
+
+            <li>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="{{ asset('aboutassets/img/about/1.jpg') }}" alt="Deskripsi" /></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>Deskripsi</h4>
+                        <h4 class="subheading">Siapa Kami</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="text-muted">{{ $aboutUs->deskripsi }}</p>
+                    </div>
+                </div>
+            </li>
+
+            <li class="timeline-inverted">
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="{{ asset('aboutassets/img/about/2.jpg') }}" alt="Sejarah" /></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>Sejarah</h4>
+                        <h4 class="subheading">Perjalanan Kami</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="text-muted">{{ $aboutUs->sejarah }}</p>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="{{ asset('aboutassets/img/about/3.jpg') }}" alt="Visi" /></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>Visi</h4>
+                        <h4 class="subheading">Tujuan Kami</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="text-muted">{{ $aboutUs->visi }}</p>
+                    </div>
+                </div>
+            </li>
+
+            <li class="timeline-inverted">
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="{{ asset('aboutassets/img/about/4.jpg') }}" alt="Misi" /></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>Misi</h4>
+                        <h4 class="subheading">Langkah Kami</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p class="text-muted">{{ $aboutUs->misi }}</p>
+                    </div>
+                </div>
+            </li>
+
+            <li class="timeline-inverted">
+                <div class="timeline-image">
+                    <h4>
+                        Belilah
+                        <br />
+                        Produk
+                        <br />
+                        Kami!
+                    </h4>
+                </div>
+            </li>
+
+        </ul>
+        @else
         <div class="alert alert-info text-center fs-5" role="alert">
             Tidak ada informasi yang tersedia saat ini.
         </div>
-    @endif
-</div>
+        @endif
+    </div>
+</section>
 
-@include('layout.footer')
-@include('layout.script')
+@endsection

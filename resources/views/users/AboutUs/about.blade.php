@@ -35,6 +35,7 @@ Dengan pengalaman bertahun-tahun dalam industri fashion dan tailor-made clothing
 Di Firman Taylor, kami percaya bahwa setiap pakaian bukan hanya sekadar kain yang dijahit, tetapi juga cerminan dari gaya dan kepribadian Anda. Oleh karena itu, kami selalu berusaha memberikan hasil terbaik sesuai dengan keinginan dan kebutuhan pelanggan.  
 
 Terima kasih telah mempercayakan kebutuhan jahitan Anda kepada kami. Kami siap membantu Anda tampil lebih percaya diri dengan pakaian yang pas dan sempurna! ✂️✨
+               
                 <a href="{{ route('user.about.full') }}" class="read-more">
                     <span>Read More</span><i class="bi bi-arrow-right"></i>
                 </a>

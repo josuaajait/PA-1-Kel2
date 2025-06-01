@@ -42,7 +42,6 @@
                                     <h5 class="card-title">{{ $produk->nama }}</h5>
                                     <p><strong>Jenis Pakaian:</strong> {{ $produk->jenis_pakaian }}</p>
                                     <p><strong>Harga:</strong> {{ $produk->harga }}</p>
-                                    <p><strong>Stok:</strong> {{ $produk->stok }}</p>
                                     <p><strong>Ukuran:</strong> {{ $produk->ukuran }}</p>
                                     <p><strong>Warna:</strong> {{ $produk->warna }}</p>
                                     <p><strong>Bahan:</strong> {{ $produk->bahan }}</p>
@@ -52,11 +51,11 @@
                                         </span>
                                     </p>
                                     @auth
-                                    <a href="{{ route('user.pemesanan-produk.create', $produk->id) }}" class="btn btn-primary">Order Now</a>
+                                    <a href="{{ route('user.pemesanan-produk.create', $produk->produk_id) }}" class="btn btn-primary">Pesan Sekarang</a>
                                 @endauth
 
                                 @guest
-                                    <a href="{{ route('login') }}" class="btn btn-primary">Login to Order</a>
+                                    <a href="{{ route('login') }}" class="btn btn-primary">Login untuk Memesan</a>
                                 @endguest
                                   </div>
                             </div>

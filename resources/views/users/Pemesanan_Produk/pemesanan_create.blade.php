@@ -58,8 +58,11 @@
                         <select class="form-select @error('produk_id') is-invalid @enderror" 
                                 id="produk_id" name="produk_id" required>
                             <option selected disabled>Pilih Produk...</option>
-                            @foreach($produks as $produk)
-                                <option value="{{ $produk->id }}">{{ $produk->nama }} - Rp{{ number_format($produk->harga, 0, ',', '.') }}</option>
+                            @foreach($produks as $item)
+                                <option value="{{ $item->produk_id }}" 
+                                    {{ (old('produk_id') == $item->produk_id || (isset($produk) && $produk->produk_id == $item->produk_id)) ? 'selected' : '' }}>
+                                    {{ $item->nama }}
+                                </option>
                             @endforeach
                         </select>
                         @error('produk_id')
@@ -67,20 +70,32 @@
                         @enderror
                     </div>
 
-                    <!-- Jumlah -->
+                    <!-- Ukuran -->
                     <div class="mb-3">
-                        <label for="jumlah" class="form-label">Jumlah</label>
-                        <input type="number" class="form-control @error('jumlah') is-invalid @enderror" 
-                            id="jumlah" name="jumlah" min="1" value="{{ old('jumlah', 1) }}" required>
-                        @error('jumlah')
+                        <label for="ukuran" class="form-label">Ukuran</label>
+                        <input type="text" class="form-control" id="ukuran" name="ukuran" 
+                        value="{{ old('ukuran', isset($produk) ? $produk->ukuran : '') }}" readonly>
+                        @error('ukuran')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    
+                    <!-- Harga -->
+                    <div class="mb-3">
+                        <label for="harga" class="form-label">Harga (Rp)</label>
+                       <input type="text" class="form-control @error('harga') is-invalid @enderror" 
+                        id="harga" name="harga" 
+                        value="{{ old('harga', isset($produk) ? $produk->harga : '') }}" readonly>
+                        @error('harga')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                
 
                     <!-- Submit Button -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-success">
-                            <i class="bi bi-check-circle"></i> Submit Pemesanan
+                            <i class="bi bi-check-circle"></i> Kirim Pemesanan
                         </button>
                         <a href="{{ route('user.produk.index') }}" class="btn btn-secondary">
                             <i class="bi bi-arrow-left"></i> Kembali
@@ -94,3 +109,20 @@
     </div>
 </div>
 @endsection
+
+<script>
+    const produkData = @json($produks);
+
+    document.getElementById('produk_id').addEventListener('change', function() {
+        const selectedProdukId = this.value;
+        const selectedProduk = produkData.find(p => p.produk_id == selectedProdukId);
+
+        if(selectedProduk) {
+            document.getElementById('ukuran').value = selectedProduk.ukuran;
+            document.getElementById('harga').value = selectedProduk.harga;
+        } else {
+            document.getElementById('ukuran').value = '';
+            document.getElementById('harga').value = '';
+        }
+    });
+</script>

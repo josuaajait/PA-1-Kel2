@@ -41,11 +41,11 @@
                                         </span>
                                     </p>
                                     @auth
-                                    <a href="{{ route('user.pemesanan-produk.create', $produk->id) }}" class="btn btn-primary">Order Now</a>
+                                    <a href="{{ route('user.pemesanan-produk.create', $produk->produk_id) }}" class="btn btn-primary">Order Now</a>
                                 @endauth
 
                                 @guest
-                                    <a href="{{ route('login') }}" class="btn btn-primary">Login to Order</a>
+                                    <a href="{{ route('login') }}" class="btn btn-warning">Login to Order</a>
                                 @endguest
                                 </div>
                             </div>

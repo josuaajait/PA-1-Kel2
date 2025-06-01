@@ -24,12 +24,18 @@ class PemesananJahitanController extends Controller
     // Form create pemesanan jahitan (user/admin)
     public function create()
     {
-        if (Auth::user()->role === 'admin') {
-            return view('admins.pemesanan_jahitan.create');
+        if (Auth::check()) {
+            if (Auth::user()->role === 'admin') {
+                return view('admins.pemesanan_jahitan.create');
+            } else {
+                return view('users.pemesanan_jahitan.pemesanan_jahitan');
+            }
         } else {
+            // Guest (belum login)
             return view('users.pemesanan_jahitan.pemesanan_jahitan');
         }
     }
+
 
     // Simpan data pemesanan baru
     public function store(Request $request)

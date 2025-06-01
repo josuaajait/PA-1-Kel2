@@ -23,13 +23,13 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">{{ $modifikasi->nama }}</h5>
-            <p><strong>Jenis Pakaian:</strong> {{ $modifikasi->jenis_pakaian }}</p>
-            <p><strong>Catatan:</strong><br>{{ $modifikasi->catatan }}</p>
+            <p><strong>Nama Pemesan:</strong> {{ $modifikasiJahitan->nama }}</p>
+            <p><strong>Jenis Pakaian:</strong> {{ $modifikasiJahitan->jenis_pakaian }}</p>
+            <p><strong>Catatan:</strong><br>{{ $modifikasiJahitan->catatan }}</p>
         </div>
     </div>
 
-    <a href="{{ route('modifikasi-jahitan.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+    <a href="{{ route('admins.modifikasi-jahitan.index') }}" class="btn btn-secondary mt-3">Kembali</a>
 </div>
 </main>
 @include('layout.adminscript')

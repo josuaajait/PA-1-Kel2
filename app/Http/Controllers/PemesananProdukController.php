@@ -26,14 +26,17 @@ class PemesananProdukController extends Controller
         return view('users.pemesanan_produk.pemesanan_produk', compact('pemesananProduks'));
     }
 
-    public function create()
+    public function create($produkId)
     {
+        $produk = Produk::findOrFail($produkId);
         $produks = Produk::all();
 
-        if (Auth::user()->role === 'admin') {
-            return view('admins.pemesanan_produk.create', compact('produks'));
-        } else {
-            return view('users.pemesanan_produk.pemesanan_create', compact('produks'));
+        if (Auth::check()) {
+            if (Auth::user()->role === 'admin') {
+                return view('admins.pemesanan_produk.create', compact('produks'));
+            } else {
+                return view('users.pemesanan_produk.pemesanan_create', compact('produk' ,'produks'));
+            }
         }
     }
 

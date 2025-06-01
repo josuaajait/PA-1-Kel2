@@ -21,22 +21,22 @@
 
 <div class="container-fluid mt-4">
     <h2>Edit Modifikasi Jahitan</h2>
-    <form action="{{ route('modifikasi-jahitan.update', $modifikasi->id) }}" method="POST">
+    <form action="{{ route('admins.modifikasi-jahitan.update', $modifikasiJahitan->modifikasi_jahitan_id) }}" method="POST">
         @csrf @method('PUT')
         <div class="mb-3">
             <label>Nama</label>
-            <input type="text" name="nama" class="form-control" value="{{ $modifikasi->nama }}" required>
+            <input type="text" name="nama" class="form-control" value="{{ $modifikasiJahitan->nama }}" required>
         </div>
         <div class="mb-3">
             <label>Jenis Pakaian</label>
-            <input type="text" name="jenis_pakaian" class="form-control" value="{{ $modifikasi->jenis_pakaian }}" required>
+            <input type="text" name="jenis_pakaian" class="form-control" value="{{ $modifikasiJahitan->jenis_pakaian }}" required>
         </div>
         <div class="mb-3">
             <label>Catatan</label>
-            <textarea name="catatan" class="form-control" rows="4" required>{{ $modifikasi->catatan }}</textarea>
+            <textarea name="catatan" class="form-control" rows="4" required>{{ $modifikasiJahitan->catatan }}</textarea>
         </div>
         <button class="btn btn-primary">Update</button>
-        <a href="{{ route('modifikasi-jahitan.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('admins.modifikasi-jahitan.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 </main>

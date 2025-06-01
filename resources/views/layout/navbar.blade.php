@@ -6,29 +6,48 @@
         </a>
 
         <nav id="navmenu" class="navmenu">
-            <ul>
-                <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
-                <li><a href="{{ url('/about-us') }}" class="{{ Request::is('about-us') ? 'active' : '' }}">Tentang</a></li>
+        <ul>
+            <li>
+                <a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Beranda</a>
+            </li>
 
-                @auth
-                    @if (auth()->user()->role === 'admin')
-                        <li><a href="{{ route('admins.produk.index') }}" class="{{ Request::is('admin/produk*') ? 'active' : '' }}">Produk</a></li>
-                        <li><a href="{{ route('admins.modifikasi-jahitan.index') }}" class="{{ Request::is('admin/modifikasi-jahitan*') ? 'active' : '' }}">Modifikasi Jahitan</a></li>
-                    @else
-                        <li><a href="{{ route('produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
-                    @endif
-                @else
-                    <li><a href="{{ route('produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a></li>
-                @endauth
-                <li><a href="{{ url('/user/pemesanan-jahitan') }}" class="{{ Request::is('pemesanan-jahitan') ? 'active' : '' }}">Jahit Produk</a></li>
+            <li>
+                <a href="{{ url('/about-us') }}" class="{{ Request::is('about-us') ? 'active' : '' }}">Tentang</a>
+            </li>
 
-                <li><a href="{{ route('user.modifikasi-jahitan.create') }}" class="{{ Request::is('modifikasi-jahitan') ? 'active' : '' }}">Ajukan Modifikasi</a></li>
+            @auth
+                {{-- Untuk user yang login --}}
+                <li>
+                    <a href="{{ route('produk.index') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a>
+                </li>
+                <li>
+                    <a href="{{ url('/user/pemesanan-jahitan') }}" class="{{ Request::is('user/pemesanan-jahitan') ? 'active' : '' }}">Jahit Produk</a>
+                </li>
+                <li>
+                    <a href="{{ route('user.modifikasi-jahitan.create') }}" class="{{ Request::is('modifikasi-jahitan') ? 'active' : '' }}">Ajukan Modifikasi</a>
+                </li>
+                <li>
+                    <a href="{{ url('/user/riwayat-pemesanan') }}" class="{{ Request::is('user/riwayat-pemesanan') ? 'active' : '' }}">Riwayat Pemesanan</a>
+                </li>
+            @else
+                {{-- Untuk guest --}}
+                <li>
+                    <a href="{{ url('/pemesanan-jahitan') }}" class="{{ Request::is('pemesanan-jahitan') ? 'active' : '' }}">Jahit Produk</a>
+                </li>
+                <li>
+                    <a href="{{ url('/produk') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a>
+                </li>
+                <li>
+                    <a href="{{ route('login') }}" onclick="return confirm('Silakan login untuk mengakses fitur ini.')" class="disabled-link">Ajukan Modifikasi</a>
+                </li>
+                <li>
+                    <a href="{{ route('login') }}" onclick="return confirm('Silakan login untuk mengakses fitur ini.')" class="disabled-link">Riwayat Pemesanan</a>
+                </li>
+            @endauth
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
 
-                
-                <li><a href="{{ url('/user/riwayat-pemesanan') }}" class="{{ Request::is('riwayat-pemesanan') ? 'active' : '' }}">Riwayat Pemesanan</a></li>
-            </ul>
-            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
 
         @auth
             <div class="dropdown">

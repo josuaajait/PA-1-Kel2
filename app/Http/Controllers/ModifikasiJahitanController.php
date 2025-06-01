@@ -21,9 +21,15 @@ class ModifikasiJahitanController extends Controller
         $pemesananProduk = PemesananProduk::where('status', 'selesai')->get();
         $pemesananJahitans = PemesananJahitan::where('status', 'selesai')->get();
         $daftarModifikasiJahitan = ModifikasiJahitan::orderBy('created_at', 'desc')->paginate(10); // Urutkan dari terbaru
+
         // Kirim data ke view admin
-        return view('admins.modifikasi_jahitan.index', compact('pemesananProduk', 'pemesananJahitans'));
+        return view('admins.modifikasi_jahitan.index', compact(
+            'pemesananProduk',
+            'pemesananJahitans',
+            'daftarModifikasiJahitan' // ✅ tambahkan ini
+        ));
     }
+
 
     /**
      * Admin - Menampilkan form untuk membuat modifikasi jahitan baru. (CREATE - Form)
@@ -33,23 +39,22 @@ class ModifikasiJahitanController extends Controller
     {
         $type = $request->query('type'); // produk atau jahitan
         $id = $request->query('id');
-        
+
         $pemesananProduk = PemesananProduk::where('status', 'selesai')->get();
         $pemesananJahitan = PemesananJahitan::where('status', 'selesai')->get();
 
-        // Ambil data spesifik berdasarkan type dan id untuk prefill form (jika perlu)
-        if ($type === 'produk') {
+        // Validasi bahwa type dan id tersedia
+        if ($type === 'produk' && $id) {
             $data = PemesananProduk::with('produks')->where('pemesanan_produk_id', $id)->firstOrFail();
-
-        } elseif ($type === 'jahitan') {
+        } elseif ($type === 'jahitan' && $id) {
             $data = PemesananJahitan::where('pemesanan_jahitan_id', $id)->firstOrFail();
-
+        } else {
+            // Redirect atau tampilkan error jika tidak valid
+            return redirect()->back()->with('error', 'Data pemesanan tidak ditemukan.');
         }
 
-
-        
         return view('admins.modifikasi_jahitan.create', compact('pemesananProduk', 'pemesananJahitan', 'data', 'type'));
-    }       
+    }
 
 
 
@@ -60,27 +65,35 @@ class ModifikasiJahitanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pemesanan_id' => 'required',
+            // validasi salah satu id yang harus ada
+            'pemesanan_produk_id' => 'nullable|exists:pemesanan_produks,pemesanan_produk_id',
+            'pemesanan_jahitan_id' => 'nullable|exists:pemesanan_jahitans,pemesanan_jahitan_id',
             'catatan' => 'required|string',
         ]);
 
-        [$type, $id] = explode('-', $request->pemesanan_id);
+            $nama = '';
+            $jenis = '';
+            $userId = auth()->id();
 
-        if ($type === 'produk') {
-            $pemesanan = PemesananProduk::findOrFail($id);
-            $nama = $pemesanan->nama;
-            $jenis = $pemesanan->nama_produk;
-        } else {
-            $pemesanan = PemesananJahitan::findOrFail($id);
-            $nama = $pemesanan->nama;
-            $jenis = $pemesanan->jenis_pakaian;
-        }
+            if ($request->filled('pemesanan_produk_id')) {
+                $pemesanan = PemesananProduk::findOrFail($request->pemesanan_produk_id);
+                $nama = $pemesanan->nama;
+                $jenis = $pemesanan->jenis_pakaian;
+            } elseif ($request->filled('pemesanan_jahitan_id')) {
+                $pemesanan = PemesananJahitan::findOrFail($request->pemesanan_jahitan_id);
+                $nama = $pemesanan->nama;
+                $jenis = $pemesanan->jenis_pakaian;
+            } else {
+                return back()->withErrors('Pemesanan tidak valid.');
+            }
 
-        ModifikasiJahitan::create([
-            'user_id' => auth()->id(),  // Jangan lupa isi user_id
-            'nama' => $nama,
-            'jenis_pakaian' => $jenis,
-            'catatan' => $request->catatan,
+         ModifikasiJahitan::create([
+        'user_id' => $userId,
+        'nama' => $nama,
+        'jenis_pakaian' => $jenis,
+        'catatan' => $request->catatan,
+        'pemesanan_produk_id' => $request->pemesanan_produk_id,
+        'pemesanan_jahitan_id' => $request->pemesanan_jahitan_id,
         ]);
         
         return redirect()->route('admins.modifikasi-jahitan.index')->with('success', 'Data modifikasi berhasil disimpan.');

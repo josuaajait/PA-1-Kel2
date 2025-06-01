@@ -22,17 +22,20 @@
 
                     <form action="{{ route('admins.modifikasi-jahitan.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="pemesanan_id" value="{{ $type . '-' . $data->id }}">
+                    @if($type === 'produk')
+                        <input type="hidden" name="pemesanan_produk_id" value="{{ $data->pemesanan_produk_id }}">
+                    @else
+                        <input type="hidden" name="pemesanan_jahitan_id" value="{{ $data->pemesanan_jahitan_id }}">
+                    @endif
                     <div class="mb-3">
                         <label>Nama</label>
                         <input type="text" name="nama" class="form-control" value="{{ $data->nama }}" readonly>
                     </div>
                     <div class="mb-3">
-                        <label>{{ $type === 'produk' ? 'Nama Produk' : 'Jenis Pakaian' }}</label>
+                        <label>Jenis Pakaian</label>
                         <input type="text" name="jenis_pakaian" class="form-control"
-                        value="{{ $type === 'produk' ? $data->produks[0]->nama : $data->jenis_pakaian }}"
-                        readonly>
-
+                            value="{{ $data->jenis_pakaian }}"
+                            readonly>
                     </div>
                     <div class="mb-3">
                         <label>Catatan Modifikasi</label>
@@ -40,10 +43,9 @@
                     </div>
                     <button type="submit" class="btn btn-success">Simpan</button>
                     <a href="{{ route('admins.modifikasi-jahitan.index') }}" class="btn btn-secondary">Kembali</a>
-                </form>
-
-                </div>
-        </div>
+                    </form>
+                    </div>
+    </div>
 </div>
             </main>
 @include('layout.adminscript')

@@ -88,7 +88,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
 
 // ==================== USER ROUTES ====================
 Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
+    Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 
+  
     // Pemesanan produk (User)
     Route::get('/pemesanan-produk', [PemesananProdukController::class, 'index'])->name('pemesanan-produk.index');
     Route::get('/pemesanan-produk/create/{produk}', [PemesananProdukController::class, 'create'])->name('pemesanan-produk.create');
@@ -98,7 +100,6 @@ Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
     Route::get('/pemesanan-jahitan', [PemesananJahitanController::class, 'create'])->name('pemesanan_jahitan.create');
     Route::post('/pemesanan-jahitan', [PemesananJahitanController::class, 'store'])->name('pemesanan_jahitan.store');
 
-    // Route About Us (User)
     // Menampilkan versi lengkap, hanya untuk user login
     Route::get('/about/full', [AboutUsController::class, 'full'])->name('about.full');
 
@@ -124,6 +125,8 @@ Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.index'
 // Produk (Public)
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 
+// Form pemesanan jahitan (Public)
+Route::get('/pemesanan-jahitan', [PemesananJahitanController::class, 'create'])->name('pemesanan_jahitan.create');
 
 // ==================== AUTH ROUTES ====================
 // Register

@@ -13,7 +13,9 @@
   <!-- Main JS File -->
   <script src="{{URL::asset('js/main.js')}}"></script>
   
-  
+<!-- Wajib: Popper dan Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/purecounterjs@1.0.1/dist/purecounter.min.js"></script>
 

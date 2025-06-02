@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card shadow-lg">
                 <div class="card-header text-white text-center">
-                    <h3>Form Pemesanan</h3>
+                    <h3>Form Pemesanan Produk</h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('user.pemesanan-produk.store') }}" method="POST">

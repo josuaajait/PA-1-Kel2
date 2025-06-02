@@ -44,11 +44,15 @@
     height: 100%;
     object-fit: cover;
   }
+
+  <style>
+    .text-justify {
+        text-align: justify;
+    }
+
 </style>
 
-
-
-</style>
+<br><br>
 <!-- About Section -->
 <section class="page-section light-background" id="about">
     <div class="container">
@@ -68,7 +72,7 @@
                         <h4 class="subheading">Siapa Kami</h4>
                     </div>
                     <div class="timeline-body">
-                        <p class="text-muted">{{ $aboutUs->deskripsi }}</p>
+                        <p class="text-muted text-justify">{{ $aboutUs->deskripsi }}</p>
                     </div>
                 </div>
             </li>
@@ -81,7 +85,7 @@
                         <h4 class="subheading">Perjalanan Kami</h4>
                     </div>
                     <div class="timeline-body">
-                        <p class="text-muted">{{ $aboutUs->sejarah }}</p>
+                        <p class="text-muted text-justify">{{ $aboutUs->sejarah }}</p>
                     </div>
                 </div>
             </li>
@@ -94,7 +98,7 @@
                         <h4 class="subheading">Tujuan Kami</h4>
                     </div>
                     <div class="timeline-body">
-                        <p class="text-muted">{{ $aboutUs->visi }}</p>
+                        <p class="text-muted text-justify">{{ $aboutUs->visi }}</p>
                     </div>
                 </div>
             </li>
@@ -107,7 +111,14 @@
                         <h4 class="subheading">Langkah Kami</h4>
                     </div>
                     <div class="timeline-body">
-                        <p class="text-muted">{{ $aboutUs->misi }}</p>
+                        <ol class="text-muted">
+                            @foreach (explode('.', $aboutUs->misi) as $item)
+                                @if (trim($item) !== '')
+                                    <li>{{ trim($item) }}.</li>
+                                @endif
+                            @endforeach
+                        </ol>
+
                     </div>
                 </div>
             </li>

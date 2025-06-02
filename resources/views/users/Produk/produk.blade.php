@@ -41,7 +41,9 @@
                                         </span>
                                     </p>
                                     @auth
-                                    <a href="{{ route('user.pemesanan-produk.create', $produk->produk_id) }}" class="btn btn-primary">Order Now</a>
+                                    <a href="{{ route('user.pemesanan-produk.create', ['produkId' => $produk->id]) }}" class="btn btn-primary">
+                                        Pesan Sekarang
+                                    </a>
                                 @endauth
 
                                 @guest

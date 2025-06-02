@@ -90,10 +90,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
 Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
     Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 
-  
+    // Profil User
+    Route::get('/profil', [UserController::class, 'profil'])->name('profil');
+    Route::get('/profil/edit', [UserController::class, 'editProfil'])->name('profil.edit');
+    Route::put('/profil/update', [UserController::class, 'updateProfil'])->name('profil.update');
+
     // Pemesanan produk (User)
     Route::get('/pemesanan-produk', [PemesananProdukController::class, 'index'])->name('pemesanan-produk.index');
-    Route::get('/pemesanan-produk/create/{produk}', [PemesananProdukController::class, 'create'])->name('pemesanan-produk.create');
+    Route::get('/pemesanan-produk/create/{produkId}', [PemesananProdukController::class, 'createWithProduk'])
+    ->name('pemesanan-produk.create');
     Route::post('/pemesanan-produk', [PemesananProdukController::class, 'store'])->name('pemesanan-produk.store');
 
     // Untuk customer

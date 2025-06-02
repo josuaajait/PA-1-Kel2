@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller;
+
+
 
 class UserController extends Controller
 {
@@ -44,6 +47,39 @@ class UserController extends Controller
 
     return redirect()->intended('/login'); // Redirect ke halaman login setelah registrasi
     }
+
+    public function editProfil()
+    {
+        $user = auth()->user();
+        return view('users.edit_profil', compact('user'));
+    }
+
+        public function updateProfil(Request $request)
+        {
+            
+            $user = auth()->user();
+            $request->validate([
+                'nama' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $user->user_id . ',user_id',
+                'no_hp' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            ]);
+
+            $user = \App\Models\User::find(auth()->user()->user_id);
+
+            $user->fill([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'no_hp' => $request->no_hp,
+            ]);
+
+            $user->save();
+
+            return redirect()->route('user.profil')->with('success', 'Profil berhasil diperbarui.');
+        }
+
+
+
+
 
     /**
      * Show the login form.

@@ -56,10 +56,12 @@
                                                     <div class="d-flex gap-1">
                                                         <a href="{{ route('admins.about.detail', ['id' => $item->about_us_id]) }}" class="btn btn-info btn-sm">Detail</a>
                                                         <a href="{{ route('admins.about.edit', ['id' => $item->about_us_id]) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                        <form action="{{ route('admins.about.destroy', ['id' => $item->about_us_id]) }}" method="POST" style="display:inline;">
+                                                       <form action="{{ route('admins.about.destroy', ['id' => $item->about_us_id]) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin hapus data ini?')">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button>
+                                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                                <i class="bi bi-trash"></i> Hapus
+                                                            </button>
                                                         </form>
                                                 
                                                         @if(!$item->is_active)

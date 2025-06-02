@@ -92,8 +92,8 @@ Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
 
     // Profil User
     Route::get('/profil', [UserController::class, 'profil'])->name('profil');
-    Route::get('/profil/edit', [UserController::class, 'editProfil'])->name('profil.edit');
-    Route::put('/profil/update', [UserController::class, 'updateProfil'])->name('profil.update');
+    Route::get('/profil/edit', [UserController::class, 'editProfil'])->name('profil.editProfil');
+    Route::put('/profil/update', [UserController::class, 'updateProfil'])->name('profil.updateProfil');
 
     // Pemesanan produk (User)
     Route::get('/pemesanan-produk', [PemesananProdukController::class, 'index'])->name('pemesanan-produk.index');

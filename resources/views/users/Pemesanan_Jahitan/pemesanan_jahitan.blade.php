@@ -15,9 +15,8 @@
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="row justify-content-center align-items-center gy-5">
       <div class="col-xl-5 content">
-        <h3>Pemesanan</h3>
-        <h2>Order your custom clothing</h2>
-        <p>Fill out the form below to place your order.</p>
+      <h2>Pemesanan Jahitan</h2>
+      <p>Isi form dibawah untuk melakukan pemesanan.</p>
 
         <form id="orderForm" action="{{ route('user.pemesanan_jahitan.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -83,10 +82,16 @@
             <label for="bukti_pembayaran_lunas" class="form-label">Bukti Pembayaran Lunas (Opsional)</label>
             <input type="file" name="bukti_pembayaran_lunas" class="form-control">
           </div>
+        @auth
+            <!-- Jika user sudah login -->
+            <button type="submit" class="btn btn-primary">Kirim Pemesanan</button>
+        @endauth
 
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">Kirim</button>
-          </div>
+        @guest
+            <!-- Jika user belum login -->
+            <a href="{{ route('login') }}" class="btn btn-warning">Login untuk Melakukan Pemesanan</a>
+        @endguest
+
         </form>
 
       </div>

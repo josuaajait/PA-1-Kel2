@@ -32,7 +32,7 @@
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row align-items-xl-center gy-5">
             <div class="col-xl-12">
-                <h2>Produk Kami</h2>
+                <h2>Produk Terbaru Kami</h2>
                 <div class="row">
                     @foreach($produks as $produk)
                         <div class="col-md-3">

@@ -1,7 +1,8 @@
-@extends('layout.main')
+@include('layout.header')
+<body class="index-page">
+  <main class="main">
 
-@section('content')
-<br><br><br><br>
+    <br><br><br><br>
 <div class="container mt-5">
     <h2>Profil Pengguna</h2>
     <div class="card p-4">
@@ -11,7 +12,17 @@
     </div>
 
     <div class="mt-4">
-        <a href="{{ route('user.profil.edit') }}" class="btn btn-warning">Edit Profil</a>
+        <a href="{{ route('user.profil.editProfil') }}" class="btn btn-warning">Edit Profil</a>
+        <a href="{{ route('home') }}" class="btn btn-secondary">Kembali ke Beranda</a>
 </div>
 <br>
-@endsection
+
+  </main>
+
+
+  @include('layout.script')
+</body>
+</html>
+
+|
+

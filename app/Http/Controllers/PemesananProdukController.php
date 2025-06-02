@@ -73,9 +73,14 @@ class PemesananProdukController extends Controller
             'harga' => $produk->harga,
         ]);
        
-        
-        return redirect()->route('admins.pemesanan-produk.index')
-            ->with('success', 'Pemesanan produk berhasil ditambahkan dengan status pending.');
+        if (auth()->user()->role === 'admin') {
+            return redirect()->route('admins.pemesanan-produk.index')
+                ->with('success', 'Pemesanan produk berhasil ditambahkan dengan status pending.');
+        } else {
+            return redirect()->route('user.pemesanan-jahitan.index')
+                ->with('success', 'Pemesanan jahitan berhasil ditambahkan dengan status pending.');
+        }
+
     }
 
 

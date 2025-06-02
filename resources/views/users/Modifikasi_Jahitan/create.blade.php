@@ -15,9 +15,9 @@
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="row justify-content-center align-items-center gy-5">
       <div class="col-xl-6 content">
-        <h3>Form Modifikasi Jahitan</h3>
+        <h3>Form Modifikasi Pakaian</h3>
         <h2>Ajukan Permintaan Modifikasi</h2>
-        <p>Isi formulir di bawah ini untuk mengajukan permintaan modifikasi jahitan Anda.</p>
+        <p>Isi formulir di bawah ini untuk mengajukan permintaan modifikasi pakaian Anda.</p>
 
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>

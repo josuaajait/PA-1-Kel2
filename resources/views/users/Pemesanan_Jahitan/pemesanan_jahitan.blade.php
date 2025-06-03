@@ -10,7 +10,12 @@
 </style>
 
 <br><br><br><br>
-
+  @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
 <section id="pemesanan" class="pemesanan section light-background">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="row justify-content-center align-items-center gy-5">
@@ -82,14 +87,19 @@
             <label for="bukti_pembayaran_lunas" class="form-label">Bukti Pembayaran Lunas (Opsional)</label>
             <input type="file" name="bukti_pembayaran_lunas" class="form-control">
           </div>
+          
         @auth
             <!-- Jika user sudah login -->
-            <button type="submit" class="btn btn-primary">Kirim Pemesanan</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Kirim Pemesanan</button>
+            </div>
         @endauth
 
         @guest
             <!-- Jika user belum login -->
-            <a href="{{ route('login') }}" class="btn btn-warning">Login untuk Melakukan Pemesanan</a>
+            <div class="text-center">
+                <a href="{{ route('login') }}" class="btn btn-warning">Login untuk Melakukan Pemesanan</a>
+            </div>
         @endguest
 
         </form>

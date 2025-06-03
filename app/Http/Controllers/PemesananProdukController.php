@@ -14,17 +14,19 @@ class PemesananProdukController extends Controller
     {
         if (Auth::user()->role === 'admin') {
             $produks = Produk::all();
-            $pemesananProduks = PemesananProduk::with(['user', 'produks'])->paginate(10);
+            $pemesananProduks = PemesananProduk::with(['user', 'produks'])->paginate(8);
 
             return view('admins.pemesanan_produk.index', compact('produks', 'pemesananProduks'));
         }
 
+        $produks = Produk::all(); // ✅ tambahkan ini
         $pemesananProduks = PemesananProduk::with('produks')
             ->where('user_id', Auth::id())
             ->get();
 
-        return view('users.pemesanan_produk.pemesanan_produk', compact('pemesananProduks'));
+        return view('users.pemesanan_produk.pemesanan_create', compact('pemesananProduks', 'produks'));
     }
+
 
     public function create()
     {
@@ -77,8 +79,8 @@ class PemesananProdukController extends Controller
             return redirect()->route('admins.pemesanan-produk.index')
                 ->with('success', 'Pemesanan produk berhasil ditambahkan dengan status pending.');
         } else {
-            return redirect()->route('user.pemesanan-jahitan.index')
-                ->with('success', 'Pemesanan jahitan berhasil ditambahkan dengan status pending.');
+            return redirect()->route('user.pemesanan-produk.index')
+                ->with('success', 'Pesanan diproses.');
         }
 
     }

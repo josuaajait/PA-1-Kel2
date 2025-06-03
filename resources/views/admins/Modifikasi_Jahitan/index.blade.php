@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>Modifikasi Jahitan & Produk</title>
     <link href="{{ URL::asset('admincss/app.css') }}" rel="stylesheet" />
+  <link href="{{URL::asset('img/firman-taylor-logo-modified.png')}}" rel="icon"> 
 </head>
 <body>
     <div class="wrapper">

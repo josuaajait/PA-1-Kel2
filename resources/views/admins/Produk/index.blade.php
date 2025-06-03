@@ -10,7 +10,8 @@
     <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="shortcut icon" href="{{URL::asset('adminimg/icons/icon-48x48.png')}}" />
+    
+    <link href="{{URL::asset('img/firman-taylor-logo-modified.png')}}" rel="icon"> 
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
@@ -18,6 +19,44 @@
 
     <link href="{{URL::asset('admincss/app.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+    .pagination {
+        display: flex !important;
+        flex-wrap: wrap;
+        list-style: none !important;
+        padding-left: 0 !important;
+        justify-content: center; /* or flex-start/space-between etc */
+        margin-top: 1rem;
+    }
+
+    .page-item {
+        margin: 0 0.25rem;
+    }
+
+    .page-link {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        color: #007bff;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #fff;
+        border-color: #dee2e6;
+    }
+</style>
 </head>
 
 <body>
@@ -88,6 +127,7 @@
                                 @endforeach
                             </tbody>                            
                         </table>
+                        {{ $produks->links('vendor.pagination.bootstrap-4') }}
                     </div>
                 </div>
             </div>

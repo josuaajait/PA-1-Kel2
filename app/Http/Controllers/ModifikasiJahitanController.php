@@ -165,27 +165,53 @@ class ModifikasiJahitanController extends Controller
         // Untuk menampilkan form create (view)
         public function createCustomer()
         {
-            return view('users.modifikasi_jahitan.create');
+            $userId = auth()->id();
+
+            $pemesananProduks = PemesananProduk::where('user_id', $userId)
+                ->where('status', 'selesai')
+                ->get();
+
+            $pemesananJahitans = PemesananJahitan::where('user_id', $userId)
+                ->where('status', 'selesai')
+                ->get();
+
+            return view('users.modifikasi_jahitan.create', compact('pemesananProduks', 'pemesananJahitans'));
         }
 
-        // Untuk menyimpan data dari user
+
+
+                // Untuk menyimpan data dari user
         public function storeCustomer(Request $request)
         {
             $request->validate([
-                'nama' => 'required|string|max:255',
-                'jenis_pakaian' => 'required|string|max:255',
+                'pemesanan' => 'required|string',
                 'catatan' => 'required|string',
             ]);
 
+            list($tipe, $id) = explode('|', $request->pemesanan);
+
+            if ($tipe === 'produk') {
+                $pemesanan = PemesananProduk::findOrFail($id);
+                $pemesananProdukId = $id;
+                $pemesananJahitanId = null;
+            } elseif ($tipe === 'jahitan') {
+                $pemesanan = PemesananJahitan::findOrFail($id);
+                $pemesananJahitanId = $id;
+                $pemesananProdukId = null;
+            } else {
+                return back()->withErrors(['Pemesanan tidak valid.']);
+            }
+
             ModifikasiJahitan::create([
                 'user_id' => auth()->id(),
-                'nama' => $request->nama,
-                'jenis_pakaian' => $request->jenis_pakaian,
+                'nama' => $pemesanan->nama,
+                'jenis_pakaian' => $pemesanan->jenis_pakaian,
                 'catatan' => $request->catatan,
+                'pemesanan_produk_id' => $pemesananProdukId,
+                'pemesanan_jahitan_id' => $pemesananJahitanId,
             ]);
 
             return redirect()->back()->with('success', 'Pengajuan modifikasi berhasil dikirim.');
         }
-
 
 }

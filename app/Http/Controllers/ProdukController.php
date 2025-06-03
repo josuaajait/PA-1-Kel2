@@ -11,7 +11,7 @@ class ProdukController extends Controller
 {
     public function index()
     {
-        $produks = Produk::all();
+        $produks = Produk::paginate(8); // Ambil 8 data per halaman
         $user = Auth::user();
 
         if ($user && $user->role === 'admin') {
@@ -20,6 +20,7 @@ class ProdukController extends Controller
             return view('users.produk.produk', compact('produks'));
         }
     }
+
 
     public function show(Produk $produk)
     {

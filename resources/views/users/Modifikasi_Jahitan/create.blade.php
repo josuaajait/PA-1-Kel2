@@ -33,33 +33,35 @@
           </div>
         @endif
 
-        <form action="{{ route('user.modifikasi-jahitan.store') }}" method="POST">
-            @csrf
+      <form action="{{ route('user.modifikasi-jahitan.store') }}" method="POST">
+          @csrf
 
-            <div class="mb-3">
-                <label for="nama" class="form-label">Nama</label>
-                <input type="text" name="nama" id="nama" class="form-control" value="{{ old('nama') }}" required>
-            </div>
+          <div class="mb-3">
+              <label for="pemesanan" class="form-label">Pilih Pemesanan Selesai</label>
+              <select name="pemesanan" id="pemesanan" class="form-select" required>
+                  <option value="" disabled selected>-- Pilih salah satu --</option>
+                  @foreach($pemesananProduks as $item)
+                      <option value="produk|{{ $item->pemesanan_produk_id }}">
+                          [Produk] {{ $item->jenis_pakaian }} - {{ $item->nama }}
+                      </option>
+                  @endforeach
+                  @foreach($pemesananJahitans as $item)
+                      <option value="jahitan|{{ $item->pemesanan_jahitan_id }}">
+                          [Jahitan] {{ $item->jenis_pakaian }} - {{ $item->nama }}
+                      </option>
+                  @endforeach
+              </select>
+          </div>
 
-            <div class="mb-3">
-                <label for="jenis_pakaian" class="form-label">Jenis Pakaian</label>
-                <select name="jenis_pakaian" id="jenis_pakaian" class="form-select" required>
-                    <option value="" disabled selected>Pilih jenis pakaian</option>
-                    <option value="Kemeja" {{ old('jenis_pakaian') == 'Kemeja' ? 'selected' : '' }}>Kemeja</option>
-                    <option value="Gaun" {{ old('jenis_pakaian') == 'Gaun' ? 'selected' : '' }}>Gaun</option>
-                    <option value="Kebaya" {{ old('jenis_pakaian') == 'Kebaya' ? 'selected' : '' }}>Kebaya</option>
-                </select>
-            </div>
+          <div class="mb-3">
+              <label for="catatan" class="form-label">Catatan Modifikasi</label>
+              <textarea name="catatan" id="catatan" class="form-control" rows="4" required>{{ old('catatan') }}</textarea>
+          </div>
 
-            <div class="mb-3">
-                <label for="catatan" class="form-label">Catatan Modifikasi</label>
-                <textarea name="catatan" id="catatan" class="form-control" rows="4" required>{{ old('catatan') }}</textarea>
-            </div>
-
-            <div class="d-grid">
+          <div class="d-grid">
               <button type="submit" class="btn btn-primary">Kirim Permintaan</button>
-            </div>
-        </form>
+          </div>
+      </form>
 
       </div>
     </div>

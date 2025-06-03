@@ -1,7 +1,13 @@
 @include('layout.header')
 <body class="index-page">
 
-  @include('layout.navbar')
+  @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
   <main class="main">
     <br><br><br><br>
     <div class="container mt-5">
@@ -102,7 +108,7 @@
 
                         <!-- Submit Button -->
                         <div class="text-center">
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle"></i> Kirim Pemesanan
                             </button>
                             <a href="{{ route('user.produk.index') }}" class="btn btn-secondary">

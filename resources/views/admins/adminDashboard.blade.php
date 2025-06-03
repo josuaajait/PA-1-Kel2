@@ -10,7 +10,8 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="{{URL::asset('adminimg/icons/icon-48x48.png')}}" />
+
+  <link href="{{URL::asset('img/firman-taylor-logo-modified.png')}}" rel="icon"> 
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 

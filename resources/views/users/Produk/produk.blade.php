@@ -7,13 +7,50 @@
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-  </style>
-<style>
+
+
     .card-img-top {
     height: 200px; /* Ukuran seragam */
     object-fit: cover; /* Potong proporsional */
     width: 100%;
 }
+
+    .pagination {
+        display: flex !important;
+        flex-wrap: wrap;
+        list-style: none !important;
+        padding-left: 0 !important;
+        justify-content: center; /* or flex-start/space-between etc */
+        margin-top: 1rem;
+    }
+
+    .page-item {
+        margin: 0 0.25rem;
+    }
+
+    .page-link {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        color: #007bff;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #fff;
+        border-color: #dee2e6;
+    }
 </style>
 <br><br><br><br>
 
@@ -53,6 +90,7 @@
                             </div>
                         </div>
                     @endforeach
+                    {{ $produks->links('vendor.pagination.bootstrap-4') }}
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@ class PemesananJahitanController extends Controller
     public function index()
     {
         if (Auth::user()->role === 'admin') {
-            $pemesananJahitan = PemesananJahitan::paginate(10);
+            $pemesananJahitan = PemesananJahitan::paginate(8);
             return view('admins.pemesanan_jahitan.index', compact('pemesananJahitan'));
         }
 
@@ -75,7 +75,7 @@ class PemesananJahitanController extends Controller
         PemesananJahitan::create($data);
 
         return redirect()->route(Auth::user()->role === 'admin' ? 'admins.pemesanan-jahitan.index' : 'user.pemesanan_jahitan.create')
-            ->with('success', 'Pemesanan jahitan berhasil ditambahkan.');
+            ->with('success', 'Pesanan Diproses.');
     }
 
     // Tampilkan detail pemesanan jahitan

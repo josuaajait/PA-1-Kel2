@@ -19,6 +19,12 @@
 			@include('layout.adminnavbar')
 
 			<main class="content">
+				@if(session('success'))
+					<div class="alert alert-success">
+						{{ session('success') }}
+					</div>
+				@endif
+
 				<div class="container-fluid mt-4">
 
 					<h1 class="h3 mb-3">Tambah Pemesanan Jahitan</h1>

@@ -6,6 +6,7 @@
     <title>Data Customer</title>
     <link href="{{ URL::asset('admincss/app.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="{{URL::asset('img/firman-taylor-logo-modified.png')}}" rel="icon"> 
 </head>
 <body>
     <div class="wrapper">

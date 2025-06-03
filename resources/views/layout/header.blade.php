@@ -4,13 +4,13 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - Append Bootstrap Template</title>
+  <title>Firman Taylor</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="{{URL::asset('img/favicon.png')}}" rel="icon">
-  <link href="{{URL::asset('img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+  <link href="{{URL::asset('img/firman-taylor-logo-modified.png')}}" rel="icon"> 
+  <link href="{{URL::asset('img/firman-taylor-logo.jpg')}}" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">

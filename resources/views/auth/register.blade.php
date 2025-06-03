@@ -22,6 +22,16 @@
                             {{ session('error') }}
                         </div>
                     @endif
+                                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li> {{-- Tampilkan semua pesan error --}}
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                     <form action="{{ route('register') }}" method="POST">
                         @csrf
 
@@ -52,6 +62,7 @@
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>
+
                     </form>
                 </div>
             </div>

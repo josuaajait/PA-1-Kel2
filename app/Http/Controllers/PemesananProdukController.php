@@ -71,8 +71,6 @@ class PemesananProdukController extends Controller
 
         // Attach produk ke pemesanan lewat pivot
         $pemesanan->produks()->attach($produk->produk_id, [
-            'nama_produk' => $produk->nama,
-            'harga' => $produk->harga,
         ]);
        
         if (auth()->user()->role === 'admin') {

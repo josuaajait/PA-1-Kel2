@@ -99,10 +99,13 @@
                                         <td>{{ $produk->warna }}</td>  <!-- Menampilkan warna -->
                                         <td>{{ $produk->bahan }}</td>  <!-- Menampilkan bahan -->
                                         <td>
-                                            <select name="status" id="status" class="form-control">
-                                                <option value="tersedia" {{ old('status', $produk->status ?? '') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
-                                                <option value="habis" {{ old('status', $produk->status ?? '') == 'habis' ? 'selected' : '' }}>Habis</option>
-                                            </select>
+                                            @if($produk->status == 'tersedia')
+                                                <span class="badge bg-success">Tersedia</span>
+                                            @elseif($produk->status == 'habis')
+                                                <span class="badge bg-danger">Habis</span>
+                                            @else
+                                                <span class="badge bg-secondary">Tidak Diketahui</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <img src="{{ asset('storage/produk_images/' . $produk->gambar) }}" alt="{{ $produk->nama }}" style="max-width: 100px;">

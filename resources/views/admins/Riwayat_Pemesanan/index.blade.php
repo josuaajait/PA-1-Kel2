@@ -76,7 +76,19 @@
                                 <td>{{ $pj->pemesanan_jahitan_id }}</td>
                                 <td>{{ $pj->nama }}</td>
                                 <td>{{ $pj->jenis_pakaian }}</td>
-                                <td>{{ ucfirst($pj->status) }}</td>
+                                <td>
+                                @if($pj->status == 'pending')
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @elseif($pj->status == 'diproses')
+                                    <span class="badge bg-primary">Diproses</span>
+                                @elseif($pj->status == 'selesai')
+                                    <span class="badge bg-success">Selesai</span>
+                                @elseif($pj->status == 'batal')
+                                    <span class="badge bg-danger">Batal</span>
+                                @else
+                                    <span class="badge bg-secondary">Tidak Diketahui</span>
+                                @endif
+                                </td>
                                 <td>{{ $pj->created_at->format('d M Y') }}</td>
                             </tr>
                         @endforeach
@@ -105,7 +117,19 @@
                                 <td>{{ $pp->nama }}</td>
                                 <td>{{ $produk->pivot->nama_produk ?? $produk->nama ?? '-' }}</td>
                                 <td>Rp {{ number_format($pp->total_harga, 0, ',', '.') }}</td>
-                                <td>{{ ucfirst($pp->status) }}</td>
+                                <td>
+                                @if($pp->status == 'pending')
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @elseif($pp->status == 'diproses')
+                                    <span class="badge bg-primary">Diproses</span>
+                                @elseif($pp->status == 'selesai')
+                                    <span class="badge bg-success">Selesai</span>
+                                @elseif($pp->status == 'batal')
+                                    <span class="badge bg-danger">Batal</span>
+                                @else
+                                    <span class="badge bg-secondary">Tidak Diketahui</span>
+                                @endif
+                                </td>
                                 <td>{{ $pp->created_at->format('d M Y') }}</td>
                             </tr>
                             @endforeach
@@ -114,8 +138,9 @@
                 </table>
                 {{ $pemesananProduks->links('vendor.pagination.bootstrap-4') }}
                 <hr>
+
                 <h1>Riwayat Pengajuan Modifikasi</h1>
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>ID Pengajuan Modifikasi</th>

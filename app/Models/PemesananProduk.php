@@ -35,12 +35,10 @@ class PemesananProduk extends Model
         return $this->belongsToMany(
             Produk::class,
             'pemesanan_produk_produk',
-            'pemesanan_produk_id', // FK dari model ini (PemesananProduk)
-            'produk_id'            // FK dari model relasi (Produk)
-        )->withPivot('nama_produk', 'harga')
-        ->withTimestamps();
+            'pemesanan_produk_id',
+            'produk_id'
+        );
     }
-
 
     public function user()
     {

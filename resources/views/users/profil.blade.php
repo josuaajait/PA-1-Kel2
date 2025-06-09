@@ -8,6 +8,7 @@
     <div class="card p-4">
         <p><strong>Nama:</strong> {{ $user->nama }}</p>
         <p><strong>Email:</strong> {{ $user->email }}</p>
+        <p><strong>Telepon:</strong> {{ $user->no_hp }}</p>
         <p><strong>Role:</strong> {{ $user->role }}</p>
     </div>
 

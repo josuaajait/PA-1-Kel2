@@ -120,4 +120,36 @@ public function update(Request $request, Produk $produk)
             abort(403, 'Akses ditolak.');
         }
     }
+
+    /* Fitur search produk
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $produks = Produk::where('nama', 'like', '%' . $query . '%')
+            ->orWhere('jenis_pakaian', 'like', '%' . $query . '%')
+            ->orWhere('deskripsi', 'like', '%' . $query . '%')
+            ->paginate(8);
+
+        return view('users.produk.produk', compact('produks'));
+    }
+    public function filter(Request $request)
+    {
+        $jenis_pakaian = $request->input('jenis_pakaian');
+        $status = $request->input('status');
+
+        $query = Produk::query();
+
+        if ($jenis_pakaian) {
+            $query->where('jenis_pakaian', $jenis_pakaian);
+        }
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $produks = $query->paginate(8);
+
+        return view('users.produk.produk', compact('produks'));
+    }
 }

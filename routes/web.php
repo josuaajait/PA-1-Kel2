@@ -89,6 +89,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
 // ==================== USER ROUTES ====================
 Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
     Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
+    Route::get('/produk/search', [ProdukController::class, 'search'])->name('produk.search');
 
     // Profil User
     Route::get('/profil', [UserController::class, 'profil'])->name('profil');

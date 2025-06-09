@@ -42,7 +42,7 @@
                                 @if($produk->gambar)
                                     <div class="mt-3">
                                         <p>Gambar Produk:</p>
-                                      <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}" style="max-width: 300px;">
+                                      <img src="{{ asset('storage/produk_images/' . $produk->gambar) }}" alt="{{ $produk->nama }}" style="max-width: 100px;">
                                     </div>
                                 @endif
                             </div>

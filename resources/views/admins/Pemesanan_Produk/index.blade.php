@@ -100,12 +100,17 @@
                                 <td>{{ $pemesanan->alamat }}</td>
                                 <td>Rp {{ number_format($pemesanan->total_harga, 0, ',', '.') }}</td>
                                 <td>
-                                    <select name="status" id="status" class="form-control">
-                                        <option value="pending" {{ $pemesanan->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="diproses" {{ $pemesanan->status == 'diproses' ? 'selected' : '' }}>Diproses</option>
-                                        <option value="selesai" {{ $pemesanan->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                        <option value="batal" {{ $pemesanan->status == 'batal' ? 'selected' : '' }}>Batal</option>
-                                    </select>
+                                @if($pemesanan->status == 'pending')
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @elseif($pemesanan->status == 'diproses')
+                                    <span class="badge bg-primary">Diproses</span>
+                                @elseif($pemesanan->status == 'selesai')
+                                    <span class="badge bg-success">Selesai</span>
+                                @elseif($pemesanan->status == 'batal')
+                                    <span class="badge bg-danger">Batal</span>
+                                @else
+                                    <span class="badge bg-secondary">Tidak Diketahui</span>
+                                @endif
                                 </td>
                                 <td>
                                     <a href="{{ route('admins.pemesanan-produk.show', $pemesanan->pemesanan_produk_id) }}" class="btn btn-info btn-sm">Detail</a>

@@ -37,12 +37,6 @@
                 <li>
                     <a href="{{ url('/produk') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a>
                 </li>
-                <li>
-                    <a href="{{ route('login') }}" onclick="return confirm('Silakan login untuk mengakses fitur ini.')" class="disabled-link">Ajukan Modifikasi</a>
-                </li>
-                <li>
-                    <a href="{{ route('login') }}" onclick="return confirm('Silakan login untuk mengakses fitur ini.')" class="disabled-link">Riwayat Pemesanan</a>
-                </li>
             @endauth
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

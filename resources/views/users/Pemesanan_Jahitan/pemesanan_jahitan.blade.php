@@ -79,6 +79,21 @@
           </div>
 
           <div class="mb-3">
+          <label class="form-label fw-bold">Informasi Pembayaran</label>
+          <div class="border rounded p-3 bg-light">
+            <p class="mb-1">Silakan transfer ke rekening berikut:</p>
+            <ul class="mb-0">
+              <li><strong>Bank:</strong> Mandiri</li>
+              <li><strong>Nomor Rekening:</strong> 1720005379195</li>
+              <li><strong>Atas Nama:</strong> Mikhael Josua Roganda</li>
+              <li><strong>Jumlah Uang Muka:</strong> Rp100.000,00</li>
+            </ul>
+            <small class="text-danger">* Sertakan bukti pembayaran untuk memproses pemesanan Anda.</small>
+          </div>
+        </div>
+
+          
+          <div class="mb-3">
             <label for="bukti_pembayaran_uang_muka" class="form-label">Bukti Pembayaran Uang Muka (Rp.100.000,00)</label>
             <input type="file" name="bukti_pembayaran_uang_muka" class="form-control" required>
           </div>

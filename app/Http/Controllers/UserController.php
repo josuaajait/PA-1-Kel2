@@ -31,7 +31,7 @@ class UserController extends Controller
         'nama' => 'required',
         'email' => 'required|email|unique:users',
         'password' => 'required|min:6|confirmed',
-        'no_hp' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10', // Validasi phone
+        'no_hp' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:13', // Validasi phone
     ]);
 
     $user = User::create([
@@ -76,10 +76,6 @@ class UserController extends Controller
 
             return redirect()->route('user.profil')->with('success', 'Profil berhasil diperbarui.');
         }
-
-
-
-
 
     /**
      * Show the login form.

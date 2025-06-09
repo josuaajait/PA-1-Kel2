@@ -63,12 +63,22 @@
                 <div class="row">
                     @foreach($produks as $produk)
                         <div class="col-md-3">
+                            <!-- Search Produk -->
+
+                            <div class="search-produk mb-4">
+                                <form action="{{ route('user.produk.search') }}" method="GET">
+                                    <div class="input-group">
+                                        <input type="text" name="query" class="form-control" placeholder="Cari produk..." value="{{ request()->input('query') }}">
+                                        <button class="btn btn-primary" type="submit">Cari</button>
+                                    </div>
+                                </form>
+                            </div>
                             <div class="card mb-4 ">
                                 <img src="{{ asset('storage/produk_images/' . $produk->gambar) }}" class="card-img-top" alt="{{ $produk->nama }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $produk->nama }}</h5>
                                     <p><strong>Jenis Pakaian:</strong> {{ $produk->jenis_pakaian }}</p>
-                                    <p><strong>Harga:</strong> {{ $produk->harga }}</p>
+                                    <p><strong>Harga:</strong> Rp. {{ number_format($produk->harga, 0, ',', '.') }}</p>
                                     <p><strong>Ukuran:</strong> {{ $produk->ukuran }}</p>
                                     <p><strong>Warna:</strong> {{ $produk->warna }}</p>
                                     <p><strong>Bahan:</strong> {{ $produk->bahan }}</p>

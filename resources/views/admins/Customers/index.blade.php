@@ -18,10 +18,6 @@
             <main class="content">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3">Data Customer</h1>
-                    <a href="{{ route('register') }}" class="btn btn-primary mb-3">Tambah Data Customer</a>
-                    @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
 
                     <div class="card">
                         <div class="card-body">
@@ -32,7 +28,6 @@
                                         <th>Nama</th>
                                         <th>Email</th>
                                         <th>Telepon</th>
-                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,9 +37,6 @@
                                             <td>{{ $customer->nama }}</td>
                                             <td>{{ $customer->email }}</td>
                                             <td>{{ $customer->no_hp }}</td>
-                                            <td>
-                                                <a href="{{ route('admins.customers.edit', $customer) }}" class="btn btn-warning btn-sm">Edit</a>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

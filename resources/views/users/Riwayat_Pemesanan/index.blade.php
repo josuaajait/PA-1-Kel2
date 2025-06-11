@@ -63,6 +63,8 @@
                             <th>Jenis Pakaian</th>
                             <th>Status</th>
                             <th>Tanggal Pesan</th>
+                            <th>Waktu Pengerjaan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,6 +74,30 @@
                             <td>{{ $p->jenis_pakaian }}</td>
                             <td>{{ ucfirst($p->status) }}</td>
                             <td>{{ $p->created_at->format('d M Y') }}</td>
+                            <td>
+                                @if($p->status === 'selesai')
+                                    @if($p->jenis_pakaian === 'kemeja') 1-3 hari
+                                    @elseif($p->jenis_pakaian === 'gaun') 3-7 hari
+                                    @elseif($p->jenis_pakaian === 'kebaya') 7-14 hari
+                                    @else - @endif
+                                @else
+                                    Estimasi: 
+                                    @if($p->jenis_pakaian === 'kemeja') 1-3 hari
+                                    @elseif($p->jenis_pakaian === 'gaun') 3-7 hari
+                                    @elseif($p->jenis_pakaian === 'kebaya') 7-14 hari
+                                    @else - @endif
+                                @endif
+                            </td>
+
+                            <td>
+                            @if($p->status === 'selesai')
+                                <a href="{{ route('user.testimoni.create') }}?pemesanan_jahitan_id={{ $p->id }}" class="btn btn-primary">Ulas Jahitan</a>
+                            @else
+                                <span class="text-muted">Belum selesai</span>
+                            @endif
+
+                            </td>
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -93,6 +119,8 @@
                             <th>Jenis Pakaian</th>
                             <th>Status</th>
                             <th>Tanggal Pesan</th>
+                            <th>Tanggal Diambil</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,6 +130,22 @@
                             <td>{{ $p->jenis_pakaian }}</td>
                             <td>{{ ucfirst($p->status) }}</td>
                             <td>{{ $p->created_at->format('d M Y') }}</td>
+                                <td>
+                                    @if($p->status === 'selesai' && $p->tanggal_selesai)
+                                        {{ \Carbon\Carbon::parse($p->tanggal_selesai)->format('d M Y') }}
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                            <td>
+                            @if($p->status === 'selesai')
+                                <a href="{{ route('user.testimoni.create', ['pemesanan_produk_id' => $p->id]) }}" class="btn btn-primary">Ulas Produk</a>
+                            @else
+                                <span class="text-muted">Belum selesai</span>
+                            @endif
+
+                            </td>
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -122,6 +166,8 @@
                             <th>Jenis Pakaian</th>
                             <th>Catatan</th>
                             <th>Tanggal Pesan</th>
+                            <th>Waktu Pengerjaan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -131,6 +177,39 @@
                             <td>{{ $p->jenis_pakaian }}</td>
                             <td>{{ $p->catatan }}</td>
                             <td>{{ $p->created_at->format('d M Y') }}</td>
+                            <td>
+                                @if($p->status === 'selesai')
+                                    @if($p->jenis_pakaian === 'kemeja')
+                                        1-2 hari
+                                    @elseif($p->jenis_pakaian === 'gaun')
+                                        2-4 hari
+                                    @elseif($p->jenis_pakaian === 'kebaya')
+                                        3-7 hari
+                                    @else
+                                        -
+                                    @endif
+                                @else
+                                    Estimasi: 
+                                    @if($p->jenis_pakaian === 'kemeja')
+                                        1-2 hari
+                                    @elseif($p->jenis_pakaian === 'gaun')
+                                        2-4 hari
+                                    @elseif($p->jenis_pakaian === 'kebaya')
+                                        3-7 hari
+                                    @else
+                                        -
+                                    @endif
+                                @endif
+                            </td>
+
+                            <td>
+                            @if($p->status === 'selesai')
+                                <a href="{{ route('user.testimoni.create') }}?modifikasi_jahitan_id={{ $p->id }}" class="btn btn-primary">Ulas Modifikasi</a>
+                            @else
+                                <span class="text-muted">Belum selesai</span>
+                            @endif
+
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

@@ -16,6 +16,12 @@
             </li>
 
             <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ route('admins.pemasukan.index') }}">
+                    <i class="align-middle" data-feather="dollar-sign"></i> <span class="align-middle">Pemasukan</span>
+                </a>
+            </li>
+ 
+            <li class="sidebar-item">
                 <a class="sidebar-link" href="{{ route('about.index') }}">
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">Tentang Kami</span>
                 </a>
@@ -57,6 +63,13 @@
             <li class="sidebar-item">
                 <a class="sidebar-link" href="{{ url('/admin/riwayat-pemesanan') }}">
                     <i class="align-middle" data-feather="clock"></i> <span class="align-middle">Riwayat Pemesanan</span>
+                </a>
+            </li>
+
+            <!--Menu testimoni-->
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ url('/admin/testimoni') }}">
+                    <i class="align-middle" data-feather="message-square"></i> <span class="align-middle">Testimoni</span>
                 </a>
             </li>
 

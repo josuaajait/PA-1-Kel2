@@ -16,7 +16,9 @@ use App\Http\Controllers\AboutUsController; // Pastikan ini di-import
 use App\Http\Controllers\ManageCustomerController;
 use App\Http\Controllers\ModifikasiJahitanController;
 use App\Http\Controllers\RiwayatPemesananController;
-use App\Models\ModifikasiJahitan;
+use App\Http\Controllers\TestimoniController;
+use App\Http\Controllers\PemasukanController;
+use App\Models\Testimoni;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profil', [UserController::class, 'profil'])->name('profil');
@@ -31,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('adminDashboard');
+
+    Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
 
     Route::get('/profile', [AdminController::class, 'profile'])->name('adminProfile');
 
@@ -84,6 +88,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
     Route::delete('/about/{id}', [AboutUsController::class, 'destroy'])->name('about.destroy');
     Route::post('/about/{id}/activate', [AboutUsController::class, 'activate'])->name('about.activate');
     // ==================== AKHIR CRUD ABOUT US (ADMIN) ====================
+    Route::get('/pemasukan', [PemasukanController::class, 'index'])->name('pemasukan.index');
 }); // Akhir dari group middleware admin
 
 // ==================== USER ROUTES ====================
@@ -117,9 +122,13 @@ Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
 
     Route::get('/riwayat-pemesanan', [RiwayatPemesananController::class, 'index'])->name('user.riwayat-pemesanan.index');
 
-
-
-}); // Akhir dari group middleware user
+    Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
+    Route::get('/testimoni/create', [TestimoniController::class, 'create'])->name('testimoni.create');
+    Route::post('/testimoni', [TestimoniController::class, 'store'])->name('testimoni.store');
+    Route::get('/testimoni/{id}/edit', [TestimoniController::class, 'edit'])->name('testimoni.edit');
+    Route::put('/testimoni/{id}', [TestimoniController::class, 'update'])->name('testimoni.update');
+    Route::delete('/testimoni/{id}', [TestimoniController::class, 'destroy'])->name('testimoni.destroy');
+});
 
 // ==================== PUBLIC ROUTES ====================
 // Landing page
@@ -130,6 +139,9 @@ Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.index'
 
 // Produk (Public)
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
+
+
+ Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
 
 // Form pemesanan jahitan (Public)
 Route::get('/pemesanan-jahitan', [PemesananJahitanController::class, 'create'])->name('pemesanan_jahitan.create');

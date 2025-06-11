@@ -50,6 +50,15 @@
 											<label for="alamat" class="form-label">Alamat</label>
 											<input name="alamat" class="form-control" required></input>
 										</div>
+										@if ($errors->any())
+											<div class="alert alert-danger">
+												<ul class="mb-0">
+													@foreach ($errors->all() as $error)
+														<li>{{ $error }}</li>
+													@endforeach
+												</ul>
+											</div>
+										@endif
 
 										<!-- Form Pilihan -->
 										<div class="mb-3">
@@ -79,11 +88,53 @@
 											<input type="text" name="warna" class="form-control" required>
 										</div>
 
-										<!-- Textarea Otomatis -->
-										<div class="mb-3">
-										<label for="ukuran" class="form-label">Ukuran (Cm)</label>
-										<textarea id="ukuran" name="ukuran" class="form-control" rows="10" required></textarea>
+										<h5 class="mt-4 mb-3">Ukuran (Cm)</h5>
+
+										<div class="mb-3 ukuran-field" data-jenis="kemeja,gaun,kebaya">
+											<label for="lingkar_dada" class="form-label">Lingkar Dada</label>
+											<input type="number" step="0.1" name="lingkar_dada" id="lingkar_dada" class="form-control" value="{{ old('lingkar_dada') }}">
 										</div>
+
+										<div class="mb-3">
+											<label for="lingkar_pinggang" class="form-label">Lingkar Pinggang</label>
+											<input type="number" step="0.1" name="lingkar_pinggang" class="form-control">
+										</div>
+
+										<div class="mb-3">
+											<label for="lingkar_pinggul" class="form-label">Lingkar Pinggul</label>
+											<input type="number" step="0.1" name="lingkar_pinggul" class="form-control">
+										</div>
+
+										<div class="mb-3 ukuran-field" data-jenis="gaun,kebaya">
+											<label for="panjang_baju" class="form-label">Panjang Baju</label>
+											<input type="number" step="0.1" name="panjang_baju" id="panjang_baju" class="form-control" value="{{ old('panjang_baju') }}">
+										</div>	
+
+										<div class="mb-3">
+											<label for="panjang_lengan" class="form-label">Panjang Lengan</label>
+											<input type="number" step="0.1" name="panjang_lengan" class="form-control">
+										</div>
+
+										<div class="mb-3">
+											<label for="lebar_bahu" class="form-label">Lebar Bahu</label>
+											<input type="number" step="0.1" name="lebar_bahu" class="form-control">
+										</div>
+
+										<div class="mb-3">
+											<label for="lingkar_lengan" class="form-label">Lingkar Lengan</label>
+											<input type="number" step="0.1" name="lingkar_lengan" class="form-control">
+										</div>
+
+										<div class="mb-3">
+											<label for="lingkar_pergelangan" class="form-label">Lingkar Pergelangan</label>
+											<input type="number" step="0.1" name="lingkar_pergelangan" class="form-control">
+										</div>
+
+										<div class="mb-3">
+											<label for="tinggi_badan" class="form-label">Tinggi Badan</label>
+											<input type="number" step="0.1" name="tinggi_badan" class="form-control">
+										</div>
+
 
 
 										<div class="mb-3">
@@ -118,6 +169,30 @@
 	</div>
     </div>
 	@include('layout.adminscript')
+
+	<script>
+	function updateUkuranTemplate() {
+		const selectedJenis = document.getElementById("jenis_pakaian").value;
+		const ukuranFields = document.querySelectorAll(".ukuran-field");
+
+		ukuranFields.forEach(field => {
+			const jenisList = field.dataset.jenis.split(',');
+			if (jenisList.includes(selectedJenis)) {
+				field.style.display = 'block';
+			} else {
+				field.style.display = 'none';
+				const input = field.querySelector("input");
+				if (input) input.value = ''; // reset nilai jika disembunyikan
+			}
+		});
+	}
+
+	// Panggil saat halaman dimuat
+	document.addEventListener("DOMContentLoaded", () => {
+		updateUkuranTemplate(); // inisialisasi
+		document.getElementById("jenis_pakaian").addEventListener("change", updateUkuranTemplate);
+	});
+	</script>
 
 </body>
 

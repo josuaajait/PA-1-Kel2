@@ -31,4 +31,11 @@ class PemesananJahitan extends Model
         'status',
         'user_id',
     ];
+
+    public function ukuranPakaian()
+    {
+        return $this->hasOne(UkuranPakaian::class, 'pemesanan_jahitan_id', 'pemesanan_jahitan_id');
+    }
+
+
 }

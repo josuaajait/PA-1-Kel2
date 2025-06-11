@@ -100,7 +100,7 @@ class PemesananProdukController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:pending,diproses,dikirim,selesai,batal',
+            'status' => 'required|in:diproses,dibatalkan,selesai',
         ]);
 
         $pemesananProduk = PemesananProduk::findOrFail($id);

@@ -23,6 +23,15 @@
       <h2>Pemesanan Jahitan</h2>
       <p>Isi form dibawah untuk melakukan pemesanan.</p>
 
+        @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
         <form id="orderForm" action="{{ route('user.pemesanan_jahitan.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
 
@@ -68,10 +77,60 @@
             <input type="text" name="warna" class="form-control" required>
           </div>
 
-          <div class="mb-3">
-            <label>Ukuran</label>
-            <textarea id="ukuran" name="ukuran" class="form-control" rows="9" required></textarea>
+          <!-- Lingkar Dada -->
+          <div class="mb-3 ukuran-field" data-jenis="kemeja,gaun,kebaya">
+            <label for="lingkar_dada" class="form-label">Lingkar Dada</label>
+            <input type="number" step="0.1" name="lingkar_dada" class="form-control">
           </div>
+
+          <!-- Lingkar Pinggang -->
+          <div class="mb-3 ukuran-field" data-jenis="kemeja,gaun,kebaya">
+            <label for="lingkar_pinggang" class="form-label">Lingkar Pinggang</label>
+            <input type="number" step="0.1" name="lingkar_pinggang" class="form-control">
+          </div>
+
+          <!-- Lingkar Pinggul -->
+          <div class="mb-3 ukuran-field" data-jenis="gaun,kebaya">
+            <label for="lingkar_pinggul" class="form-label">Lingkar Pinggul</label>
+            <input type="number" step="0.1" name="lingkar_pinggul" class="form-control">
+          </div>
+
+          <!-- Panjang Baju -->
+          <div class="mb-3 ukuran-field" data-jenis="gaun,kebaya">
+            <label for="panjang_baju" class="form-label">Panjang Baju</label>
+            <input type="number" step="0.1" name="panjang_baju" class="form-control">
+          </div>
+
+          <!-- Panjang Lengan -->
+          <div class="mb-3 ukuran-field" data-jenis="kemeja,kebaya">
+            <label for="panjang_lengan" class="form-label">Panjang Lengan</label>
+            <input type="number" step="0.1" name="panjang_lengan" class="form-control">
+          </div>
+
+          <!-- Lebar Bahu -->
+          <div class="mb-3 ukuran-field" data-jenis="kemeja,kebaya">
+            <label for="lebar_bahu" class="form-label">Lebar Bahu</label>
+            <input type="number" step="0.1" name="lebar_bahu" class="form-control">
+          </div>
+
+          <!-- Lingkar Lengan -->
+          <div class="mb-3 ukuran-field" data-jenis="kemeja,kebaya">
+            <label for="lingkar_lengan" class="form-label">Lingkar Lengan</label>
+            <input type="number" step="0.1" name="lingkar_lengan" class="form-control">
+          </div>
+
+          <!-- Lingkar Pergelangan -->
+          <div class="mb-3 ukuran-field" data-jenis="kemeja,kebaya">
+            <label for="lingkar_pergelangan" class="form-label">Lingkar Pergelangan</label>
+            <input type="number" step="0.1" name="lingkar_pergelangan" class="form-control">
+          </div>
+
+          <!-- Tinggi Badan -->
+          <div class="mb-3 ukuran-field" data-jenis="gaun,kebaya">
+            <label for="tinggi_badan" class="form-label">Tinggi Badan</label>
+            <input type="number" step="0.1" name="tinggi_badan" class="form-control">
+          </div>
+
 
           <div class="mb-3">
             <label>Referensi Gambar (Opsional)</label>
@@ -128,44 +187,21 @@
 @include('layout.footer')
 
 <script>
-  function updateUkuranTemplate() {
-    const jenis = document.getElementById('jenis_pakaian').value;
-    const textarea = document.getElementById('ukuran');
-    let template = '';
+function updateUkuranTemplate() {
+	const selectedJenis = document.getElementById("jenis_pakaian").value.toLowerCase(); // convert to lowercase
+	const ukuranFields = document.querySelectorAll(".ukuran-field");
 
-    if (jenis.toLowerCase() === 'kemeja') {
-      template = `Lingkar Dada    : 
-Lingkar Pinggang: 
-Lingkar Pinggul : 
-Lebar Bahu      : 
-Panjang Lengan  : 
-Lingkar Lengan  : 
-Panjang Baju    : 
-Lingkar Leher   : 
-Tinggi Badan    : `;
-    } else if (jenis.toLowerCase() === 'kebaya') {
-      template = `Lingkar Dada    : 
-Lingkar Pinggang: 
-Lingkar Pinggul : 
-Lebar Bahu      : 
-Panjang Lengan  : 
-Lingkar Lengan  : 
-Panjang Kebaya  : 
-Lingkar Leher   : 
-Tinggi Badan    : `;
-    } else if (jenis.toLowerCase() === 'gaun') {
-      template = `Lingkar Dada        : 
-Lingkar Pinggang    : 
-Lingkar Pinggul     : 
-Lebar Bahu          : 
-Panjang Lengan      : 
-Lingkar Lengan      : 
-Panjang Gaun        : 
-Lingkar Leher       : 
-Tinggi Badan        : 
-Tinggi Hak Sepatu   : `;
-    }
+	ukuranFields.forEach(field => {
+		const jenisList = field.dataset.jenis.toLowerCase().split(',');
+		if (jenisList.includes(selectedJenis)) {
+			field.style.display = 'block';
+		} else {
+			field.style.display = 'none';
+			const input = field.querySelector("input");
+			if (input) input.value = ''; // Kosongkan nilai jika disembunyikan
+		}
+	});
+}
 
-    textarea.value = template;
-  }
 </script>
+

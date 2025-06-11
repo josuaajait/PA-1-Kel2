@@ -57,11 +57,9 @@
 										<div class="mb-3">
 											<label class="form-label">Status</label>
 											<select name="status" class="form-control" required>
-												<option value="pending" {{ old('status', $pemesananProduk->status) == 'pending' ? 'selected' : '' }}>Pending</option>
 												<option value="diproses" {{ old('status', $pemesananProduk->status) == 'diproses' ? 'selected' : '' }}>Diproses</option>
-												<option value="dikirim" {{ old('status', $pemesananProduk->status) == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
 												<option value="selesai" {{ old('status', $pemesananProduk->status) == 'selesai' ? 'selected' : '' }}>Selesai</option>
-												<option value="batal" {{ old('status', $pemesananProduk->status) == 'batal' ? 'selected' : '' }}>Batal</option>
+												<option value="dibatalkan" {{ old('status', $pemesananProduk->status) == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
 											</select>
 										</div>
 

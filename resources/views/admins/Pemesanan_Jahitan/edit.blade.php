@@ -57,15 +57,67 @@
                                             <input type="text" name="warna" value="{{ old('warna', $pemesananJahitan->warna ?? '') }}" class="form-control" required>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Ukuran</label>
-                                            <textarea name="ukuran" class="form-control" required>{{ old('ukuran', $pemesananJahitan->ukuran ?? '') }}</textarea>
+                                        <h5 class="mt-4 mb-3">Ukuran (Cm)</h5>
+
+                                        <div class="mb-3 ukuran-field" data-jenis="kemeja,gaun,kebaya">
+                                            <label for="lingkar_dada" class="form-label">Lingkar Dada</label>
+                                            <input type="number" step="0.1" name="lingkar_dada" id="lingkar_dada" class="form-control" value="{{ old('lingkar_dada') }}">
                                         </div>
+
+                                        <div class="mb-3">
+                                            <label for="lingkar_pinggang" class="form-label">Lingkar Pinggang</label>
+                                            <input type="number" step="0.1" name="lingkar_pinggang" class="form-control"
+                                                value="{{ old('lingkar_pinggang', $pemesananJahitan->ukuranPakaian->lingkar_pinggang ?? '') }}">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="lingkar_pinggul" class="form-label">Lingkar Pinggul</label>
+                                            <input type="number" step="0.1" name="lingkar_pinggul" class="form-control"
+                                                value="{{ old('lingkar_pinggul', $pemesananJahitan->ukuranPakaian->lingkar_pinggul ?? '') }}">
+                                        </div>
+
+                                        <div class="mb-3 ukuran-field" data-jenis="gaun,kebaya">
+                                            <label for="panjang_baju" class="form-label">Panjang Baju</label>
+                                            <input type="number" step="0.1" name="panjang_baju" id="panjang_baju" class="form-control" value="{{ old('panjang_baju') }}">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="panjang_lengan" class="form-label">Panjang Lengan</label>
+                                            <input type="number" step="0.1" name="panjang_lengan" class="form-control"
+                                                value="{{ old('panjang_lengan', $pemesananJahitan->ukuranPakaian->panjang_lengan ?? '') }}">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="lebar_bahu" class="form-label">Lebar Bahu</label>
+                                            <input type="number" step="0.1" name="lebar_bahu" class="form-control"
+                                                value="{{ old('lebar_bahu', $pemesananJahitan->ukuranPakaian->lebar_bahu ?? '') }}">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="lingkar_lengan" class="form-label">Lingkar Lengan</label>
+                                            <input type="number" step="0.1" name="lingkar_lengan" class="form-control"
+                                                value="{{ old('lingkar_lengan', $pemesananJahitan->ukuranPakaian->lingkar_lengan ?? '') }}">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="lingkar_pergelangan" class="form-label">Lingkar Pergelangan</label>
+                                            <input type="number" step="0.1" name="lingkar_pergelangan" class="form-control"
+                                                value="{{ old('lingkar_pergelangan', $pemesananJahitan->ukuranPakaian->lingkar_pergelangan ?? '') }}">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="tinggi_badan" class="form-label">Tinggi Badan</label>
+                                            <input type="number" step="0.1" name="tinggi_badan" class="form-control"
+                                                value="{{ old('tinggi_badan', $pemesananJahitan->ukuranPakaian->tinggi_badan ?? '') }}">
+                                        </div>
+
 
                                         <div class="mb-3">
                                         <label class="form-label">Status</label>
                                         <select name="status" class="form-control" required>
                                             <option value="pending" @if(old('status', $pemesananJahitan->status) == 'pending') selected @endif>Pending</option>
+                                            <option value="diproses" @if(old('status', $pemesananJahitan->status) == 'diproses') selected @endif>Diproses</option>
+                                            <option value="dibatalkan" @if(old('status', $pemesananJahitan->status) == 'dibatalkan') selected @endif>Dibatalkan</option>
                                             <option value="selesai" @if(old('status', $pemesananJahitan->status) == 'selesai') selected @endif>Selesai</option>
                                         </select>
                                     </div>
@@ -94,6 +146,31 @@
     </div>
 
     @include('layout.adminscript')
+
+    <script>
+    function updateUkuranTemplate() {
+        const selectedJenis = document.getElementById("jenis_pakaian").value;
+        const ukuranFields = document.querySelectorAll(".ukuran-field");
+
+        ukuranFields.forEach(field => {
+            const jenisList = field.dataset.jenis.split(',');
+            if (jenisList.includes(selectedJenis)) {
+                field.style.display = 'block';
+            } else {
+                field.style.display = 'none';
+                const input = field.querySelector("input");
+                if (input) input.value = ''; // reset nilai jika disembunyikan
+            }
+        });
+    }
+
+    // Panggil saat halaman dimuat
+    document.addEventListener("DOMContentLoaded", () => {
+        updateUkuranTemplate(); // inisialisasi
+        document.getElementById("jenis_pakaian").addEventListener("change", updateUkuranTemplate);
+    });
+    </script>
+
 </body>
 
 </html>

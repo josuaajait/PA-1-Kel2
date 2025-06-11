@@ -80,7 +80,7 @@
 										<table class="table table-striped">
 											<thead>
 												<tr>
-													<th>#</th>
+													<th>No</th>
 													<th>Nama</th>
 													<th>Telepon</th>
 													<th>Alamat</th>
@@ -89,7 +89,7 @@
 													<th>Warna</th>
 													<th>Ukuran</th>
 													<th>Status</th>
-													<th>Referensi Gambar</th>
+													<th>Referensi</th>
 													<th>Bukti Pembayaran Uang Muka</th>
 													<th>Bukti Pembayaran Lunas</th>
 													<th>Aksi</th>
@@ -107,6 +107,10 @@
 														<td>{{ $pemesanan->warna }}</td>
 													
 														<td>
+															@php
+																$ukuran = $pemesanan->ukuranPakaian;
+															@endphp
+
 															<button type="button" class="btn btn-sm btn-primary" onclick="showUkuran{{ $pemesanan->pemesanan_jahitan_id }}()">
 																Lihat Ukuran
 															</button>
@@ -115,7 +119,19 @@
 																function showUkuran{{ $pemesanan->pemesanan_jahitan_id }}() {
 																	Swal.fire({
 																		title: 'Detail Ukuran',
-																		html: `{!! nl2br(e($pemesanan->ukuran)) !!}`,
+																		html: `
+																			<ul style="text-align: left; padding-left: 1rem;">
+																				<li><strong>Lingkar Dada:</strong> {{ $ukuran->lingkar_dada ?? '-' }} cm</li>
+																				<li><strong>Lingkar Pinggang:</strong> {{ $ukuran->lingkar_pinggang ?? '-' }} cm</li>
+																				<li><strong>Lingkar Pinggul:</strong> {{ $ukuran->lingkar_pinggul ?? '-' }} cm</li>
+																				<li><strong>Panjang Baju:</strong> {{ $ukuran->panjang_baju ?? '-' }} cm</li>
+																				<li><strong>Panjang Lengan:</strong> {{ $ukuran->panjang_lengan ?? '-' }} cm</li>
+																				<li><strong>Lebar Bahu:</strong> {{ $ukuran->lebar_bahu ?? '-' }} cm</li>
+																				<li><strong>Lingkar Lengan:</strong> {{ $ukuran->lingkar_lengan ?? '-' }} cm</li>
+																				<li><strong>Lingkar Pergelangan:</strong> {{ $ukuran->lingkar_pergelangan ?? '-' }} cm</li>
+																				<li><strong>Tinggi Badan:</strong> {{ $ukuran->tinggi_badan ?? '-' }} cm</li>
+																			</ul>
+																		`,
 																		icon: 'info'
 																	});
 																}
@@ -123,11 +139,16 @@
 														</td>
 
 
+
 														<td>
 															@if($pemesanan->status == 'pending')
 																<span class="badge bg-warning text-dark">Pending</span>
 															@elseif($pemesanan->status == 'selesai')
 																<span class="badge bg-success">Selesai</span>
+															@elseif($pemesanan->status == 'diproses')
+																<span class="badge bg-info">Diproses</span>
+															@elseif($pemesanan->status == 'dibatal')
+																<span class="badge bg-danger">Batal</span>
 															@else
 																<span class="badge bg-secondary">Tidak Diketahui</span> <!-- Menangani status lain -->
 															@endif
@@ -173,6 +194,20 @@
 																	@method('DELETE')
 																	<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button>
 																</form>
+																@php
+																	$nohp = preg_replace('/[^0-9]/', '', $pemesanan->no_hp); // gunakan $pemesanan
+
+																	if (substr($nohp, 0, 1) === '0') {
+																		$nohp = '62' . substr($nohp, 1);
+																	} elseif (substr($nohp, 0, 3) === '620') {
+																		$nohp = '62' . substr($nohp, 3);
+																	}
+																@endphp
+
+
+																<a href="https://wa.me/{{ $nohp }}?text=Pesanan%20Jahitan%20anda%20sudah%20selesai" class="btn btn-success btn-sm" target="_blank">
+																	Kirim Pesan
+																</a>
 
 															</div>
 														</td>

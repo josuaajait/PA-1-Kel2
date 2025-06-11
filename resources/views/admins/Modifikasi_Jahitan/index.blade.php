@@ -96,6 +96,22 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengajuan ini?')">Hapus</button>
                                         </form>
+                                        @php
+                                            $nohp = preg_replace('/[^0-9]/', '', $modifikasi->no_hp); // hapus selain angka
+
+                                            if (substr($nohp, 0, 1) === '0') {
+                                                $nohp = '62' . substr($nohp, 1); // ganti 0 dengan 62
+                                            } elseif (substr($nohp, 0, 2) === '62') {
+                                                // sudah benar
+                                            } elseif (substr($nohp, 0, 3) === '620') {
+                                                $nohp = '62' . substr($nohp, 3); // ganti 620 dengan 62
+                                            }
+                                        @endphp
+
+                                        <a href="https://wa.me/{{ $modifikasi->no_hp }}?text=Pengajuan%20modifikasi%20jahitan%20anda%20telah%20diproses" class="btn btn-success btn-sm" target="_blank">
+                                            Kirim Pesan
+                                        </a>
+                                    </td>
 
                                 </tr>
                             @empty

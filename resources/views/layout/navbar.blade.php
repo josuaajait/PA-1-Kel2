@@ -29,6 +29,9 @@
                 <li>
                     <a href="{{ url('/user/riwayat-pemesanan') }}" class="{{ Request::is('user/riwayat-pemesanan') ? 'active' : '' }}">Riwayat Pemesanan</a>
                 </li>
+                                <li>
+                    <a href="{{ url('/user/testimoni') }}" class="{{ Request::is('testimoni') ? 'active' : '' }}">Testimoni</a>
+                </li>
             @else
                 {{-- Untuk guest --}}
                 <li>
@@ -36,6 +39,9 @@
                 </li>
                 <li>
                     <a href="{{ url('/produk') }}" class="{{ Request::is('produk') ? 'active' : '' }}">Produk</a>
+                </li>
+                <li>
+                    <a href="{{ url('/testimoni') }}" class="{{ Request::is('testimoni') ? 'active' : '' }}">Testimoni</a>
                 </li>
             @endauth
         </ul>

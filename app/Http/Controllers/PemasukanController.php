@@ -23,7 +23,7 @@ class PemasukanController extends Controller
 
         $semuaPemasukan = new Collection();
 
-        // Pemesanan Produk
+        // Pemesanan Produk (diasumsikan lunas)
         foreach ($produkSelesai as $pp) {
             $semuaPemasukan->push([
                 'tanggal' => $pp->updated_at,
@@ -31,32 +31,49 @@ class PemasukanController extends Controller
                 'keterangan' => 'Penjualan Produk: ' . ($pp->jenis_pakaian ?? 'Jenis Pakaian Tidak Diketahui'),
                 'nama_pelanggan' => $pp->nama,
                 'jumlah' => $pp->total_harga,
+                'sisa_pembayaran' => 0, // Produk dianggap lunas
             ]);
         }
 
-        // Pemesanan Jahitan
+        // --- LOGIKA BARU UNTUK PEMESANAN JAHITAN ---
+
+        // Definisikan biaya
+        $hargaDp = 100000;
+        $hargaTotalJahit = 300000; // Asumsi total biaya jahit
+        $hargaPelunasan = $hargaTotalJahit - $hargaDp;
+
         foreach ($jahitan as $pj) {
-            $jumlah = 0;
-
-            if ($pj->status === 'diproses') {
-                $jumlah = 100000;
-            } elseif ($pj->status === 'selesai') {
-                $jumlah = 300000;
-            }
-
+            // 1. Tambahkan entri untuk Uang Muka (DP)
+            // Setiap pesanan yang statusnya 'diproses' atau 'selesai' pasti sudah membayar DP.
+            // Kita gunakan 'created_at' sebagai tanggal DP karena lebih stabil.
             $semuaPemasukan->push([
-                'tanggal' => $pj->updated_at,
+                'tanggal' => $pj->created_at, // Tanggal DP dianggap saat pesanan dibuat
                 'sumber' => 'Pemesanan Jahitan',
-                'keterangan' => 'Jasa Jahit: ' . $pj->jenis_pakaian . ' (' . $pj->status . ')',
+                'keterangan' => 'Uang Muka (DP) Jahit: ' . $pj->jenis_pakaian,
                 'nama_pelanggan' => $pj->nama,
-                'jumlah' => $jumlah,
+                'jumlah' => $hargaDp,
+                'sisa_pembayaran' => $hargaPelunasan, // Sisa setelah DP
             ]);
+
+            // 2. Jika status sudah 'selesai', tambahkan entri untuk Pelunasan
+            if ($pj->status === 'selesai') {
+                $semuaPemasukan->push([
+                    'tanggal' => $pj->updated_at, // Tanggal pelunasan saat status diubah jadi 'selesai'
+                    'sumber' => 'Pemesanan Jahitan',
+                    'keterangan' => 'Pelunasan Jahit: ' . $pj->jenis_pakaian,
+                    'nama_pelanggan' => $pj->nama,
+                    'jumlah' => $hargaPelunasan,
+                    'sisa_pembayaran' => 0, // Setelah pelunasan, sisa 0
+                ]);
+            }
         }
 
+        // --- AKHIR LOGIKA BARU UNTUK PEMESANAN JAHITAN ---
         // Sort dan paginate
         $pemasukanTerurut = $semuaPemasukan->sortByDesc('tanggal');
         $totalPemasukan = $pemasukanTerurut->sum('jumlah');
         $pemasukanBulanIni = $pemasukanTerurut->where('tanggal', '>=', now()->startOfMonth())->sum('jumlah');
+        // totalTransaksi sekarang akan menghitung setiap DP dan Pelunasan sebagai transaksi terpisah
         $totalTransaksi = $pemasukanTerurut->count();
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
@@ -72,5 +89,4 @@ class PemasukanController extends Controller
             'totalTransaksi' => $totalTransaksi,
         ]);
     }
-
 }

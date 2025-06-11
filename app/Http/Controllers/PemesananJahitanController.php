@@ -56,14 +56,11 @@ class PemesananJahitanController extends Controller
         // Validasi ukuran pakaian
         'lingkar_dada' => 'required|numeric',
         'lingkar_pinggang' => 'required|numeric',
-        'lingkar_pinggul' => 'required|numeric',
-        'panjang_baju' => 'required|numeric',
         'panjang_lengan' => 'required|numeric',
         'lebar_bahu' => 'required|numeric',
         'lingkar_lengan' => 'required|numeric',
         'lingkar_pergelangan' => 'required|numeric',
-        'tinggi_badan' => 'required|numeric',
-    ], [
+        ], [
         // Pesan error untuk data umum
         'nama.required' => 'Nama wajib diisi.',
         'no_hp.required' => 'Nomor HP wajib diisi.',

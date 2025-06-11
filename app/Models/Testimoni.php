@@ -18,9 +18,6 @@ class Testimoni extends Model
         'rate',
         'deskripsi',
         'gambar_testimoni',
-        'pemesanan_jahitan_id',
-        'pemesanan_produk_id',
-        'modifikasi_jahitan_id',
     ];
 
     // Relasi ke user
@@ -29,21 +26,4 @@ class Testimoni extends Model
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    // Relasi ke pemesanan jahitan
-    public function pemesananJahitan()
-    {
-        return $this->belongsTo(PemesananJahitan::class, 'pemesanan_jahitan_id');
-    }
-
-    // Relasi ke pemesanan produk
-    public function pemesananProduk()
-    {
-        return $this->belongsTo(PemesananProduk::class, 'pemesanan_produk_id');
-    }
-
-    // Relasi ke modifikasi jahitan
-    public function modifikasiJahitan()
-    {
-        return $this->belongsTo(ModifikasiJahitan::class, 'modifikasi_jahitan_id');
-    }
 }

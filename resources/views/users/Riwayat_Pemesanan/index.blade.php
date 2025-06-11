@@ -91,7 +91,7 @@
 
                             <td>
                             @if($p->status === 'selesai')
-                                <a href="{{ route('user.testimoni.create') }}?pemesanan_jahitan_id={{ $p->id }}" class="btn btn-primary">Ulas Jahitan</a>
+                                <a href="{{ route('user.testimoni.create') }}" class="btn btn-primary">Ulas</a>
                             @else
                                 <span class="text-muted">Belum selesai</span>
                             @endif
@@ -139,7 +139,7 @@
                                 </td>
                             <td>
                             @if($p->status === 'selesai')
-                                <a href="{{ route('user.testimoni.create', ['pemesanan_produk_id' => $p->id]) }}" class="btn btn-primary">Ulas Produk</a>
+                                <a href="{{ route('user.testimoni.create')}}" class="btn btn-primary">Ulas</a>
                             @else
                                 <span class="text-muted">Belum selesai</span>
                             @endif
@@ -204,7 +204,7 @@
 
                             <td>
                             @if($p->status === 'selesai')
-                                <a href="{{ route('user.testimoni.create') }}?modifikasi_jahitan_id={{ $p->id }}" class="btn btn-primary">Ulas Modifikasi</a>
+                                <a href="{{ route('user.testimoni.create') }}" class="btn btn-primary">Ulas</a>
                             @else
                                 <span class="text-muted">Belum selesai</span>
                             @endif

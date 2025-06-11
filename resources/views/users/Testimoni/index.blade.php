@@ -11,7 +11,11 @@
                 <p class="lead text-muted">Dengar pengalaman langsung dari pelanggan kami</p>
             </div>
         </div>
-                        <!-- Sorting Dropdown -->
+
+            
+        @if($testimonis->count())
+            <div class="row g-4">
+                                        <!-- Sorting Dropdown -->
                 <div class="dropdown">
                     <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-sort me-1"></i> Urutkan
@@ -28,9 +32,7 @@
                     </ul>
                 </div>
             </div>
-            
-        @if($testimonis->count())
-            <div class="row g-4">
+            <br>
                 @foreach($testimonis as $testimoni)
                 <div class="col-md-6 col-lg-4">
                     <div class="card testimonial-card h-100 shadow-sm">
@@ -56,6 +58,13 @@
                                     @endif
                                 @endfor
                             </div>
+
+                            @if($testimoni->gambar_testimoni)
+                                <img src="{{ asset('storage/' . $testimoni->gambar_testimoni) }}" class="img-fluid mb-3" alt="Gambar Testimoni" style="max-height: 200px; object-fit: cover;">
+                            @else
+                                <img src="{{ asset('images/default-testimoni.jpg') }}" class="img-fluid mb-3" alt="Gambar Testimoni" style="max-height: 200px; object-fit: cover;">
+                            @endif
+
                             
                             <p class="testimonial-text">"{{ $testimoni->deskripsi }}"</p>
                         </div>

@@ -1,17 +1,6 @@
 @include('layout.header')
 @include('layout.navbar')
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-
 <style>
     .star-rating {
         display: inline-flex;
@@ -44,15 +33,18 @@
     <div class="container" data-aos="fade-up">
         <h2 class="mb-4">Beri Testimoni</h2>
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('user.testimoni.store') }}" method="POST" enctype="multipart/form-data">
-            {{-- CSRF token untuk keamanan --}}
             @csrf
-
-            <input type="hidden" name="pemesanan_produk_id" value="{{ $pemesananProdukId }}">
-            <input type="hidden" name="pemesanan_jahitan_id" value="{{ $pemesananJahitanId }}">
-            <input type="hidden" name="modifikasi_jahitan_id" value="{{ $modifikasiJahitanId }}">
-
-
 
             <div class="mb-3" style="text-align: left;">
                 <label class="form-label">Rating</label>
@@ -60,7 +52,7 @@
                 <div class="star-rating">
                     @for($i = 5; $i >= 1; $i--)
                         <input type="radio" id="star{{ $i }}" name="rate" value="{{ $i }}"
-                            {{ old('rate', $testimoni->rate ?? '') == $i ? 'checked' : '' }}>
+                            {{ old('rate') == $i ? 'checked' : '' }}>
                         <label for="star{{ $i }}" title="{{ $i }} bintang">&#9733;</label>
                     @endfor
                 </div>
@@ -78,7 +70,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="foto" class="form-label">Foto (opsional)</label>
+                <label for="gambar_testimoni" class="form-label">Foto (opsional)</label>
                 <input type="file" name="gambar_testimoni" class="form-control" accept="image/*">
                 @error('gambar_testimoni')
                     <div class="text-danger">{{ $message }}</div>

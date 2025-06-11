@@ -35,6 +35,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admins.')->gro
     Route::get('/dashboard', [AdminController::class, 'index'])->name('adminDashboard');
 
     Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
+    Route::delete('/testimoni/{id}', [TestimoniController::class, 'destroy'])->name('testimoni.destroy');
 
     Route::get('/profile', [AdminController::class, 'profile'])->name('adminProfile');
 

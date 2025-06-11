@@ -130,15 +130,19 @@
                                             <span class="ms-2">{{ $testimoni->rate }}/5</span>
                                         </div>
                                         
+                                        <!--Gambar Produk-->
+                                        @if($testimoni->gambar_testimoni)
+                                            <img src="{{ asset('storage/' . $testimoni->gambar_testimoni) }}" class="img-fluid mb-3" alt="Gambar Testimoni" style="max-height: 200px; object-fit: cover;">
+                                        @else
+                                            <img src="{{ asset('images/default-testimoni.jpg') }}" class="img-fluid mb-3" alt="Gambar Testimoni" style="max-height: 200px; object-fit: cover;">
+                                        @endif
+
+
                                         <p class="mb-3">{{ $testimoni->deskripsi }}</p>
                                         
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="status-badge bg-{{ $testimoni->status === 'approved' ? 'success' : 'warning' }}">
-                                                {{ $testimoni->status === 'approved' ? 'Disetujui' : 'Menunggu' }}
-                                            </span>
                                             
                                             <div class="action-buttons">
-                                                <form action="{{ route('admin.testimoni.destroy', $testimoni->testimoni_id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('admins.testimoni.destroy', $testimoni->testimoni_id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus testimoni ini?')">

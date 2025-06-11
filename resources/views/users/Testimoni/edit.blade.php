@@ -8,7 +8,7 @@
     <div class="container" data-aos="fade-up">
         <h2 class="mb-4">Edit Testimoni Anda</h2>
 
-        <form action="{{ route('user.testimoni.update', $testimoni->testimoni_id) }}" method="POST">
+       <form action="{{ route('user.testimoni.update', $testimoni->testimoni_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -42,6 +42,21 @@
                 <label class="form-label">Tanggal Testimoni</label>
                 <input type="text" class="form-control" value="{{ $testimoni->created_at->format('d M Y') }}" disabled>
             </div>
+            
+            {{-- Gambar Testimoni --}}
+            <div class="mb-3">
+                    <label for="gambar_testimoni" class="form-label">Gambar Testimoni (Opsional)</label>
+                    @if($testimoni->gambar_testimoni)
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/' . $testimoni->gambar_testimoni) }}" alt="Gambar Saat Ini" style="max-height: 200px; object-fit: cover;">
+                        </div>
+                    @endif
+                    <input type="file" name="gambar_testimoni" class="form-control" accept="image/*">
+                    @error('gambar_testimoni')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
 
             {{-- Tombol --}}
             <div class="d-flex justify-content-between">

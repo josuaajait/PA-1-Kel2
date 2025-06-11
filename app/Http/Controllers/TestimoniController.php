@@ -9,33 +9,36 @@ use Illuminate\Support\Facades\Log;
 
 class TestimoniController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Testimoni::with('user');
+        public function index(Request $request)
+        {
+            $query = Testimoni::with('user');
 
-        // Sorting logic
-        switch ($request->get('sort')) {
-            case 'highest_rating':
-                $query->orderBy('rate', 'desc');
-                break;
-            case 'lowest_rating':
-                $query->orderBy('rate', 'asc');
-                break;
-            case 'oldest':
-                $query->orderBy('created_at', 'asc');
-                break;
-            default:
-                $query->latest();
+            // Sorting logic
+            switch ($request->get('sort')) {
+                case 'highest_rating':
+                    $query->orderBy('rate', 'desc');
+                    break;
+                case 'lowest_rating':
+                    $query->orderBy('rate', 'asc');
+                    break;
+                case 'oldest':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                default:
+                    $query->latest();
+            }
+
+            $testimonis = $query->paginate(10);
+
+            // Jika login dan role admin, arahkan ke halaman admin
+            if (auth()->check() && auth()->user()->role === 'admin') {
+                return view('admins.testimoni.index', compact('testimonis'));
+            }
+
+            // Untuk user biasa dan guest
+            return view('users.testimoni.index', compact('testimonis'));
         }
 
-        $testimonis = $query->paginate(10);
-
-        if (auth()->user()->role === 'admin') {
-            return view('admins.testimoni.index', compact('testimonis'));
-        }
-
-        return view('users.testimoni.index', compact('testimonis'));
-    }
 
     public function create()
     {

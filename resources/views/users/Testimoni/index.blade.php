@@ -68,18 +68,24 @@
                             
                             <p class="testimonial-text">"{{ $testimoni->deskripsi }}"</p>
                         </div>
-                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-end">
-                            <a href="{{ route('user.testimoni.edit', $testimoni->testimoni_id) }}" class="btn btn-sm btn-outline-primary me-2">
-                                <i class="fas fa-edit">Edit</i>
-                            </a>
-                            <form action="{{ route('user.testimoni.destroy', $testimoni->testimoni_id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin ingin menghapus testimoni ini?')">
-                                    <i class="fas fa-trash">Hapus</i>
-                                </button>
-                            </form>
-                        </div>
+                            @auth
+                                @if(auth()->id() === $testimoni->user_id)
+                                    <div class="card-footer bg-transparent border-top-0 d-flex justify-content-end">
+                                        <a href="{{ route('user.testimoni.edit', $testimoni->testimoni_id) }}" class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="fas fa-edit">Edit</i>
+                                        </a>
+                                        <form action="{{ route('user.testimoni.destroy', $testimoni->testimoni_id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin ingin menghapus testimoni ini?')">
+                                                <i class="fas fa-trash">Hapus</i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
+
+
                     </div>
                 </div>
                 @endforeach

@@ -28,6 +28,7 @@ class PemesananProduk extends Model
         'total_harga',
         'status',
         'user_id',
+        'tanggal_diambil',
     ];
 
     public function produks()

@@ -120,22 +120,26 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus pemesanan ini?');">Hapus</button>
                                     </form>
-                                   @php
-                                        $nohp = preg_replace('/[^0-9]/', '', $pemesanan->nomor_telepon); // hapus semua kecuali angka
+                                @php
+                                    // Ambil dan format nomor telepon
+                                    $nohp = preg_replace('/[^0-9]/', '', $pemesanan->nomor_telepon);
 
-                                        // Standarisasi awalan
-                                        if (substr($nohp, 0, 1) === '0') {
-                                            $nohp = '62' . substr($nohp, 1);
-                                        } elseif (substr($nohp, 0, 2) === '62') {
-                                            // sudah OK
-                                        } elseif (substr($nohp, 0, 1) === '8') {
-                                            $nohp = '62' . $nohp;
-                                        }
-                                    @endphp
-                                    <a href="https://wa.me/{{ $nohp }}?text=Pesanan%20Produk%20anda%20sudah%20selesai" class="btn btn-success btn-sm" target="_blank">
-                                        Kirim Pesan
-                                    </a>
-                                </td>
+                                    if (Str::startsWith($nohp, '0')) {
+                                        $nohp = '62' . substr($nohp, 1);
+                                    } elseif (Str::startsWith($nohp, '620')) {
+                                        $nohp = '62' . substr($nohp, 3);
+                                    } elseif (!Str::startsWith($nohp, '62')) {
+                                        $nohp = '62' . $nohp;
+                                    }
+
+                                    // Pesan otomatis WhatsApp
+                                    $pesan = urlencode("Halo $pemesanan->nama, terima kasih sudah membeli produk kami. Produk \"$pemesanan->produk->nama\" Anda sudah siap. Silakan ambil ke tempat kami pada jam operasional. Jika ada pertanyaan, hubungi admin.");
+                                @endphp
+
+                                <a href="https://wa.me/{{ $nohp }}?text={{ $pesan }}" class="btn btn-success btn-sm" target="_blank">
+                                    Kirim Pesan
+                                </a>
+
                             </tr>
                         @endforeach
                         </tbody>

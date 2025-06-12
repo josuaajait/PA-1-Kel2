@@ -36,6 +36,9 @@ class PemesananJahitan extends Model
     {
         return $this->hasOne(UkuranPakaian::class, 'pemesanan_jahitan_id', 'pemesanan_jahitan_id');
     }
-
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
 
 }

@@ -28,4 +28,19 @@ class ModifikasiJahitan extends Model
         'pemesanan_produk_id',
         'pemesanan_jahitan_id',
     ];
+
+    public function pemesananProduk()
+    {
+        return $this->belongsTo(PemesananProduk::class, 'pemesanan_produk_id');
+    }
+
+    public function pemesananJahitan()
+    {
+        return $this->belongsTo(PemesananJahitan::class, 'pemesanan_jahitan_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

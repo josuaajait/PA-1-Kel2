@@ -7,6 +7,7 @@ use App\Models\PemesananProduk;
 use App\Models\Produk;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class PemesananProdukController extends Controller
 {
@@ -104,12 +105,22 @@ class PemesananProdukController extends Controller
         ]);
 
         $pemesananProduk = PemesananProduk::findOrFail($id);
+
+        // Set status
         $pemesananProduk->status = $request->status;
+
+        // Jika status selesai dan tanggal_diambil masih null, set tanggal sekarang
+        if ($request->status === 'selesai' && is_null($pemesananProduk->tanggal_diambil)) {
+            $pemesananProduk->tanggal_diambil = now(); // menggunakan Carbon::now() juga bisa
+        }
+
         $pemesananProduk->save();
 
         return redirect()->route('admins.pemesanan-produk.index')
             ->with('success', 'Pemesanan berhasil diperbarui.');
     }
+
+
 
     public function destroy($id)
     {

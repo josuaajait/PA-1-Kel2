@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PemesananJahitan;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UkuranPakaian;
+use Illuminate\Support\Str;
 
 class PemesananJahitanController extends Controller
 {
@@ -54,12 +55,19 @@ class PemesananJahitanController extends Controller
         'bukti_pembayaran_uang_muka' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
 
         // Validasi ukuran pakaian
-        'lingkar_dada' => 'required|numeric',
-        'lingkar_pinggang' => 'required|numeric',
-        'panjang_lengan' => 'required|numeric',
-        'lebar_bahu' => 'required|numeric',
-        'lingkar_lengan' => 'required|numeric',
-        'lingkar_pergelangan' => 'required|numeric',
+        'lingkar_dada' => 'numeric',
+        'lingkar_pinggang' => 'numeric',
+        'lingkar_pinggul' => 'numeric', // ← tambahkan ini
+        'panjang_baju' => ['nullable', 'numeric', function ($attribute, $value, $fail) use ($request) {
+        if (in_array(strtolower($request->jenis_pakaian), ['gaun', 'kebaya']) && (!$value || $value <= 0)) {
+            $fail('Panjang Baju wajib diisi untuk jenis pakaian Gaun atau Kebaya.');
+        }
+        }],
+        'panjang_lengan' => 'numeric',
+        'lebar_bahu' => 'numeric',
+        'lingkar_lengan' => 'numeric',
+        'lingkar_pergelangan' => 'numeric',
+        'tinggi_badan' => 'numeric',
         ], [
         // Pesan error untuk data umum
         'nama.required' => 'Nama wajib diisi.',
@@ -82,27 +90,31 @@ class PemesananJahitanController extends Controller
         'bukti_pembayaran_uang_muka.max' => 'Ukuran bukti pembayaran uang muka maksimal 5MB.',
 
         // Pesan error untuk ukuran pakaian
-        'lingkar_dada.required' => 'Lingkar dada wajib diisi.',
         'lingkar_dada.numeric' => 'Lingkar dada harus berupa angka.',
-        'lingkar_pinggang.required' => 'Lingkar pinggang wajib diisi.',
         'lingkar_pinggang.numeric' => 'Lingkar pinggang harus berupa angka.',
-        'lingkar_pinggul.required' => 'Lingkar pinggul wajib diisi.',
         'lingkar_pinggul.numeric' => 'Lingkar pinggul harus berupa angka.',
-        'panjang_baju.required' => 'Panjang baju wajib diisi.',
         'panjang_baju.numeric' => 'Panjang baju harus berupa angka.',
-        'panjang_lengan.required' => 'Panjang lengan wajib diisi.',
-        'panjang_lengan.numeric' => 'Panjang lengan harus berupa angka.',
-        'lebar_bahu.required' => 'Lebar bahu wajib diisi.',
+
         'lebar_bahu.numeric' => 'Lebar bahu harus berupa angka.',
-        'lingkar_lengan.required' => 'Lingkar lengan wajib diisi.',
         'lingkar_lengan.numeric' => 'Lingkar lengan harus berupa angka.',
-        'lingkar_pergelangan.required' => 'Lingkar pergelangan wajib diisi.',
         'lingkar_pergelangan.numeric' => 'Lingkar pergelangan harus berupa angka.',
-        'tinggi_badan.required' => 'Tinggi badan wajib diisi.',
         'tinggi_badan.numeric' => 'Tinggi badan harus berupa angka.',
     ]);
+
+        // Format nomor HP
+        $rawHp = preg_replace('/[^0-9]/', '', $request->no_hp);
+
+        if (Str::startsWith($rawHp, '0')) {
+            $rawHp = '62' . substr($rawHp, 1);
+        } elseif (Str::startsWith($rawHp, '620')) {
+            $rawHp = '62' . substr($rawHp, 3);
+        } elseif (!Str::startsWith($rawHp, '62')) {
+            $rawHp = '62' . $rawHp;
+        }
+
          // Ambil data umum
-        $data = $request->only(['nama', 'no_hp', 'alamat', 'jenis_pakaian', 'bahan', 'warna']);
+        $data = $request->only(['nama', 'alamat', 'jenis_pakaian', 'bahan', 'warna']);
+        $data['no_hp'] = $rawHp; // ← sudah diformat
         $data['user_id'] = Auth::id();
         $data['status'] = 'pending';
 
@@ -181,7 +193,7 @@ class PemesananJahitanController extends Controller
         ]);
 
         $data = $request->only([
-            'nama', 'no_hp', 'alamat', 'jenis_pakaian', 'bahan', 'warna', 'ukuran', 'status'
+            'nama', 'no_hp', 'alamat', 'jenis_pakaian', 'bahan', 'warna', 'status'
         ]);
 
         if ($request->hasFile('referensi_gambar')) {

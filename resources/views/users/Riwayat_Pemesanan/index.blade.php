@@ -51,7 +51,6 @@
 <section id="riwayat" class="section light-background">
     <div class="container" data-aos="fade-up">
         <h2 class="mb-4">Riwayat Pemesanan Anda</h2>
-
         {{-- PEMESANAN JAHITAN --}}
         <h4>Pemesanan Jahitan</h4>
         @if($pemesananJahitans->count())
@@ -75,29 +74,51 @@
                             <td>{{ ucfirst($p->status) }}</td>
                             <td>{{ $p->created_at->format('d M Y') }}</td>
                             <td>
+                                @php
+                                    $jenis = strtolower(trim($p->jenis_pakaian)); // pastikan lowercase dan bersih dari spasi
+                                @endphp
+
                                 @if($p->status === 'selesai')
-                                    @if($p->jenis_pakaian === 'kemeja') 1-3 hari
-                                    @elseif($p->jenis_pakaian === 'gaun') 3-7 hari
-                                    @elseif($p->jenis_pakaian === 'kebaya') 7-14 hari
-                                    @else - @endif
+                                    @switch($jenis)
+                                        @case('kemeja')
+                                            1-3 hari
+                                            @break
+                                        @case('gaun')
+                                            3-7 hari
+                                            @break
+                                        @case('kebaya')
+                                            7-14 hari
+                                            @break
+                                        @default
+                                            -
+                                    @endswitch
                                 @else
                                     Estimasi: 
-                                    @if($p->jenis_pakaian === 'kemeja') 1-3 hari
-                                    @elseif($p->jenis_pakaian === 'gaun') 3-7 hari
-                                    @elseif($p->jenis_pakaian === 'kebaya') 7-14 hari
-                                    @else - @endif
+                                    @switch($jenis)
+                                        @case('kemeja')
+                                            1-3 hari
+                                            @break
+                                        @case('gaun')
+                                            3-7 hari
+                                            @break
+                                        @case('kebaya')
+                                            7-14 hari
+                                            @break
+                                        @default
+                                            -
+                                    @endswitch
                                 @endif
-                            </td>
+
 
                             <td>
-                            @if($p->status === 'selesai')
-                                <a href="{{ route('user.testimoni.create') }}" class="btn btn-primary">Ulas</a>
-                            @else
-                                <span class="text-muted">Belum selesai</span>
-                            @endif
+                                @if($p->status === 'selesai')
+                                    <a href="{{ route('user.testimoni.create') }}" class="btn btn-primary">Ulas</a>
+                                @else
+                                    <span class="text-muted">Belum selesai</span>
+                                @endif
 
                             </td>
-
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -125,36 +146,38 @@
                     </thead>
                     <tbody>
                         @foreach($pemesananProduks as $p)
-                        <tr>
-                            <td>{{ $p->nama }}</td>
-                            <td>{{ $p->jenis_pakaian }}</td>
-                            <td>{{ ucfirst($p->status) }}</td>
-                            <td>{{ $p->created_at->format('d M Y') }}</td>
+                            <tr>
+                                <td>{{ $p->nama }}</td>
+                                <td>{{ $p->jenis_pakaian }}</td>
+                                <td>{{ ucfirst($p->status) }}</td>
+                                <td>{{ $p->created_at->format('d M Y') }}</td>
                                 <td>
-                                    @if($p->status === 'selesai' && $p->tanggal_selesai)
-                                        {{ \Carbon\Carbon::parse($p->tanggal_selesai)->format('d M Y') }}
+                                    @if($p->status === 'selesai' && $p->tanggal_diambil)
+                                        {{ \Carbon\Carbon::parse($p->tanggal_diambil)->format('d M Y H:i') }}
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
                                 </td>
-                            <td>
-                            @if($p->status === 'selesai')
-                                <a href="{{ route('user.testimoni.create')}}" class="btn btn-primary">Ulas</a>
-                            @else
-                                <span class="text-muted">Belum selesai</span>
-                            @endif
-
-                            </td>
-
-                        </tr>
+                                <td>
+                                    @if($p->status === 'selesai')
+                                        <a href="{{ route('user.testimoni.create') }}" class="btn btn-primary">Ulas</a>
+                                    @else
+                                        <span class="text-muted">Belum selesai</span>
+                                    @endif
+                                </td>
+                            </tr>
                         @endforeach
-                    </tbody>
+                        </tbody>
+
+
                 </table>
+
                 {{ $pemesananProduks->links('vendor.pagination.bootstrap-4') }}
             </div>
         @else
             <p class="text-muted">Belum ada pemesanan produk.</p>
         @endif
+
 
         <h4>Pemesanan Modifikasi</h4>
         @if($pemesananModifikasis->count())
@@ -178,40 +201,58 @@
                             <td>{{ $p->catatan }}</td>
                             <td>{{ $p->created_at->format('d M Y') }}</td>
                             <td>
+                                @php
+                                    $jenis = strtolower(trim($p->jenis_pakaian)); // pastikan lowercase dan bebas spasi
+                                @endphp
+
                                 @if($p->status === 'selesai')
-                                    @if($p->jenis_pakaian === 'kemeja')
-                                        1-2 hari
-                                    @elseif($p->jenis_pakaian === 'gaun')
-                                        2-4 hari
-                                    @elseif($p->jenis_pakaian === 'kebaya')
-                                        3-7 hari
-                                    @else
-                                        -
-                                    @endif
+                                    @switch($jenis)
+                                        @case('kemeja')
+                                            1-3 hari
+                                            @break
+                                        @case('gaun')
+                                            3-7 hari
+                                            @break
+                                        @case('kebaya')
+                                            7-14 hari
+                                            @break
+                                        @case('rok')
+                                            2-4 hari
+                                            @break
+                                        @default
+                                            -
+                                    @endswitch
                                 @else
-                                    Estimasi: 
-                                    @if($p->jenis_pakaian === 'kemeja')
-                                        1-2 hari
-                                    @elseif($p->jenis_pakaian === 'gaun')
-                                        2-4 hari
-                                    @elseif($p->jenis_pakaian === 'kebaya')
-                                        3-7 hari
-                                    @else
-                                        -
-                                    @endif
+                                    Estimasi:
+                                    @switch($jenis)
+                                        @case('kemeja')
+                                            1-3 hari
+                                            @break
+                                        @case('gaun')
+                                            3-7 hari
+                                            @break
+                                        @case('kebaya')
+                                            7-14 hari
+                                            @break
+                                        @case('rok')
+                                            2-4 hari
+                                            @break
+                                        @default
+                                            -
+                                    @endswitch
                                 @endif
                             </td>
-
                             <td>
-                            @if($p->status === 'selesai')
-                                <a href="{{ route('user.testimoni.create') }}" class="btn btn-primary">Ulas</a>
-                            @else
-                                <span class="text-muted">Belum selesai</span>
-                            @endif
-
+                                @if($p->status === 'selesai')
+                                    <a href="{{ route('user.testimoni.create') }}" class="btn btn-primary">Ulas</a>
+                                @else
+                                    <span class="text-muted">Belum selesai</span>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
+
+
                     </tbody>
                 </table>
                 {{ $pemesananModifikasis->links('vendor.pagination.bootstrap-4') }}

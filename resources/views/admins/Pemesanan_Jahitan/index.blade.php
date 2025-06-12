@@ -194,21 +194,24 @@
 																	@method('DELETE')
 																	<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button>
 																</form>
-																@php
-																	$nohp = preg_replace('/[^0-9]/', '', $pemesanan->no_hp); // gunakan $pemesanan
+															@php
 
-																	if (substr($nohp, 0, 1) === '0') {
-																		$nohp = '62' . substr($nohp, 1);
-																	} elseif (substr($nohp, 0, 3) === '620') {
-																		$nohp = '62' . substr($nohp, 3);
-																	}
-																@endphp
+																$nohp = preg_replace('/[^0-9]/', '', $pemesanan->no_hp);
 
+																if (Str::startsWith($nohp, '0')) {
+																	$nohp = '62' . substr($nohp, 1);
+																} elseif (Str::startsWith($nohp, '620')) {
+																	$nohp = '62' . substr($nohp, 3);
+																} elseif (!Str::startsWith($nohp, '62')) {
+																	$nohp = '62' . $nohp;
+																}
 
-																<a href="https://wa.me/{{ $nohp }}?text=Pesanan%20Jahitan%20anda%20sudah%20selesai" class="btn btn-success btn-sm" target="_blank">
-																	Kirim Pesan
-																</a>
+																$pesan = urlencode("Halo $pemesanan->nama, pesanan jahitan Anda untuk jenis pakaian \"$pemesanan->jenis_pakaian\" sudah selesai. Silahkan ambil ke tempat. Terima kasih telah menggunakan layanan kami.");
+															@endphp
 
+															<a href="https://wa.me/{{ $nohp }}?text={{ $pesan }}" class="btn btn-success btn-sm" target="_blank">
+																Kirim Pesan
+															</a>
 															</div>
 														</td>
 													</tr>

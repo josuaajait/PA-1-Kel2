@@ -97,20 +97,43 @@
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengajuan ini?')">Hapus</button>
                                         </form>
                                         @php
-                                            $nohp = preg_replace('/[^0-9]/', '', $modifikasi->no_hp); // hapus selain angka
+                                            // Cek apakah ini pemesanan produk atau pemesanan jahitan
+                                            $isProduk = !is_null($modifikasi->pemesanan_produk_id);
+                                            $isJahitan = !is_null($modifikasi->pemesanan_jahitan_id);
 
-                                            if (substr($nohp, 0, 1) === '0') {
-                                                $nohp = '62' . substr($nohp, 1); // ganti 0 dengan 62
-                                            } elseif (substr($nohp, 0, 2) === '62') {
-                                                // sudah benar
-                                            } elseif (substr($nohp, 0, 3) === '620') {
-                                                $nohp = '62' . substr($nohp, 3); // ganti 620 dengan 62
+                                            $pemesanan = $isProduk ? $modifikasi->pemesananProduk : ($isJahitan ? $modifikasi->pemesananJahitan : null);
+
+                                            // Ambil nomor telepon sesuai jenis pemesanan
+                                            $nohpRaw = $isProduk ? ($pemesanan->nomor_telepon ?? '') : ($pemesanan->no_hp ?? '');
+                                            $nohp = preg_replace('/[^0-9]/', '', $nohpRaw);
+
+                                            if (Str::startsWith($nohp, '0')) {
+                                                $nohp = '62' . substr($nohp, 1);
+                                            } elseif (Str::startsWith($nohp, '620')) {
+                                                $nohp = '62' . substr($nohp, 3);
+                                            } elseif (!Str::startsWith($nohp, '62')) {
+                                                $nohp = '62' . $nohp;
+                                            }
+
+                                            $nama = $pemesanan->nama ?? '-';
+
+                                            // Buat pesan sesuai jenis pemesanan
+                                            if ($isProduk) {
+                                                $produk = $pemesanan->produk->name ?? 'produk';
+                                                $pesan = urlencode("Halo $nama, terima kasih telah membeli $produk kami. Silakan ambil ke tempat. Semoga puas dan ditunggu pembeliannya kembali!");
+                                            } elseif ($isJahitan) {
+                                                $jenis = $modifikasi->jenis_pakaian ?? 'pakaian';
+                                                $pesan = urlencode("Halo $nama, pesanan modifikasi jahitan Anda untuk jenis pakaian \"$jenis\" sudah selesai. Silakan ambil ke tempat. Terima kasih telah menggunakan layanan kami.");
+                                            } else {
+                                                $pesan = urlencode("Halo $nama, informasi pesanan Anda sudah tersedia.");
                                             }
                                         @endphp
 
-                                        <a href="https://wa.me/{{ $modifikasi->no_hp }}?text=Pengajuan%20modifikasi%20jahitan%20anda%20telah%20diproses" class="btn btn-success btn-sm" target="_blank">
+                                        <a href="https://wa.me/{{ $nohp }}?text={{ $pesan }}" class="btn btn-success btn-sm" target="_blank">
                                             Kirim Pesan
                                         </a>
+
+
                                     </td>
 
                                 </tr>

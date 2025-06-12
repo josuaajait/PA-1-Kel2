@@ -12,8 +12,10 @@ class RiwayatPemesananController extends Controller
 {
         public function index()
         {
+
             $user = Auth::user();
             $user_id = $user->user_id; // akses kolom primary key yang benar
+            
 
             if ($user->role === 'admin') {
                 $pemesananJahitans = PemesananJahitan::orderBy('created_at', 'desc')->paginate(8);
@@ -30,6 +32,7 @@ class RiwayatPemesananController extends Controller
                 $pemesananProduks = PemesananProduk::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(8);
                 $pemesananModifikasis = ModifikasiJahitan::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(8);
 
+
                 return view('users.riwayat_pemesanan.index', compact(
                     'pemesananJahitans',
                     'pemesananProduks',
@@ -37,5 +40,5 @@ class RiwayatPemesananController extends Controller
                 ));
             }
 
-}
+            }
 }
